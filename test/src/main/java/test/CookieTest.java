@@ -27,7 +27,7 @@ public class CookieTest extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	       // 예시: 사용자가 "Electronics" 카테고리의 제품 페이지를 방문했다고 가정
+	    // 예시: 사용자가 "Electronics" 카테고리의 제품 페이지를 방문했다고 가정
         String category = "Electronics";
         
         // 쿠키 생성 (카테고리 정보를 저장)

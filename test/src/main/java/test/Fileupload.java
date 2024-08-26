@@ -50,9 +50,15 @@ public class Fileupload extends HttpServlet {
 
 		    // 업로드 경로 설정
 		    //webapp파일에 위치 찾기
-		    String uploadPath = getServletContext().getRealPath("/profile_img/"); // 기본 서버에 저장 @MultipartConfig으로 \tmp0\work\Catalina\localhost\test\img 에 저장했음
-
+		    //String uploadPath = ""; // 기본 서버에 저장 @MultipartConfig으로 \tmp0\work\Catalina\localhost\test\img 에 저장했음
+		    String uploadPath = getServletContext().getRealPath("/profile_img/"); // test\profile_img\ 에 저장했음
+		    // 파일 이름에서 파일 형식 만 가져오기
+		    String fileform = fileName.substring(fileName.lastIndexOf("."));
+		    
+		    
+		    fileName = "테스트"+fileform;
 		    // 파일 저장
+		    //String filePath = uploadPath + fileName;
 		    String filePath = uploadPath + fileName;
 		    filePart.write(filePath);
 		    

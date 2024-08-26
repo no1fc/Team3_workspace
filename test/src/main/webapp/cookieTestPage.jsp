@@ -21,7 +21,6 @@ if (cookies != null) {
         }
     }
 }
-
 // 카테고리에 따른 광고 표시
 if (lastCategory != null) {
     out.print(lastCategory);

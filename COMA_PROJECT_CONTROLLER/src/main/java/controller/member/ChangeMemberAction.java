@@ -1,0 +1,61 @@
+package controller.member;
+
+import controller.common.Action;
+import controller.common.ActionForward;
+import controller.funtion.ProfileUpload;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.member.MemberDAO;
+import model.member.MemberDTO;
+
+public class ChangeMemberAction implements Action {
+
+	@Override
+	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
+		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
+		ActionForward forward = new ActionForward();
+		String path = "MYPAGEPAGEACTION.do";
+		boolean flagRedirect = true;
+
+		//로그인 정보가 있는지 확인해주고
+		String login = LoginCheck.Success(request, response);
+
+		//만약 로그인 정보가 있다면 사용자 정보를 변경하고
+		if(login != null) {
+			MemberDAO dao = new MemberDAO();
+			MemberDTO data = new MemberDTO();
+
+			//profile_img 에 파일을 저장하고
+			String uploadfile = ProfileUpload.upload(request);
+			//만약 파일이 없다면 기본 파일로 대체해서 저장합니다.
+			if(uploadfile == null) {
+				uploadfile = "default.png";
+			}
+			data.setMember_id(login);//바꿀 사용자 아이디를 입력해줍니다.
+			data.setMember_password(request.getParameter("member_passward"));// 비밀번호
+			//data.setMember_name(request.getParameter("member_name"));//이름
+			data.setMember_phone(request.getParameter("member_phoneNumber"));//전환번호
+			data.setMember_location(request.getParameter("member_location"));//지역
+			data.setMember_profile(uploadfile);//저장한 프로필 이미지로 변경합니다.
+			data.setMember_condition("MEMBER_UPDATE");
+			//프로필 이미지 저장 로그
+			System.err.println(uploadfile);
+			boolean flag = dao.update(data);
+			
+			if(!flag) {
+				request.setAttribute("CHANGE_CHECK", flag);
+				path = "CHANGEMEMBERPAGEACTION.do";
+			}
+		}
+		//로그인 정보가 없다면 로그인 페이지로 이동시킵니다.
+		else {
+			path = "LOGINPAGEACTION.do";
+		}
+
+		forward.setPath(path);
+		forward.setRedirect(flagRedirect);
+		return forward;
+	}
+
+}

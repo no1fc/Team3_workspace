@@ -13,7 +13,7 @@
     <input type="submit" value="Upload Image" />
 </form>
 
-
+${imgPath}
 <div>
 	<img alt="test" src="${imgPath}">
 </div>
