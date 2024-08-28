@@ -42,12 +42,12 @@ public class SignUpAction implements Action {
 			//만약 성공했다면 회원가입 성공했다는 내용을 전달해주고
 			if(flag) {
 				System.err.println("회원가입 성공 로그");
-				request.setAttribute("SGINUP_CHECK", flag);
+				request.setAttribute("SIGNUP_CHECK", flag);
 			}
 			//실패했다면 실패 내용을 전달해준다.
 			else {
 				path = "SIGNUPPAGEACTION.do";
-				request.setAttribute("SGINUP_CHECK", flag);
+				request.setAttribute("SIGNUP_CHECK", flag);
 			}
 			
 		}

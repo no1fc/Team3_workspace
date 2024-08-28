@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코마 : 글쓰기</title>
+<title>코마 : 글수정</title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -74,11 +74,12 @@
 			<div class="row py-3">
 				<div class="col-12">
 					<!-- 작성 글 C로 보내기 -->
-					<h1 class="text-center">글쓰기</h1>
+					<h1 class="text-center">글수정</h1>
 				</div>
 			</div>
 			<!-- C에게 보낼 값 설정 FORM -->
-			<form action="BOARDINSERTACTION.do" method="POST" name="editing">
+			<form action="BOARDUPDATEACTION.do" method="POST"
+				name="updateediting">
 				<div class="row">
 					<div
 						class="col-md-1 d-flex align-items-center justify-content-center justify-content-md-end">
@@ -86,8 +87,9 @@
 					</div>
 					<div class="col-md-11">
 						<div class="form-group">
-							<input type="text" class="form-control" id="title" name="title"
-								required placeholder="글의 제목을 입력해주세요" />
+						<!-- C에서 DATA 가져오기 -->
+							<input type="text" class="form-control" id="title" name="title" value="${BOARD_TITLE}" required
+								placeholder="글의 제목을 입력해주세요" />
 						</div>
 					</div>
 				</div>
@@ -99,8 +101,9 @@
 					<div class="col-md-11">
 						<div class="form-group">
 							<div class="input-group">
-								<textarea class="form-control" name="content" required
-									style="height: 500px !important;"></textarea>
+							<!-- C에서 DATA 가져오기 -->
+								<textarea class="form-control" name="content"
+									style="height: 500px !important;" required>${BOARD_CONTENT}</textarea>
 							</div>
 						</div>
 					</div>
@@ -111,11 +114,10 @@
 						<button type="button" class="btn btn-black me-4"
 							onclick="cancelEditing()">취소</button>
 						<!-- 버튼 클릭시 폼을 제출 (C로 보냄) -->
-						<button type="submit" class="btn btn-primary">작성</button>
+						<button type="submit" class="btn btn-primary">수정</button>
 
 					</div>
 				</div>
-				<!-- 글 작성 form 종료 -->
 			</form>
 		</div>
 	</div>
@@ -123,7 +125,7 @@
 
 	<script type="text/javascript">
 		function cancelEditing() {
-			// 취소버튼을 누르면 메인페이지로 이동함
+			// 취소버튼을 누르면 메인페이지 C로 이동
 			window.location.href = 'MAINPAGEACTION.do';
 		}
 	</script>

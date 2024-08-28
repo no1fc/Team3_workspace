@@ -13,7 +13,7 @@ import model.member.MemberDTO;
 /**
  * Servlet implementation class IDCheckAction
  */
-@WebServlet("/idcheck")
+@WebServlet("/checkId")
 public class IDCheckAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,7 +44,7 @@ public class IDCheckAction extends HttpServlet {
 		
 		//view 에서 사용자 ID를 보내주면 MemberDTO 에 값을 추가
 		data.setMember_id(request.getParameter("member_id"));
-		data.setMember_condition("MEMBER_SERCHID");		
+		data.setMember_condition("MEMBER_SEARCH_ID");		
 		//model 에 사용자 ID를 넘겨 값이 있는 지 확인 후
 		data = memberDAO.selectOne(data);
 		

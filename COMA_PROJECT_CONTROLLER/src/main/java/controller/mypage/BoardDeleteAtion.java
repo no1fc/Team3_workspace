@@ -31,8 +31,8 @@ public class BoardDeleteAtion implements Action {
 			BoardDAO boardDAO = new BoardDAO();
 			BoardDTO data = new BoardDTO();
 			//사용자가 선택한 글번호를 받아서
-			data.setBoard_id(Integer.parseInt(request.getParameter("board_num")));
-			data.setWriter(login);
+			data.setBoard_num(Integer.parseInt(request.getParameter("board_num")));
+			data.setBoard_writer_id(login);
 			//model 에 전달해 글을 삭제하고
 			boolean flag = boardDAO.delete(data);
 			

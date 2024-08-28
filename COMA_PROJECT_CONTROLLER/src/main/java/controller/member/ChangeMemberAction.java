@@ -27,20 +27,29 @@ public class ChangeMemberAction implements Action {
 			MemberDTO data = new MemberDTO();
 
 			//profile_img 에 파일을 저장하고
-			String uploadfile = ProfileUpload.upload(request);
-			//만약 파일이 없다면 기본 파일로 대체해서 저장합니다.
-			if(uploadfile == null) {
-				uploadfile = "default.png";
-			}
+			
 			data.setMember_id(login);//바꿀 사용자 아이디를 입력해줍니다.
-			data.setMember_password(request.getParameter("member_passward"));// 비밀번호
-			//data.setMember_name(request.getParameter("member_name"));//이름
-			data.setMember_phone(request.getParameter("member_phoneNumber"));//전환번호
+			data.setMember_password(request.getParameter("update_password"));// 비밀번호
+			//data.setMember_name(request.getParameter("member_name"));//이름은 실명으로 변경하지 않습니다.
+			data.setMember_phone(request.getParameter("member-phone"));//전환번호
 			data.setMember_location(request.getParameter("member_location"));//지역
-			data.setMember_profile(uploadfile);//저장한 프로필 이미지로 변경합니다.
-			data.setMember_condition("MEMBER_UPDATE");
+			
+			//file 업로드 확인
+			String filname = ProfileUpload.upload(request);
+			//uploadfile이 null이 아니라면 DB의 profile 이미지를 변경합니다.
+			if(!filname.isEmpty()){
+				System.out.println("uploadfile not null 로그 : " + filname);
+				data.setMember_profile(filname);//저장한 프로필 이미지로 변경합니다.
+				data.setMember_condition("MEMBER_UPDATE_ALL");
+			}
+			else {
+				System.out.println("uploadfile null 로그");
+				data.setMember_condition("MEMBER_UPDATE_WITHOUT_PROFILE");
+			}
+
+			System.out.println(data);
 			//프로필 이미지 저장 로그
-			System.err.println(uploadfile);
+			System.err.println(filname);
 			boolean flag = dao.update(data);
 			
 			if(!flag) {

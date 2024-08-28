@@ -12,10 +12,10 @@ import java.io.IOException;
 //프로필 이미지를 저장하기 위해 @ 어노테이션을 설정한다.
 @MultipartConfig(
 		// 멀티파트 설정
-		maxFileSize = 1024 * 10, // 한 파일을 저장한때 10KB
-		maxRequestSize = 1024 * 50, // 한 파일을 저장한때 50KB
+		maxFileSize = 1024 * 50, // 한 파일을 저장한때 10KB
+		maxRequestSize = 1024 * 50, // 여러 파일을 저장한때 50KB
 		fileSizeThreshold = 1024 * 2, // 메모리에 저장할때 크기 2KB
-		location = "/profile_img" // 파일이 저장되는 경로
+		location = "/" // 파일이 저장되는 경로
 )
 //view(Web)에서 보내는 Xxx.do 모든 요청을 받아옵니다.
 @WebServlet("*.do")
@@ -53,7 +53,6 @@ public class FrontController extends HttpServlet {
 		//forward 가 null 이면 요청이 없이 들어온 것이기 때문에
 		// 잘못된 요청으로 페이지를 넘겨야합니다.
 		if(forward == null) {
-			//잘못된 요청으로 404 오류를 띄워 페이지를 이동시킵니다.
 			try {
 				response.sendRedirect("main.jsp");
 				System.out.println("forward null 로그");
@@ -64,7 +63,7 @@ public class FrontController extends HttpServlet {
 		}
 		//forward 가 null 이 아니라면 요청값이 있는 것이기 때문에
 		// Redirect(리다이렉트) / Forward(포워드) 인지 구분해줍니다.
-		else {
+		else{
 			//만약 forward.isRedirect 가 true 일때 실행됩니다.
 			if(forward.isRedirect()) {
 				try {

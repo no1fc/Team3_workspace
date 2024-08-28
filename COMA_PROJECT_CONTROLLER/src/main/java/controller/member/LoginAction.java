@@ -16,7 +16,7 @@ public class LoginAction implements Action {
 
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "MAIN.do";
+		String path = "MAINPAGEACTION.do";
 		boolean flagRedirect = false;
 
 		//로그인 정보가 있는지 확인해주고
@@ -27,12 +27,12 @@ public class LoginAction implements Action {
 			MemberDAO dao = new MemberDAO();
 			MemberDTO data = new MemberDTO();
 			//사용자의 아이디와 비밀번호를 model 로 전달하여 확인하고
+			System.out.println(request.getParameter("email") + " " + request.getParameter("password"));
 			data.setMember_id(request.getParameter("email"));
 			data.setMember_password(request.getParameter("password"));
-			data.setMember_condition("MEMBER_SERCHIDPASS");//추가할 예정
+			data.setMember_condition("MEMBER_SEARCH_ID_PASSWORD");//추가할 예정
 			data = dao.selectOne(data);
-
-
+			
 			//만약 data 가 null 을 반환하면
 			if(data == null) {
 				System.err.println("(LoginAction.java) data null 로그");

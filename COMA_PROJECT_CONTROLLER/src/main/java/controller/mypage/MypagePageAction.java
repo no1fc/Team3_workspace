@@ -40,7 +40,7 @@ public class MypagePageAction implements Action {
 			System.out.println(login);
 			//사용자 정보 이름, 전화번호, 아이디, 프로필 이미지, 권한 전달
 			memberDTO.setMember_id(login);
-			memberDTO.setMember_condition("MEMBER_SERCHID");
+			memberDTO.setMember_condition("MEMBER_SEARCH_ID");
 			memberDTO = memberDAO.selectOne(memberDTO);
 			String filename = "";
 			if(memberDTO == null) {
@@ -53,20 +53,20 @@ public class MypagePageAction implements Action {
 			
 			if(memberDTO.getMember_role().equals("T")) {
 				//사용자 정보 이름, 전화번호, 아이디, 프로필 이미지, 권한 전달
-				babymember.setMember_condition("MEMBER_ALLNEW");
+				babymember.setMember_condition("MEMBER_ALL_NEW");
 				ArrayList<MemberDTO> member_list = memberDAO.selectAll(babymember);
 				request.setAttribute("MEMBER_LIST", member_list);
-				
 			}
 			
 			//사용자가 입력한 글 목록 출력 후 전달
-			boardDTO.setWriter(login);
-			boardDTO.setBoard_condition("MYBOARD");
-//			ArrayList<BoardDTO> boardList = boardDAO.selectAll(boardDTO);
+			//boardDTO.setBoard_writer_id(login); 모델에 mypage에서 쓸 컨디션 추가 부탁해야함
+			boardDTO.setBoard_searchKeyword(login);
+			boardDTO.setBoard_condition("BOARD_ALL_SEARCH_ID");
+			ArrayList<BoardDTO> boardList = boardDAO.selectAll(boardDTO);
 			
 			request.setAttribute("MEMBER_ID", login);
 			request.setAttribute("MEMBERDATA", memberDTO);
-//			request.setAttribute("BOARD", boardList);
+			request.setAttribute("BOARD", boardList);
 		}
 		
 		forward.setPath(path);

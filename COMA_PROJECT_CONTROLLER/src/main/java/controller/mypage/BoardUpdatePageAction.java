@@ -18,7 +18,7 @@ public class BoardUpdatePageAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "contentWrite.jsp";
+		String path = "editing.jsp";
 		boolean flagRedirect = false;
 
 		//로그인 정보가 있는지 확인해주고
@@ -35,7 +35,7 @@ public class BoardUpdatePageAction implements Action {
 			BoardDAO boardDAO = new BoardDAO();
 			BoardDTO data = new BoardDTO();
 			//사용자가 선택한 글번호를 받아서
-			data.setBoard_id(Integer.parseInt(request.getParameter("board_num")));
+			data.setBoard_num(Integer.parseInt(request.getParameter("board_num")));
 			//model 에 전달하여 글 내용을 받아오고
 			data = boardDAO.selectOne(data);
 			

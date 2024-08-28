@@ -33,7 +33,7 @@ public class ChangeMemberPageAction implements Action{
 			
 			//사용자 아이디를 model에 전달하고
 			data.setMember_id(login);
-			data.setMember_condition("MEMBER_SERCHID");
+			data.setMember_condition("MEMBER_SEARCH_ID");
 			//전달해준 사용자 정보를 받아와 줍니다.
 			data = dao.selectOne(data);
 			String profile = "";
