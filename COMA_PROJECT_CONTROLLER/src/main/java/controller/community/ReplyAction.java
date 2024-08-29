@@ -2,7 +2,8 @@ package controller.community;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.reply.ReplyDAO;
 import model.reply.ReplyDTO;
@@ -10,14 +11,17 @@ import model.reply.ReplyDTO;
 public class ReplyAction implements Action{
 
 	@Override
-	public ActionForward execute(jakarta.servlet.http.HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		//댓글달기
 		//댓글의 작성자, 내용, 작성한 글의 번호를 받아서 insert
-		
+
+		//넘어갈 페이지를 주기 위한 변수
+		int reply_board_num = Integer.parseInt(request.getParameter("board_id"));
+
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "BOARDONEPAGEACTION.do";
-		boolean flagRedirect = false;
+		String path = "BOARDONEPAGEACTION.do?board_num="+reply_board_num;
+		boolean flagRedirect = true;
 
 		//로그인 정보가 있는지 확인해주고
 		String login = LoginCheck.Success(request, response);
@@ -28,9 +32,8 @@ public class ReplyAction implements Action{
 			path = "LOGINPAGEACTION.do";
 		}
 		else {
-			int reply_board_num = Integer.parseInt(request.getParameter("reply_board_num"));
+
 			String reply_content = request.getParameter("reply_content");
-			
 			String reply_writer_id = login;//세션에 있는 사용자의 아이디
 			
 			ReplyDTO replyDTO = new ReplyDTO();
@@ -40,11 +43,6 @@ public class ReplyAction implements Action{
 			
 			replyDTO.setReply_writer_id(reply_writer_id);
 			replyDAO.insert(replyDTO);
-			
-			request.setAttribute("board_num", reply_board_num);
-				
-			
-			
 		}		
 		forward.setPath(path);
 		forward.setRedirect(flagRedirect);

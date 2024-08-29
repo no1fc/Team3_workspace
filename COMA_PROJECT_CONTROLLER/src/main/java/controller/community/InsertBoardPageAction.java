@@ -2,7 +2,7 @@ package controller.community;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

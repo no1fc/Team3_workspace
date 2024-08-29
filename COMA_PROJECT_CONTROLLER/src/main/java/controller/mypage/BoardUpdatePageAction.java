@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.board.BoardDAO;
@@ -18,7 +18,7 @@ public class BoardUpdatePageAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "editing.jsp";
+		String path = "updateediting.jsp";
 		boolean flagRedirect = false;
 
 		//로그인 정보가 있는지 확인해주고
@@ -36,6 +36,7 @@ public class BoardUpdatePageAction implements Action {
 			BoardDTO data = new BoardDTO();
 			//사용자가 선택한 글번호를 받아서
 			data.setBoard_num(Integer.parseInt(request.getParameter("board_num")));
+			data.setBoard_condition("BOARD_ONE");
 			//model 에 전달하여 글 내용을 받아오고
 			data = boardDAO.selectOne(data);
 			
@@ -45,8 +46,11 @@ public class BoardUpdatePageAction implements Action {
 			}
 			else {
 				//해당 글 내용을 view 로 전달해줍니다.
-				request.setAttribute("boardData", data);
+				request.setAttribute("BOARD_NUM", data.getBoard_num());
+				request.setAttribute("BOARD_TITLE", data.getBoard_title());
+				request.setAttribute("BOARD_CONTENT", data.getBoard_content());
 				request.setAttribute("boardDelete", true);
+				request.setAttribute("MEMBER_ID", login);
 			}
 
 			

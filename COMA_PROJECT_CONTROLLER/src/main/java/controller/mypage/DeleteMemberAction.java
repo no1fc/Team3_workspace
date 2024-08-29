@@ -2,7 +2,7 @@ package controller.mypage;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.member.MemberDAO;
@@ -34,7 +34,7 @@ public class DeleteMemberAction implements Action{
 			//delete 를 성공하지 못했다면 Mypage로 보냅니다.
 			boolean flag = memberDAO.delete(data);
 			if(flag) {//멤버 삭제에 성공했다면 logout 페이지로 넘어갑니다.
-				path = "LOGOUTACTION.do";
+				path = "LOGOUTPAGEACTION.do";
 			}
 		}
 		forward.setPath(path);

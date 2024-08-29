@@ -114,9 +114,9 @@ public class MemberDAO {
 			else if(memberDTO.getMember_condition().equals("MEMBER_UPDATE_WITHOUT_PROFILE")) {
 				pstmt=conn.prepareStatement(UPDATE_WITHOUT_PROFILE);
 				pstmt.setString(1, memberDTO.getMember_password());
-				pstmt.setString(3, memberDTO.getMember_phone());
-				pstmt.setString(4, memberDTO.getMember_location());
-				pstmt.setString(5, memberDTO.getMember_id());
+				pstmt.setString(2, memberDTO.getMember_phone());
+				pstmt.setString(3, memberDTO.getMember_location());
+				pstmt.setString(4, memberDTO.getMember_id());
 			}
 			//크루가입 MEMBER_CREW_NUM, MEMBER_ID
 			else if(memberDTO.getMember_condition().equals("MEMBER_UPDATE_CREW")) {

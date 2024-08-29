@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>500 error</title>
-<link rel="stylesheet" href="COMA_PROJECT_CONTROLLER/css/error.css">
+<link rel="stylesheet" href="../COMA_PROJECT_CONTROLLER/css/error.css">s">
 </head>
 <body>
   <div class="error-image-container">

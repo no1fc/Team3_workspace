@@ -155,6 +155,7 @@ public class ReplyDAO {
 				ReplyDTO data = new ReplyDTO();
 				data.setReply_num(rs.getInt("REPLY_NUM"));
 				data.setReply_content(rs.getString("REPLY_CONTENT"));
+				data.setReply_board_num(rs.getInt("REPLY_BOARD_NUM"));
 				data.setReply_writer_id(rs.getString("REPLY_WRITER_ID"));
 				datas.add(data);
 				rsCnt++;

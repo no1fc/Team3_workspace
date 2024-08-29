@@ -15,9 +15,9 @@
 				<ul class="navbar-nav text-center">
 					<li class="nav-item p-3"><a class="nav-link" href="#">상점</a></li>
 					<li class="nav-item p-3"><a class="nav-link" href="#">암벽장</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="CREWPAGE.do">크루</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="RANKPAGE.do">랭킹</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="COMMUNITYPAGE.do">커뮤니티</a></li>
+					<li class="nav-item p-3"><a class="nav-link" href="#">크루</a></li>
+					<li class="nav-item p-3"><a class="nav-link" href="#">랭킹</a></li>
+					<li class="nav-item p-3"><a class="nav-link" href="#">커뮤니티</a></li>
 				</ul>
 				<ul class="navbar-nav text-center">
 					<c:if test="${empty member_id}">
@@ -25,7 +25,7 @@
 					</c:if>
 					<c:if test="${not empty member_id}">
 						<li class="nav-item p-3"><a class="nav-link" href="MYPAGEPAGEACTION.do">마이페이지</a></li>
-						<li class="nav-item p-3"><a class="nav-link" href="LOGOUTACTION.do">로그아웃</a></li>					
+						<li class="nav-item p-3"><a class="nav-link" href="LOGOUTPAGEACTION.do">로그아웃</a></li>					
 					</c:if>
 				</ul>
 			</nav>
@@ -36,7 +36,7 @@
 		<div class="main-header-logo">
 			<!-- Logo Header -->
 			<div class="logo-header" data-background-color="dark">
-				<a href="index.html" class="logo"> <img
+				<a href="MAINPAGEACTION.do" class="logo"> <img
 					src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand"
 					class="navbar-brand" height="20" />
 				</a>
@@ -59,15 +59,15 @@
 			<div class="container-fluid justify-content-between">
 				<nav
 					class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
-					<a class="navbar-brand"> 
+					<a class="navbar-brand" href="MAINPAGEACTION.do"> 
 						<img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" />
 					</a>
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link" href="#">상점</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">암벽장</a></li>
-						<li class="nav-item"><a class="nav-link" href="CREWPAGE.do">크루</a></li>
-						<li class="nav-item"><a class="nav-link" href="RANKPAGE.do">랭킹</a></li>
-						<li class="nav-item"><a class="nav-link" href="COMMUNITYPAGE.do">커뮤니티</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">크루</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
 					</ul>
 				</nav>
 				<ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
@@ -81,7 +81,7 @@
 							<a class="nav-link" href="MYPAGEPAGEACTION.do"> 마이페이지 </a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="LOGOUTACTION.do"> logout </a>
+							<a class="nav-link" href="LOGOUTPAGEACTION.do"> logout </a>
 						</li>
 					</c:if>
 

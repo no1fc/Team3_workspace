@@ -11,7 +11,8 @@ public class LogoutAtion implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
-
+		String token = (String)request.getSession().getAttribute("access_token");
+		
 		
 		//request 내장객체를 사용하여 cookies 배열을 가져옵니다.
 		Cookie[] cookies = request.getCookies();
@@ -35,7 +36,7 @@ public class LogoutAtion implements Action {
 		HttpSession session = request.getSession();
 		//로그아웃이므로 session에 MEMBER_ID 라는 이름을 삭제합니다.
 		session.removeAttribute("MEMBER_ID");
-		
+		        
 		ActionForward forward = new ActionForward();
 		forward.setPath("MAINPAGEACTION.do");
 		forward.setRedirect(true);

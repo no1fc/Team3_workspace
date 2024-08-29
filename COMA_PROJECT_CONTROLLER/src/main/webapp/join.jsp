@@ -11,21 +11,8 @@
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
-<script>
-	WebFont.load({
-		google : {
-			families : [ "Public Sans:300,400,500,600,700" ]
-		},
-		custom : {
-			families : [ "Font Awesome 5 Solid", "Font Awesome 5 Regular",
-					"Font Awesome 5 Brands", "simple-line-icons", ],
-			urls : [ "assets/css/fonts.min.css" ],
-		},
-		active : function() {
-			sessionStorage.fonts = true;
-		},
-	});
-</script>
+<script src="https://kit.fontawesome.com/7f7b0ec58f.js"
+	crossorigin="anonymous"></script>
 
 <!-- CSS Files -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -41,14 +28,6 @@
 .input-error {
 	border-color: #dc3545;
 	background-color: #fbe9e9;
-}
-
-.alert-success {
-	color: #28a745;
-}
-
-.alert-danger {
-	color: #dc3545;
 }
 </style>
 
@@ -131,7 +110,6 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<select id="member_location" name="member_location">
-										<option>무건국</option>
 										<option>서울특별시</option>
 										<option>세종특별자치도</option>
 										<option>부산광역시</option>
@@ -148,12 +126,7 @@
 										<option>경상남도</option>
 										<option>경상북도</option>
 										<option>강원도</option>
-										<option>제주도</option>
-										<option>함경북도</option>
-										<option>함경남도</option>
-										<option>평안남도</option>
-										<option>평안북도</option>
-										<option>평양</option>
+										
 
 									</select>
 								</div>
@@ -340,6 +313,15 @@
 	            }
 	        });
 	    });
+	    
+	 	// 카카오톡, 네이버 API를 통해 회원가입으로 넘어온다면 아이디 자동으로 넘어와서 입력되고 수정불가능하게 한다
+	    var idField = $('#member_id'); // 아이디 input
+		var idMember = '${member_id}' // C에서 가져온값
+		if(idMember!="") { // C에서 받아온 아이디가 있다면
+			idField.prop('readonly', true); // input창 비활성화
+			idField.val(idMember); // 받아온값으로 value값 넣기
+			idCheckBtnPassed = true; // 전역변수 true값 반환
+		}
 	    // 가입 버튼 클릭 이벤트
 	    $("#joinbtn").click(function(event) { // 가입 버튼 눌렀을때
 	        if(!idCheckBtnPassed) { // 전역변수 false라면
@@ -409,17 +391,7 @@
 	
 	</script>
 
-	<script>
-	// 카카오톡, 네이버 API를 통해 회원가입으로 넘어온다면 아이디 자동으로 넘어와서 입력되고 수정불가능하게 한다
 	
-		$(document).ready(function() {
-			var idField = document.getElementById('member_id'); // 아이디 input
-			if(${member_id}!=null) { // C에서 받아온 아이디가 있다면
-				idField.prop('readonly', true); // input창 비활성화
-				idField.val(${member_id}); // 받아온값으로 value값 넣기
-			}
-		});
-	</script>
 
 	<script>
 	// 인증번호 받기 = 인증번호 받으면 전화번호 수정 불가능 하게 한다

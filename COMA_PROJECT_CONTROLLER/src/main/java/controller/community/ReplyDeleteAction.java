@@ -2,7 +2,7 @@ package controller.community;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.reply.ReplyDAO;
@@ -13,10 +13,11 @@ public class ReplyDeleteAction implements Action{
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
+		int board_num = Integer.parseInt(request.getParameter("board_num"));
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "BOARDONEPAGEACTION.do";
-		boolean flagRedirect = false;
+		String path = "BOARDONEPAGEACTION.do?board_num="+board_num;
+		boolean flagRedirect = true;
 
 		//로그인 정보가 있는지 확인해주고
 		String login = LoginCheck.Success(request, response);
@@ -27,8 +28,7 @@ public class ReplyDeleteAction implements Action{
 			path = "LOGINPAGEACTION.do";
 		}
 		else {
-			int reply_num = Integer.parseInt(request.getParameter("reply_num"));
-			int board_num = Integer.parseInt(request.getParameter("board_num"));
+			int reply_num = Integer.parseInt(request.getParameter("replyId"));
 			String reply_id = login;//세션에 있는 사용자의 아이디
 			
 			ReplyDTO replyDTO = new ReplyDTO();
@@ -38,7 +38,6 @@ public class ReplyDeleteAction implements Action{
 			replyDTO.setReply_num(reply_num);
 			//delete 를 성공하지 못했다면 Mypage로 보냅니다.
 			replyDAO.delete(replyDTO);
-			request.setAttribute("board_num",board_num);
 		
 		}
 		forward.setPath(path);

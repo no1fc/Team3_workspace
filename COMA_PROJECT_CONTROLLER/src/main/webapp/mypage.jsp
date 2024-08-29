@@ -84,16 +84,18 @@
 						<div class="tab-content mt-3 mb-3" id="line-tabContent">
 							<div class="tab-pane fade show active" id="line-post"
 								role="tabpanel" aria-labelledby="line-post-tab">
+								<table class="w-100">
 									<tbody>
+										<tr ><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 										<c:forEach var="board" items="${BOARD}">
 											<tr>
-												<td><a href="BOARDONEPAGEACTION.do?num=${board.board_num}"
+												<td colspan=5><a href="BOARDONEPAGEACTION.do?board_num=${board.board_num}"
 													class="text-muted"> ${board.board_title} </a></td>
 												<td align="right">
 													<button class="btn btn-primary me-3"
-														onclick="location.href='BOARDUPDATAPAGEACTION.do?num=${board.board_id}'">수정</button>
+														onclick="location.href='BOARDUPDATAPAGEACTION.do?board_num=${board.board_num}'">수정</button>
 													<button class="btn btn-danger"
-														onclick="deleteBoard(${board.board_id})">삭제</button>
+														onclick="deleteBoard(${board.board_num})">삭제</button>
 												</td>
 											</tr>
 										</c:forEach>
@@ -126,7 +128,7 @@
 	<script type="text/javascript">
 		function deleteBoard(boardNum){
 			if(confirm('정말 삭제하시겠습니까?')){
-				location.href='BOARDDELETEACITON.do?num='+boardNum;
+				location.href='BOARDDELETEACTION.do?board_num='+boardNum;
 			}
 		}
 	

@@ -68,7 +68,7 @@
 					<c:when test="${board.board_num> 0}">
 						<div class="row pt-5">
 							<div class="col-md-10">
-								<div class="card card-stats card-round">
+								<div class="card card-stats card-round mb-0">
 									<div class="card-body p-5 d-flex justify-content-between">
 										<h3 class="card-title">
 											<a href="BOARDONEPAGEACTION.do?board_num=${board.board_num}"
@@ -88,7 +88,7 @@
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-			<div class="row pt-2">
+			<div class="row pt-5">
 				<div class="col-md-10 d-flex justify-content-center">
 					<nav aria-label="Page navigation">
 						<ul id="pagination" class="pagination justify-content-center">
@@ -100,14 +100,14 @@
 		</div>
 		<!-- container end -->
 		<div class="cookies d-none" id="cookies">
-			<div class="cookies-header p-3 text-end">
+			<div class="cookies-header py-1 px-3 text-end">
 				<a id="cookies-cancel" class="btn btn-toggle">x</a>
 			</div>
 			<div class="cookies-body p-3 text-center">
 				<h2 class="text-white">최고의 클라이밍 슈즈</h2>
 				<p class="text-white">모멘텀 암벽화</p>
 				<img src="assets/img/shoes.png" />
-				<h2 class="text-white py-1">~ 50%</h2>
+				<h2 class="text-white">~ 50%</h2>
 				<button class="btn btn-info btn-round">바로 구매하기</button>
 				<a id="cookie-today-hide" class="btn btn-toogle text-white">오늘
 					하루 보지 않기</a>
@@ -175,10 +175,14 @@
 		// 총 페이지 수 = Math.ceil(전체 개수 / 한 페이지에 나타낼 데이터 수)
 
 		// 페이지네이션 생성 함수
-		function renderpagination(currentPage, _totalCount) {
+		function renderpagination(currentPage, _totalCount,param) {
 		    // 현재 게시물의 전체 개수가 10개 이하면 pagination을 숨깁니다.
 		    if (_totalCount <= 10) return;
 		    
+		    let board_list = param.get('board_list');
+			console.log(board_list);
+		    let board_keyword = param.get('board_keyword'); // 서버에서 전달된 님 내용임 맞겠지
+			console.log(board_keyword);
 		    
 		    // 총 페이지 수 계산 (전체 게시물 수를 한 페이지에 보여줄 게시물 수로 나눈 값의 올림)
 		    const totalPage = Math.ceil(_totalCount / 10);
@@ -209,9 +213,19 @@
 		        const preli = document.createElement('li');
 		        preli.id = 'prev-btn';
 		        preli.className = 'page-item';
-		        preli.insertAdjacentHTML("beforeend",
-		           "<a id='allprev' class='page-link' href='MAINPAGEACTION.do?page="+prev+"' aria-label='Previous'>" 
-		                +"<span aria-hidden='true'>&laquo;</span> </a>");
+		        if(board_list != null){
+			         preli.insertAdjacentHTML("beforeend",
+			        	    "<a id='allprev' class='page-link' href='MAINPAGEACTION.do?page=" + prev + "&board_list="+board_list+"&board_keyword="+board_keyword+"' aria-label='Previous'>" + 
+			        	    "<span aria-hidden='true'>&laquo;</span>" + 
+			        	    "</a>"
+			        	);
+			        	
+			        }
+			        else{
+				        preli.insertAdjacentHTML("beforeend",
+						           "<a id='allprev' class='page-link' href='MAINPAGEACTION.do?page="+prev+"' aria-label='Previous'>" 
+						                +"<span aria-hidden='true'>&laquo;</span> </a>");
+			        }
 		        fragmentPage.appendChild(preli);
 		    }
 		
@@ -219,10 +233,22 @@
 		    for (let i = first; i <= last; i++) {
 		        const li = document.createElement("li");
 		        li.className = 'page-item';
-		        li.insertAdjacentHTML("beforeend",
-		              "<a class='page-link' href='MAINPAGEACTION.do?page=" + i + "' id='page-" + i + "' data-num='" + i + "'>" +
-		                i +
-		            "</a>");
+		        if(board_list != null){
+			        li.insertAdjacentHTML("beforeend",
+			        	    "<a class='page-link m-2' href='MAINPAGEACTION.do?page=" + i + "&board_list="+board_list+"&board_keyword="+board_keyword+"' id='page-" + i + "' data-num='" + i + "'>" +
+			        	    i +
+			        	    "</a>"
+			        	);
+			        	
+			        }
+			        else{
+				        li.insertAdjacentHTML("beforeend",
+					              "<a class='page-link m-2' href='MAINPAGEACTION.do?page=" + i + "' id='page-" + i + "' data-num='" + i + "'>" +
+					                i +
+					            "</a>");
+			        }
+
+
 		        fragmentPage.appendChild(li);
 		    }
 		
@@ -231,11 +257,21 @@
 		        const endli = document.createElement('li');
 		        endli.id = 'next-btn';
 		        endli.className = 'page-item';
-		        endli.insertAdjacentHTML("beforeend",
-		           
-		           "<a class='page-link' href='MAINPAGEACTION.do?page=" + next +"' id='allnext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a>");
-		
-		        fragmentPage.appendChild(endli);
+		        if(board_list != null){
+			        endli.insertAdjacentHTML("beforeend",
+			        	    "<a class='page-link' href='MAINPAGEACTION.do?page=" + next + "&board_list="+board_list+"&board_keyword="+board_keyword+"' id='allnext' aria-label='Next'>" + 
+			        	    "<span aria-hidden='true'>&raquo;</span>" +
+			        	    "</a>"
+			        	);
+			        	
+			        }
+			        else{
+				        endli.insertAdjacentHTML("beforeend",
+						     "<a class='page-link' href='MAINPAGEACTION.do?page=" + next +"' id='allnext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a>");
+				        
+			        }
+
+				fragmentPage.appendChild(endli);
 		    }
 		
 		    // 생성된 페이지네이션 버튼들을 화면에 추가 
@@ -271,11 +307,15 @@
 		document.addEventListener("DOMContentLoaded", function() {
 		    const _totalCount = ${totalCount};  // 서버에서 전달된 전체 게시물 개수
 		    const  currentPage = ${currentPage}; // 서버에서 전달된 현재 페이지 번호
-		    renderpagination(currentPage,_totalCount);      // 페이지네이션 생성 함수 호출
+		    
+		    let query = window.location.search;
+		    let param = new URLSearchParams(query);
+		    
+		    renderpagination(currentPage,_totalCount,param);      // 페이지네이션 생성 함수 호출
 		    
 		    // 현재 페이지를 표시하기 위해 active 클래스 추가
-		    $("#pagination a").removeClass("active");
-		    $("#pagination a#page-" + currentPage).addClass("active");
+		    $("#pagination a").removeClass("active text-white");
+		    $("#pagination a#page-" + currentPage).addClass("active text-white");
 		    console.log(currentPage);
 		});
 		

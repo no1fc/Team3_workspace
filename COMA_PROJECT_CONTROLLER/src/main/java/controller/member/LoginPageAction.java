@@ -2,6 +2,7 @@ package controller.member;
 
 import controller.common.Action;
 import controller.common.ActionForward;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -22,8 +23,6 @@ public class LoginPageAction implements Action {
 		if(login != null) {
 			//main 페이지로 전달해줍니다.
 			path = "MAINPAGEACTION.do";
-			//포워드 방식으로 보내줍니다.
-			flagRedirect = false;
 		}
 		
 		forward.setPath(path);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +15,6 @@
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 <link rel="stylesheet" href="assets/css/plugins.min.css" />
 <link rel="stylesheet" href="assets/css/kaiadmin.css" />
-</head>
-<body>
    <!-- Core JS Files -->
    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
    <script src="assets/js/core/popper.min.js"></script>
@@ -26,55 +25,12 @@
    <script type="text/javascript"
       src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
       charset="utf-8"></script>
-   <script type="text/javascript"
-      src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
 
-   <div class="main-header">
-      <div class="main-header-logo">
-         <!-- Logo Header -->
-         <div class="logo-header" data-background-color="dark">
-            <a href="index.jsp" class="logo"> <img
-               src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand"
-               class="navbar-brand" height="20" /></a>
-            <div class="nav-toggle">
-               <button class="btn btn-toggle toggle-sidebar">
-                  <i class="gg-menu-right"></i>
-               </button>
-               <button class="btn btn-toggle sidenav-toggler">
-                  <i class="gg-menu-left"></i>
-               </button>
-            </div>
-            <button class="topbar-toggler more">
-               <i class="gg-more-vertical-alt"></i>
-            </button>
-         </div>
-         <!-- End Logo Header -->
-      </div>
-      <!-- Navbar Header -->
-      <nav
-         class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
-         <div class="container-fluid justify-content-between">
-            <nav
-               class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
-               <a class="navbar-brand"> <img
-                  src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand"
-                  class="navbar-brand" height="20" /></a>
-               <ul class="navbar-nav">
-                  <li class="nav-item"><a class="nav-link" href="#">상점</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">암벽장</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">크루</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">선수페이지</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">뉴스페이지</a></li>
-               </ul>
-            </nav>
-            <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-               <li class="nav-item"><a class="nav-link" href="#"> 로그인 </a></li>
-               <li class="nav-item"><a class="nav-link" href="#"> 마이페이지 </a></li>
-            </ul>
-         </div>
-      </nav>
-      <!-- End Navbar -->
-   </div>
+
+  	<!-- GNB 커스텀 태그 -->
+	<mytag:gnb member_id="${MEMBER_ID}" ></mytag:gnb>
    <!-- container start -->
    <div class="container">
       <div
@@ -172,13 +128,16 @@
 
       // 로그인 팝업을 사용할 수 있도록 설정
       // 사용자가 로그인 버튼을 클릭했을 때 팝업창이 열리게 됨
-      naver_id_login.setPopup();
-      
+      //naver_id_login.setPopup();
+
       // 네이버 로그인 초기화: 설정한 값을 바탕으로 네이버 로그인 기능을 초기화
       // 이 메소드가 호출되어야 네이버 로그인 버튼이 제대로 작동됨
       naver_id_login.init_naver_id_login();
-      //로그인 정보가 있다면 함수를 실행합니다.
-      naver_id_login.get_naver_userprofile("naverLoginCallback()");
+      
+        //로그인 정보가 있다면 naverLoginCallback() 함수 호출
+         naver_id_login.get_naver_userprofile("naverLoginCallback()");
+
+
       // 네이버 로그인 버튼 클릭 시 처리 함수
       function naverLoginCallback() {
          // 네이버 사용자 정보 가져오기
@@ -197,7 +156,7 @@
       function getNaverUserInfo() {
          // 네이버 로그인 상태라면
          if (naver_id_login.getLoginStatus()) {
-            naverLoginCallback(); // 콜백 호출
+            naverLoginCallback(); // 콜백함수 호출
          } else {
             // 로그인 상태가 아닐 경우 경고
             alert("로그인 상태가 아닙니다.");
@@ -252,21 +211,29 @@
          });
       };// 카카오 로그인 end
 
+      
       // C에게 사용자 정보 (이메일)전송하는 함수 (네이버, 카카오)
       function sendToController(userInfo) {
          $.ajax({
             // 서버 API URL
-            url : 'loginAPI', // 실제 API URL로 수정 필요
+            url : 'loginAPI', 
             // 요청방식
             method : 'POST',
             // C에게 전송할 데이터
             data : userInfo,
             // C 응답 성공 시
+               // 서버 응답이 있는 경우
             success : function(response) {
-               // true
                console.log('서버 응답: ', response);
+               if(response == "true"){                  
                // 로그인 후 이동하게 될 URL
                window.location.href = 'MAINPAGEACTION.do';
+               }
+               else{
+                  // 응답이 없다면 회원가입 페이지로 이동
+                  window.location.href = 'SIGNUPPAGEACTION.do?member_id='+response;   
+               }
+               
             },
             // 서버 응답 실패시
             error : function(error) {

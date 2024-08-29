@@ -18,7 +18,6 @@
     <fullyQualifiedTypeName name="controller.common.HandlerMapper"/>
     <fullyQualifiedTypeName name="controller.member.LoginMemberID"/>
     <fullyQualifiedTypeName name="java.util.Random"/>
-    <fullyQualifiedTypeName name="java.net.URL"/>
     <fullyQualifiedTypeName name="java.security.MessageDigest"/>
     <fullyQualifiedTypeName name="controller.asycnServlet.SMSCheckAction"/>
     <fullyQualifiedTypeName name="java.net.HttpURLConnection"/>
@@ -34,8 +33,6 @@
     <fullyQualifiedTypeName name="model.board.BoardDAO"/>
     <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="model.member.MemberDAO"/>
-    <fullyQualifiedTypeName name="model.member.MemberDTO"/>
     <fullyQualifiedTypeName name="controller.member.LgoinAPIAction"/>
     <fullyQualifiedTypeName name="controller.member.LoginCheck"/>
     <fullyQualifiedTypeName name="controller.common.Action"/>
@@ -55,6 +52,12 @@
     <fullyQualifiedTypeName name="jakarta.servlet.http.HttpSession"/>
     <fullyQualifiedTypeName name="jakarta.servlet.annotation.WebServlet"/>
     <fullyQualifiedTypeName name="org.apache.jasper.tagplugins.jstl.core.Out"/>
-    <fullyQualifiedTypeName name="java.io.PrintWriter"/>
     <fullyQualifiedTypeName name="model.board.BoardDTO"/>
+    <fullyQualifiedTypeName name="model.member.MemberDAO"/>
+    <fullyQualifiedTypeName name="model.member.MemberDTO"/>
+    <fullyQualifiedTypeName name="jakarta.websocket.Session"/>
+    <fullyQualifiedTypeName name="java.io.PrintWriter"/>
+    <fullyQualifiedTypeName name="com.oracle.wls.shaded.org.apache.xml.utils.URI"/>
+    <fullyQualifiedTypeName name="javax.print.DocFlavor.URL"/>
+    <fullyQualifiedTypeName name="java.net.URL"/>
 </qualifiedTypeNameHistroy>

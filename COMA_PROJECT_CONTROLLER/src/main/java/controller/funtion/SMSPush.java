@@ -15,57 +15,57 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SMSPush {
-	//cafe24 문자 api 사용가능 여부 확인 URL
-	private String apiUrl = "https://sslsms.cafe24.com/smsSenderPhone.php";
-	private String userAgent = "Mozilla/5.0";
-	private String postParams = "userId=no1fc20000&passwd=14569e82136048ea492a1e37d2be82a0";
 
 	//cafe24 문자 API 발송 요청 URL
 	private static String smsUrl = "https://sslsms.cafe24.com/sms_sender.php";
 	private static String cafe24_id = "no1fc20000";
 	private static String cafe24_secure = "14569e82136048ea492a1e37d2be82a0";
 	
-	
-	public void callcheck() {
-		try {
-			URL obj = new URL(this.apiUrl);
-
-			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-			con.setRequestMethod("POST");
-			con.setRequestProperty("User-Agent", this.userAgent);
-
-			// POST 요청을 보내기 위한 설정
-			con.setDoOutput(true);
-
-			// try-with-resources를 사용해 자동으로 스트림을 닫도록 함
-			try (OutputStream os = con.getOutputStream()) {
-				os.write(this.postParams.getBytes("UTF-8"));  // UTF-8 인코딩 사용
-				os.flush();
-			}
-
-			int responseCode = con.getResponseCode();
-			System.out.println("POST Response Code :: " + responseCode);
-
-			// 응답 코드가 200일 경우, 즉 성공했을 때
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"))) {
-					String inputLine;
-					StringBuilder buf = new StringBuilder();
-
-					while ((inputLine = in.readLine()) != null) {
-						buf.append(inputLine);
-					}
-					// 응답 결과 출력
-					System.out.println(buf.toString());
-				}
-			} else {
-				System.err.println("POST 요청 실패");
-			}
-
-		} catch (IOException ex) {
-			ex.printStackTrace();  // 예외가 발생하면 스택 트레이스 출력
-		}
-	}
+//	//cafe24 문자 api 사용가능 여부 확인 URL
+//	private String apiUrl = "https://sslsms.cafe24.com/smsSenderPhone.php";
+//	private String userAgent = "Mozilla/5.0";
+//	private String postParams = "userId=no1fc20000&passwd=14569e82136048ea492a1e37d2be82a0";
+//
+//	public void callcheck() {
+//		try {
+//			URL obj = new URL(this.apiUrl);
+//
+//			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//			con.setRequestMethod("POST");
+//			con.setRequestProperty("User-Agent", this.userAgent);
+//
+//			// POST 요청을 보내기 위한 설정
+//			con.setDoOutput(true);
+//
+//			// try-with-resources를 사용해 자동으로 스트림을 닫도록 함
+//			try (OutputStream os = con.getOutputStream()) {
+//				os.write(this.postParams.getBytes("UTF-8"));  // UTF-8 인코딩 사용
+//				os.flush();
+//			}
+//
+//			int responseCode = con.getResponseCode();
+//			System.out.println("POST Response Code :: " + responseCode);
+//
+//			// 응답 코드가 200일 경우, 즉 성공했을 때
+//			if (responseCode == HttpURLConnection.HTTP_OK) {
+//				try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"))) {
+//					String inputLine;
+//					StringBuilder buf = new StringBuilder();
+//
+//					while ((inputLine = in.readLine()) != null) {
+//						buf.append(inputLine);
+//					}
+//					// 응답 결과 출력
+//					System.out.println(buf.toString());
+//				}
+//			} else {
+//				System.err.println("POST 요청 실패");
+//			}
+//
+//		} catch (IOException ex) {
+//			ex.printStackTrace();  // 예외가 발생하면 스택 트레이스 출력
+//		}
+//	}
 
 
 	/**==============================================================
@@ -175,6 +175,7 @@ public class SMSPush {
 			//실제로 문자를 보내면 금액이 지불되기 때문에
 			//문자 테스트를 할지 여부를 입력
 			String testflag = base64Encode(nullcheck("Y", ""));
+			//String testflag = base64Encode(nullcheck("", ""));
 
 			//이름을 입력 010-000-0000|홍길동
 			String destination = base64Encode(nullcheck("", ""));
@@ -266,7 +267,8 @@ public class SMSPush {
 			InetAddress addr = InetAddress.getByName(host);
 			Socket socket = new Socket(host, port);
 			// server 에서 전달 받은 Socket 에 값을 작성하고
-			// 문자를 방송함
+			// 문자를 발송함
+			
 			BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), charsetType));
 			wr.write("POST "+path+" HTTP/1.0\r\n");
 			wr.write("Content-Length: "+data.length()+"\r\n");

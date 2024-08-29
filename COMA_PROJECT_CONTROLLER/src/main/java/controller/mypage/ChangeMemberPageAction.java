@@ -2,7 +2,7 @@ package controller.mypage;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.member.MemberDAO;
@@ -45,6 +45,7 @@ public class ChangeMemberPageAction implements Action{
 			}
 			data.setMember_profile(request.getServletContext().getContextPath()+ "/profile_img/" + profile);
 			request.setAttribute("data", data);
+			request.setAttribute("MEMBER_ID", login);
 		}
 		forward.setPath(path);
 		forward.setRedirect(flagRedirect);

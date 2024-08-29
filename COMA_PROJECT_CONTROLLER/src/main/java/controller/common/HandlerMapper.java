@@ -6,6 +6,7 @@ import java.util.Map;
 import controller.community.BoardDone;
 import controller.community.BoardInsertAction;
 import controller.community.BoardOnePageAction;
+import controller.community.BoardUpdateAction;
 import controller.community.InsertBoardPageAction;
 import controller.community.ReplyAction;
 import controller.community.ReplyDeleteAction;
@@ -48,7 +49,7 @@ public class HandlerMapper {
 		this.mapper.put("/LOGINACTION.do", new LoginAction()); //로그인 기능
 		this.mapper.put("/SIGNUPACTION.do", new SignUpAction()); //회원가입 기능
 		this.mapper.put("/CHANGEMEMBERACTION.do", new ChangeMemberAction()); //회원정보 수정
-		this.mapper.put("/LOGOUTACTION.do", new LogoutAtion());//로그아웃 페이지
+		this.mapper.put("/LOGOUTPAGEACTION.do", new LogoutAtion());//로그아웃 페이지
 		
 		//-------------------------------------------------------------------------------------------------
 		//MyPage Action
@@ -70,6 +71,7 @@ public class HandlerMapper {
 		
 		//기능 Action
 		this.mapper.put("/BOARDINSERTACTION.do", new BoardInsertAction()); // 글 수정 기능
+		this.mapper.put("/BOARDUPDATEACTION.do", new BoardUpdateAction()); // 글 수정 기능
 		this.mapper.put("/REPLYACTION.do", new ReplyAction()); // 댓글 작성 기능
 		this.mapper.put("/REPLYDELETEACTION.do", new ReplyDeleteAction()); // 댓글 삭제 기능
 		this.mapper.put("/REPLYUPDATEACTION.do", new ReplyUpdateAction()); // 댓글 수정 기능

@@ -54,7 +54,8 @@ public class LoginAPIAction extends HttpServlet {
 		//만약 있으면 session 값에 저장해서 로그인 진행
 		if(memberDTO != null) {
 			System.out.println("LoginAPIAtion memberDTO.member_id 로그 회원 아이디 : "+memberDTO.getMember_id());
-			session.setAttribute("MEMEBER_ID", memberDTO.getMember_id());
+			session.setAttribute("MEMBER_ID", memberDTO.getMember_id());
+			System.out.println(memberDTO.getMember_id());
 			out.print(true);
 		}
 		//만약 없으면 회원가입 페이지로 넘겨서 회원가입할 수 있도록 한다.

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.board.BoardDAO;
@@ -37,7 +37,7 @@ public class MypagePageAction implements Action {
 			BoardDAO boardDAO = new BoardDAO();
 			BoardDTO boardDTO = new BoardDTO();
 			
-			System.out.println(login);
+			System.out.println("MyPage 로그인 정보 로그 : "+login);
 			//사용자 정보 이름, 전화번호, 아이디, 프로필 이미지, 권한 전달
 			memberDTO.setMember_id(login);
 			memberDTO.setMember_condition("MEMBER_SEARCH_ID");
@@ -51,6 +51,7 @@ public class MypagePageAction implements Action {
 			}
 			memberDTO.setMember_profile(request.getServletContext().getContextPath()+ "/profile_img/" + filename);
 			
+			//관리자 권한이 있다면
 			if(memberDTO.getMember_role().equals("T")) {
 				//사용자 정보 이름, 전화번호, 아이디, 프로필 이미지, 권한 전달
 				babymember.setMember_condition("MEMBER_ALL_NEW");
@@ -61,9 +62,14 @@ public class MypagePageAction implements Action {
 			//사용자가 입력한 글 목록 출력 후 전달
 			//boardDTO.setBoard_writer_id(login); 모델에 mypage에서 쓸 컨디션 추가 부탁해야함
 			boardDTO.setBoard_searchKeyword(login);
-			boardDTO.setBoard_condition("BOARD_ALL_SEARCH_ID");
+			//이후 구현 예정
+			System.err.println("MyPagePageAction 로그 페이지 네이션 하드코딩 해둔 상태");
+			boardDTO.setBoard_min_num(0);//페이지 네이션 하드코딩했음
+			boardDTO.setBoard_max_num(300);//페이지 네이션 하드코딩했음
+			//------------------------------------------------------------------
+			boardDTO.setBoard_condition("BOARD_ALL_SEARCH_MATCH_ID");
 			ArrayList<BoardDTO> boardList = boardDAO.selectAll(boardDTO);
-			
+			System.out.println(boardList);
 			request.setAttribute("MEMBER_ID", login);
 			request.setAttribute("MEMBERDATA", memberDTO);
 			request.setAttribute("BOARD", boardList);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.member.LoginCheck;
+import controller.funtion.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.board.BoardDAO;
@@ -56,12 +56,13 @@ public class MainPageAction implements Action{
             // 글 검색 부분
             if(condition.equals("아이디")) {
                 // 아이디로 검색했을 때
-                boardDTO.setBoard_condition("BOARD_ALL_SEARCH_ID"); // 조건 설정
+                boardDTO.setBoard_condition("BOARD_ALL_SEARCH_PATTERN_ID"); // 조건 설정
                 boardDTO.setBoard_searchKeyword(keyword); // 검색 키워드 설정
                 // selectOne 메소드를 호출하여 검색 조건에 맞는 게시글 수를 가져옴
                 
                 BoardDTO boardCount = new BoardDTO();
                 boardCount.setBoard_condition("BOARD_ONE_SEARCH_ID_COUNT");
+                boardCount.setBoard_searchKeyword(keyword);
                 boardCount = boardDAO.selectOne(boardCount);
                 listNum = boardCount.getBoard_total();
                 System.out.println("전체 페이지 개수 (아이디 검색)"+listNum);
@@ -73,7 +74,9 @@ public class MainPageAction implements Action{
                 
                 BoardDTO boardCount = new BoardDTO();
                 boardCount.setBoard_condition("BOARD_ONE_SEARCH_NAME_COUNT");
+                boardCount.setBoard_searchKeyword(keyword);
                 boardCount = boardDAO.selectOne(boardCount);
+                
                 listNum = boardCount.getBoard_total();
                 System.out.println("전체 페이지 개수 (이름 검색)"+listNum);
             }
@@ -84,6 +87,7 @@ public class MainPageAction implements Action{
                 
                 BoardDTO boardCount = new BoardDTO();
                 boardCount.setBoard_condition("BOARD_ONE_SEARCH_TITLE_COUNT");
+                boardCount.setBoard_searchKeyword(keyword);
                 boardCount = boardDAO.selectOne(boardCount);
                 listNum = boardCount.getBoard_total();
                 System.out.println("전체 페이지 개수 (제목 검색)"+listNum);
@@ -112,9 +116,11 @@ public class MainPageAction implements Action{
         ArrayList<BoardDTO> boardList = boardDAO.selectAll(boardDTO); // 설정된 조건으로 게시글 목록 조회
 
         request.setAttribute("BOARD", boardList); // 조회된 게시글 목록을 요청 객체에 저장
-        request.setAttribute("MEMBER_ID", login); // 로그인 정보
         request.setAttribute("totalCount", listNum); // 전체 글 개수
         request.setAttribute("currentPage", pageNum); // 현재 페이지 번호
+        if(login != null) {
+        	request.setAttribute("MEMBER_ID", login);// 로그인 정보
+        } 
         
         forward.setPath(path); // 이동할 페이지 설정
         forward.setRedirect(flagRedirect); // 페이지 이동 방식 설정 (포워드)

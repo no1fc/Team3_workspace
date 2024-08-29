@@ -2,6 +2,7 @@ package controller.member;
 
 import controller.common.Action;
 import controller.common.ActionForward;
+import controller.funtion.LoginCheck;
 import controller.funtion.ProfileUpload;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,11 +36,11 @@ public class ChangeMemberAction implements Action {
 			data.setMember_location(request.getParameter("member_location"));//지역
 			
 			//file 업로드 확인
-			String filname = ProfileUpload.upload(request);
+			String filename = ProfileUpload.upload(request);
 			//uploadfile이 null이 아니라면 DB의 profile 이미지를 변경합니다.
-			if(!filname.isEmpty()){
-				System.out.println("uploadfile not null 로그 : " + filname);
-				data.setMember_profile(filname);//저장한 프로필 이미지로 변경합니다.
+			if(!filename.isEmpty()){
+				System.out.println("uploadfile not null 로그 : " + filename);
+				data.setMember_profile(filename);//저장한 프로필 이미지로 변경합니다.
 				data.setMember_condition("MEMBER_UPDATE_ALL");
 			}
 			else {
@@ -49,7 +50,7 @@ public class ChangeMemberAction implements Action {
 
 			System.out.println(data);
 			//프로필 이미지 저장 로그
-			System.err.println(filname);
+			System.err.println(filename);
 			boolean flag = dao.update(data);
 			
 			if(!flag) {
