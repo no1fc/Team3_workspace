@@ -12,19 +12,21 @@ public class InsertBoardPageAction implements Action{
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 
 		ActionForward forward = new ActionForward();
-		String path = "editing.jsp";
-		boolean flagRedirect = false;//네비게이션 바 때문에 로그인정보 필요 
+		String path = "editing.jsp";//글작성페이지
+		boolean flagRedirect = true;//네비게이션 바 때문에 로그인정보 필요 
 
-		//로그인 정보가 있는지 확인해주고
-		String login = LoginCheck.Success(request, response);
+	      //로그인 정보가 있는지 확인해주고
+	      String login[] = LoginCheck.Success(request, response);
+	      //사용자 아이디
+	      String member_id = login[0];
+
 
 		//만약 로그인 정보가 없다면
-		if(login == null) {
+		if(member_id == null) {
+			//로그인 페이지로 넘어간다
 			path = "LOGINPAGEACTION.do";
 		}
-		else {
-			request.setAttribute("MEMBER_ID", login);//로그인정보를 넘겨준다
-		}
+		
 		//로그인이 되어 있다면
 		//글 작성 페이지로 넘어간다
 		forward.setPath(path);

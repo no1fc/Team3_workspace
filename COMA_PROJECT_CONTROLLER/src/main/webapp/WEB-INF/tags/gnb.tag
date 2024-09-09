@@ -12,12 +12,12 @@
 		</div>
 		<div class=" offcanvas-body py-3">
 			<nav class="navbar h-100 flex-column justify-content-between">
-				<ul class="navbar-nav text-center">
-					<li class="nav-item p-3"><a class="nav-link" href="#">상점</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="#">암벽장</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="#">크루</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="#">랭킹</a></li>
-					<li class="nav-item p-3"><a class="nav-link" href="#">커뮤니티</a></li>
+				<ul class="navbar-nav text-center" >
+					<li class="nav-item p-3"><a class="nav-link gnb-btn" href="#">상점</a></li>
+					<li class="nav-item p-3"><a class="nav-link gnb-btn" href="#">암벽장</a></li>
+					<li class="nav-item p-3"><a class="nav-link gnb-btn" href="#">크루</a></li>
+					<li class="nav-item p-3"><a class="nav-link gnb-btn" href="#">랭킹</a></li>
+					<li class="nav-item p-3"><a class="nav-link gnb-btn" href="#">커뮤니티</a></li>
 				</ul>
 				<ul class="navbar-nav text-center">
 					<c:if test="${empty member_id}">
@@ -63,11 +63,11 @@
 						<img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" />
 					</a>
 					<ul class="navbar-nav">
-						<li class="nav-item"><a class="nav-link" href="#">상점</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">암벽장</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">크루</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">랭킹</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
+						<li class="nav-item"><a class="nav-link gnb-btn" href="#">상점</a></li>
+						<li class="nav-item"><a class="nav-link gnb-btn" href="#">암벽장</a></li>
+						<li class="nav-item"><a class="nav-link gnb-btn" href="#">크루</a></li>
+						<li class="nav-item"><a class="nav-link gnb-btn" href="#">랭킹</a></li>
+						<li class="nav-item"><a class="nav-link gnb-btn" href="#">커뮤니티</a></li>
 					</ul>
 				</nav>
 				<ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
@@ -84,9 +84,22 @@
 							<a class="nav-link" href="LOGOUTPAGEACTION.do"> logout </a>
 						</li>
 					</c:if>
-
 				</ul>
 			</div>
 		</nav>
 		<!-- End Navbar -->
 	</div>
+	<script>
+        // 모든 .nav-link 클래스의 <a> 태그를 선택
+        const links = document.querySelectorAll('.gnb-btn');
+
+        // 각 링크에 클릭 이벤트 리스너 추가
+        links.forEach(link => {
+            link.addEventListener('click', function(event) {
+                // 기본 링크 동작 방지
+                event.preventDefault();
+                // 알림 창 표시
+                alert('서비스 개발중입니다~!');
+            });
+        });
+    </script>

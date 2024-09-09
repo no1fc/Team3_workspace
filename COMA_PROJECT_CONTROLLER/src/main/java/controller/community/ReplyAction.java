@@ -8,46 +8,52 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.reply.ReplyDAO;
 import model.reply.ReplyDTO;
 
-public class ReplyAction implements Action{
+public class ReplyAction implements Action {
 
-	@Override
-	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
-		//댓글달기
-		//댓글의 작성자, 내용, 작성한 글의 번호를 받아서 insert
+    @Override
+    public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
+        // 댓글 달기
+        int reply_board_num = Integer.parseInt(request.getParameter("board_id")); // 댓글 작성할 게시글 번호
 
-		//넘어갈 페이지를 주기 위한 변수
-		int reply_board_num = Integer.parseInt(request.getParameter("board_id"));
+        // 기본으로 넘어가야하는 페이지와 redirect 여부를 설정
+        ActionForward forward = new ActionForward();
+        String path = "BOARDONEPAGEACTION.do?board_num=" + reply_board_num; 
+        // 글 하나 보는 페이지로 돌아오기 위해 해당 댓글의 글번호를 get 방식으로 전달
+        boolean flagRedirect = true; // 리다이렉트 방식 사용
 
-		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
-		ActionForward forward = new ActionForward();
-		String path = "BOARDONEPAGEACTION.do?board_num="+reply_board_num;
-		boolean flagRedirect = true;
+        //로그인 정보가 있는지 확인해주고
+        String login[] = LoginCheck.Success(request, response);
+        //사용자 아이디
+        String member_id = login[0];
+        
+        System.out.println("로그인 확인: " + login);
 
-		//로그인 정보가 있는지 확인해주고
-		String login = LoginCheck.Success(request, response);
+        // 만약 로그인 정보가 없다면
+        if (member_id == null) {
+            // 로그인 페이지로 전달
+            path = "LOGINPAGEACTION.do";
+            
+        } else {
+            // 댓글 작성
+            String reply_content = request.getParameter("reply_content");
+            String reply_writer_id = member_id; // 세션에 있는 사용자의 아이디
 
-		//만약 로그인 정보가 없다면
-		if(login == null) {
-			//로그인 페이지로 전달해줍니다.
-			path = "LOGINPAGEACTION.do";
-		}
-		else {
+            System.out.println("댓글 작성자 ID: " + reply_writer_id);
+            System.out.println("댓글 내용: " + reply_content);
+            System.out.println("댓글 작성할 게시글 번호: " + reply_board_num);
 
-			String reply_content = request.getParameter("reply_content");
-			String reply_writer_id = login;//세션에 있는 사용자의 아이디
-			
-			ReplyDTO replyDTO = new ReplyDTO();
-			ReplyDAO replyDAO = new ReplyDAO();
-			replyDTO.setReply_board_num(reply_board_num);
-			replyDTO.setReply_content(reply_content);
-			
-			replyDTO.setReply_writer_id(reply_writer_id);
-			replyDAO.insert(replyDTO);
-		}		
-		forward.setPath(path);
-		forward.setRedirect(flagRedirect);
-		return forward;
-	}
+            ReplyDTO replyDTO = new ReplyDTO();
+            ReplyDAO replyDAO = new ReplyDAO();
+            replyDTO.setModel_reply_board_num(reply_board_num); // 해당 댓글의 글 번호
+            replyDTO.setModel_reply_content(reply_content); // 댓글 내용
+            replyDTO.setModel_reply_writer_id(reply_writer_id); // 댓글 작성자
 
+            boolean insertResult = replyDAO.insert(replyDTO); // 댓글 삽입
+            
+        }
+
+        forward.setPath(path);
+        forward.setRedirect(flagRedirect);
+        return forward;
+    }
 }
-

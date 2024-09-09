@@ -11,9 +11,6 @@ public class LogoutAtion implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
-		String token = (String)request.getSession().getAttribute("access_token");
-		
-		
 		//request 내장객체를 사용하여 cookies 배열을 가져옵니다.
 		Cookie[] cookies = request.getCookies();
 		//쿠키가 없다면 for문을 실행하지 않습니다.

@@ -43,8 +43,8 @@ public class IDCheckAction extends HttpServlet {
 		boolean flag = false;
 		
 		//view 에서 사용자 ID를 보내주면 MemberDTO 에 값을 추가
-		data.setMember_id(request.getParameter("member_id"));
-		data.setMember_condition("MEMBER_SEARCH_ID");		
+		data.setModel_member_id(request.getParameter("member_id"));
+		data.setModel_member_condition("MEMBER_SEARCH_ID");		
 		//model 에 사용자 ID를 넘겨 값이 있는 지 확인 후
 		data = memberDAO.selectOne(data);
 		

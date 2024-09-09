@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 수정</title>
+<title>코마 : 회원 정보 수정</title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -119,7 +119,6 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<select id="member_location" name="member_location">
-										<option>무건국</option>
 										<option>서울특별시</option>
 										<option>세종특별자치도</option>
 										<option>부산광역시</option>
@@ -136,12 +135,6 @@
 										<option>경상남도</option>
 										<option>경상북도</option>
 										<option>강원도</option>
-										<option>제주도</option>
-										<option>함경북도</option>
-										<option>함경남도</option>
-										<option>평안남도</option>
-										<option>평안북도</option>
-										<option>평양</option>
 
 									</select>
 								</div>

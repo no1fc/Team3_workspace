@@ -3,7 +3,6 @@ package controller.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import controller.community.BoardDone;
 import controller.community.BoardInsertAction;
 import controller.community.BoardOnePageAction;
 import controller.community.BoardUpdateAction;
@@ -11,18 +10,24 @@ import controller.community.InsertBoardPageAction;
 import controller.community.ReplyAction;
 import controller.community.ReplyDeleteAction;
 import controller.community.ReplyUpdateAction;
+import controller.gym.CrewBattleApplicationAction;
+import controller.gym.GymInformationPageAction;
+import controller.gym.GymMainPageAction;
+import controller.gym.GymReservationAction;
 import controller.main.MainPageAction;
 import controller.member.ChangeMemberAction;
+import controller.member.JoinAction;
+import controller.member.JoinPageAction;
 import controller.member.LoginAction;
 import controller.member.LoginPageAction;
 import controller.member.LogoutAtion;
-import controller.member.SignUpAction;
-import controller.member.SignUpPageAction;
 import controller.mypage.BoardDeleteAtion;
 import controller.mypage.BoardUpdatePageAction;
 import controller.mypage.ChangeMemberPageAction;
 import controller.mypage.DeleteMemberAction;
 import controller.mypage.MypagePageAction;
+import controller.ranking.CrewRankingPageAction;
+import controller.ranking.RankingPageAction;
 
 public class HandlerMapper {
 	//Map 에 요청과 Action 값을 저장할 수 있도록 만들어 줍니다
@@ -43,11 +48,11 @@ public class HandlerMapper {
 		//Member Action
 		//Page 이동 Action
 		this.mapper.put("/LOGINPAGEACTION.do", new LoginPageAction()); //로그인 가입 페이지 이동
-		this.mapper.put("/SIGNUPPAGEACTION.do", new SignUpPageAction()); //회원 가입 페이지 이동
+		this.mapper.put("/JOINPAGEACTION.do", new JoinPageAction()); //회원 가입 페이지 이동
 		
 		//기능 Action
 		this.mapper.put("/LOGINACTION.do", new LoginAction()); //로그인 기능
-		this.mapper.put("/SIGNUPACTION.do", new SignUpAction()); //회원가입 기능
+		this.mapper.put("/JOINACTION.do", new JoinAction()); //회원가입 기능
 		this.mapper.put("/CHANGEMEMBERACTION.do", new ChangeMemberAction()); //회원정보 수정
 		this.mapper.put("/LOGOUTPAGEACTION.do", new LogoutAtion());//로그아웃 페이지
 		
@@ -76,6 +81,22 @@ public class HandlerMapper {
 		this.mapper.put("/REPLYDELETEACTION.do", new ReplyDeleteAction()); // 댓글 삭제 기능
 		this.mapper.put("/REPLYUPDATEACTION.do", new ReplyUpdateAction()); // 댓글 수정 기능
 
+		//-------------------------------------------------------------------------------------------------
+		//Ranking Action
+		//Page 이동 Action
+		this.mapper.put("/CrewRankingPage.do", new CrewRankingPageAction()); //크루 랭킹 페이지 이동 
+		this.mapper.put("/RankingPage.do", new RankingPageAction()); //개인 랭킹 페이지 이동
+		
+		//-------------------------------------------------------------------------------------------------
+		//gym Action
+		//Page 이동 Action
+		this.mapper.put("/GymMainPage.do", new GymMainPageAction()); //암벽장 메인 페이지 이동 
+		this.mapper.put("/GymInformationPage.do", new GymInformationPageAction()); //암벽장 메인 페이지 이동 		
+		
+		//기능 Action
+		this.mapper.put("/GymInformationPage.do", new CrewBattleApplicationAction()); //크루전 신청 기능
+		this.mapper.put("/GymInformationPage.do", new GymReservationAction()); //암벽장 기능
+		//암벽장 좋아요 기능은 Servlet 으로 비동기 처리할 예정
 		//-------------------------------------------------------------------------------------------------
 	}
 	

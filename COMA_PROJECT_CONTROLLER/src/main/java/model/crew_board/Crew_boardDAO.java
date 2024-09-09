@@ -76,15 +76,15 @@ public class Crew_boardDAO {
 		try {
 			//크루 커뮤니티 글 pk 검색 C.ID
 			pstmt=conn.prepareStatement(SELECTONE);
-			pstmt.setInt(1, Crew_boardDTO.getCrew_board_id());
+			pstmt.setInt(1, Crew_boardDTO.getModel_crew_board_id());
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				System.out.println("crew_boardDAO.selectOne 맞는 데이터 존재함");
 				data = new Crew_boardDTO();
-				data.setCrew_board_id(rs.getInt("C.ID"));
-				data.setCrew_board_content(rs.getString("C.CONTENT"));
-				data.setCrew_board_writer(rs.getString("M.NAME"));
-				data.setCrew_board_title(rs.getString("C.TITLE"));
+				data.setModel_crew_board_id(rs.getInt("C.ID"));
+				data.setModel_crew_board_content(rs.getString("C.CONTENT"));
+				data.setModel_crew_board_writer(rs.getString("M.NAME"));
+				data.setModel_crew_board_title(rs.getString("C.TITLE"));
 			}
 		} catch (SQLException e) {
 			System.err.println("crew_board.crew_boardDAO.selectOne SQL문 실패");
@@ -102,11 +102,11 @@ public class Crew_boardDAO {
 		PreparedStatement pstmt=null;
 		try {
 			//크루 커뮤니티 글 전체출력
-			if(Crew_boardDTO.getCrew_board_condition().equals("ALL")) {
+			if(Crew_boardDTO.getModel_crew_board_condition().equals("ALL")) {
 				pstmt=conn.prepareStatement(ALL);
 			}
 			//크루 커뮤니티 글 최신 5개만 출력
-			else if(Crew_boardDTO.getCrew_board_condition().equals("ALLROWNUM")) {
+			else if(Crew_boardDTO.getModel_crew_board_condition().equals("ALLROWNUM")) {
 				pstmt=conn.prepareStatement(ALLROWNUM);
 			}
 			else {
@@ -117,10 +117,10 @@ public class Crew_boardDAO {
 			while(rs.next()) {
 				System.out.println(rsCnt+"번행 출력중..");
 				data = new Crew_boardDTO();
-				data.setCrew_board_id(rs.getInt("C.ID"));
-				data.setCrew_board_content(rs.getString("C.CONTENT"));
-				data.setCrew_board_writer(rs.getString("M.NAME"));
-				data.setCrew_board_title(rs.getString("C.TITLE"));
+				data.setModel_crew_board_id(rs.getInt("C.ID"));
+				data.setModel_crew_board_content(rs.getString("C.CONTENT"));
+				data.setModel_crew_board_writer(rs.getString("M.NAME"));
+				data.setModel_crew_board_title(rs.getString("C.TITLE"));
 				datas.add(data);
 				rsCnt++;
 			}
@@ -133,3 +133,4 @@ public class Crew_boardDAO {
 		return datas;
 	}
 }
+

@@ -44,9 +44,9 @@ public class ReplyDAO {
 		try {
 			//댓글작성 reply_content, reply_board_num, reply_writer_id
 			pstmt=conn.prepareStatement(INSERT);
-			pstmt.setString(1, replyDTO.getReply_content());
-			pstmt.setInt(2, replyDTO.getReply_board_num());
-			pstmt.setString(3, replyDTO.getReply_writer_id());
+			pstmt.setString(1, replyDTO.getModel_reply_content());
+			pstmt.setInt(2, replyDTO.getModel_reply_board_num());
+			pstmt.setString(3, replyDTO.getModel_reply_writer_id());
 			int rs = pstmt.executeUpdate();
 			if(rs<=0) {
 				System.err.println("reply.ReplyDAO.insert 실패");
@@ -69,8 +69,8 @@ public class ReplyDAO {
 		try {
 			//댓글 내용 수정 reply_content, reply_num
 			pstmt=conn.prepareStatement(UPDATE);
-			pstmt.setString(1, replyDTO.getReply_content());
-			pstmt.setInt(2, replyDTO.getReply_num());
+			pstmt.setString(1, replyDTO.getModel_reply_content());
+			pstmt.setInt(2, replyDTO.getModel_reply_num());
 			int rs = pstmt.executeUpdate();
 			if(rs<=0) {
 				System.err.println("reply.ReplyDAO.update 실패");
@@ -78,7 +78,7 @@ public class ReplyDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("reply.ReplyDAO.update SQL문 실패");
+			System.err.println("reply.ReplyDAO.update SQL문 실패");
 			return false;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
@@ -93,7 +93,7 @@ public class ReplyDAO {
 		try {
 			//댓글 삭제 reply_num
 			pstmt=conn.prepareStatement(DELETE);
-			pstmt.setInt(1, replyDTO.getReply_num());
+			pstmt.setInt(1, replyDTO.getModel_reply_num());
 			int rs = pstmt.executeUpdate();
 			if(rs<=0) {
 				System.err.println("reply.ReplyDAO.delete 실패");
@@ -101,7 +101,7 @@ public class ReplyDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("reply.ReplyDAO.delete SQL문 실패");
+			System.err.println("reply.ReplyDAO.delete SQL문 실패");
 			return false;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
@@ -110,7 +110,7 @@ public class ReplyDAO {
 		return true;
 	}
 
-	public ReplyDTO selectOne(ReplyDTO replyDTO){//기능 미구현
+	public ReplyDTO selectOne(ReplyDTO replyDTO){
 		System.out.println("reply.ReplyDAO.selectOne 시작");
 		ReplyDTO data = null;
 		Connection conn=JDBCUtil.connect();
@@ -118,16 +118,16 @@ public class ReplyDAO {
 		try {
 			//댓글 선택 SELECTONE REPLY_NUM
 			pstmt=conn.prepareStatement(SELECTONE);
-			pstmt.setInt(1, replyDTO.getReply_num());
+			pstmt.setInt(1, replyDTO.getModel_reply_num());
 			
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				System.out.println("reply.ReplyDAO.selectOne 검색 성공");
 				data = new ReplyDTO();
-				data.setReply_num(rs.getInt("REPLY_NUM"));
-				data.setReply_content(rs.getString("REPLY_CONTENT"));
-				data.setReply_board_num(rs.getInt("REPLY_BOARD_NUM"));
-				data.setReply_writer_id(rs.getString("REPLY_WRITER_ID"));
+				data.setModel_reply_num(rs.getInt("REPLY_NUM"));
+				data.setModel_reply_content(rs.getString("REPLY_CONTENT"));
+				data.setModel_reply_board_num(rs.getInt("REPLY_BOARD_NUM"));
+				data.setModel_reply_writer_id(rs.getString("REPLY_WRITER_ID"));
 			}
 		} catch (SQLException e) {
 			System.err.println("reply.ReplyDAO.selectOne SQL문 실패");
@@ -148,15 +148,14 @@ public class ReplyDAO {
 		try {
 			//해당글에 댓글목록출력 reply_board_num
 			pstmt=conn.prepareStatement(SELECTALL);
-			pstmt.setInt(1,replyDTO.getReply_board_num());
+			pstmt.setInt(1,replyDTO.getModel_reply_board_num());
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				System.out.println(rsCnt+"번행 출력중...");
 				ReplyDTO data = new ReplyDTO();
-				data.setReply_num(rs.getInt("REPLY_NUM"));
-				data.setReply_content(rs.getString("REPLY_CONTENT"));
-				data.setReply_board_num(rs.getInt("REPLY_BOARD_NUM"));
-				data.setReply_writer_id(rs.getString("REPLY_WRITER_ID"));
+				data.setModel_reply_num(rs.getInt("REPLY_NUM"));
+				data.setModel_reply_content(rs.getString("REPLY_CONTENT"));
+				data.setModel_reply_writer_id(rs.getString("REPLY_WRITER_ID"));
 				datas.add(data);
 				rsCnt++;
 			}

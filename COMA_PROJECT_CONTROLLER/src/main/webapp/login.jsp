@@ -175,10 +175,11 @@
       Kakao.init('f68644c7e9866ef898677d5e1a260265');
       // 로그 (true/false로 콘솔창에 출력됨)
       console.log('Kakao SDK 초기화 여부:', Kakao.isInitialized());
-
+	
       // 카카오 로그인 버튼 클릭 이벤트
       document.getElementById('kakao-login-btn').onclick = function() {
-         Kakao.Auth.login({
+    	  //Kakao.Auth.authorize({ // 새창으로 카카오 로그인
+         Kakao.Auth.login({ // 팝업으로 카카오 로그인
             //로그인에 성공했다면
             success : function(authObj) {
                // 카카오 api에게 요청

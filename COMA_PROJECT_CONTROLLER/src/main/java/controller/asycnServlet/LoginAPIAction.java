@@ -47,15 +47,15 @@ public class LoginAPIAction extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		//해당 사용자의 아이디가 있는지 확인해서
-		memberDTO.setMember_condition("MEMBER_SEARCH_ID");
-		memberDTO.setMember_id(api_id);
+		memberDTO.setModel_member_condition("MEMBER_SEARCH_ID");
+		memberDTO.setModel_member_id(api_id);
 		memberDTO = memberDAO.selectOne(memberDTO);
 		
 		//만약 있으면 session 값에 저장해서 로그인 진행
 		if(memberDTO != null) {
-			System.out.println("LoginAPIAtion memberDTO.member_id 로그 회원 아이디 : "+memberDTO.getMember_id());
-			session.setAttribute("MEMBER_ID", memberDTO.getMember_id());
-			System.out.println(memberDTO.getMember_id());
+			System.out.println("LoginAPIAtion memberDTO.member_id 로그 회원 아이디 : "+memberDTO.getModel_member_id());
+			session.setAttribute("MEMBER_ID", memberDTO.getModel_member_id());
+			System.out.println(memberDTO.getModel_member_id());
 			out.print(true);
 		}
 		//만약 없으면 회원가입 페이지로 넘겨서 회원가입할 수 있도록 한다.

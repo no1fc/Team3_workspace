@@ -3,105 +3,143 @@ package model.member;
 import java.sql.Date;
 
 public class MemberDTO {
-	private String member_id; //아이디
-	private String member_name; //이름
-	private String member_password; //비밀번호
-	private String member_phone; //휴대폰 번호
-	private String member_profile; // 프로필사진 url
-	private int member_current_point; //사용가능한 포인트
-	private int member_total_point; //누적포인트
-	private int member_crew_num; //크루 FK
-	private Date member_crew_join_date; //크루 가입날짜
-	private String member_location; //사용자 현재지역
-	private Date member_registration_date; //회원가입날짜
-	private String member_role; //관리자 권한
-	private String member_condition; //개발자 데이터
-	public String getMember_id() {
-		return member_id;
+	private String model_member_id;              //아이디
+	private String model_member_name;            //이름
+	private String model_member_password;        //비밀번호
+	private String model_member_phone;           //휴대폰 번호
+	private String model_member_profile;         // 프로필사진 url
+	private int model_member_current_point;      //사용가능한 포인트
+	private int model_member_total_point;        //누적포인트
+	private int model_member_crew_num;           //크루 FK
+	private String model_member_crew_join_date;    //크루 가입날짜
+	//FIXME SQL DATE형식이라 String으로 변환하여 줄것
+	private String model_member_location;        //사용자 현재지역
+	private Date model_member_registration_date; //회원가입날짜
+	private String model_member_role;            //관리자 권한
+	
+	//DTO에만 존재하는 데이터
+	private String model_member_condition;       //개발자 데이터
+	private String model_member_crew_name;		//사용자가 속한 크루 이름
+	private String model_member_crew_profile;	//사용자가 속한 크루 이미지 url
+	private String model_member_grade_profile;	//사용자가 속한 크루 이미지 url
+	private String model_member_grade_name;	//사용자가 속한 크루 이미지 url
+
+	
+	public String getModel_member_grade_name() {
+		return model_member_grade_name;
 	}
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
+	public void setModel_member_grade_name(String model_member_grade_name) {
+		this.model_member_grade_name = model_member_grade_name;
 	}
-	public String getMember_name() {
-		return member_name;
+	public String getModel_member_grade_profile() {
+		return model_member_grade_profile;
 	}
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
+	public void setModel_member_grade_profile(String model_member_grade_profile) {
+		this.model_member_grade_profile = model_member_grade_profile;
 	}
-	public String getMember_password() {
-		return member_password;
+	public String getModel_member_id() {
+		return model_member_id;
 	}
-	public void setMember_password(String member_password) {
-		this.member_password = member_password;
+	public void setModel_member_id(String model_member_id) {
+		this.model_member_id = model_member_id;
 	}
-	public String getMember_profile() {
-		return member_profile;
+	public String getModel_member_name() {
+		return model_member_name;
 	}
-	public void setMember_profile(String member_profile) {
-		this.member_profile = member_profile;
+	public void setModel_member_name(String model_member_name) {
+		this.model_member_name = model_member_name;
 	}
-	public int getMember_current_point() {
-		return member_current_point;
+	public String getModel_member_password() {
+		return model_member_password;
 	}
-	public void setMember_current_point(int member_current_point) {
-		this.member_current_point = member_current_point;
+	public void setModel_member_password(String model_member_password) {
+		this.model_member_password = model_member_password;
 	}
-	public int getMember_total_point() {
-		return member_total_point;
+	public String getModel_member_phone() {
+		return model_member_phone;
 	}
-	public void setMember_total_point(int member_total_point) {
-		this.member_total_point = member_total_point;
+	public void setModel_member_phone(String model_member_phone) {
+		this.model_member_phone = model_member_phone;
 	}
-	public String getMember_location() {
-		return member_location;
+	public String getModel_member_profile() {
+		return model_member_profile;
 	}
-	public void setMember_location(String member_location) {
-		this.member_location = member_location;
+	public void setModel_member_profile(String model_member_profile) {
+		this.model_member_profile = model_member_profile;
 	}
-	public String getMember_role() {
-		return member_role;
+	public int getModel_member_current_point() {
+		return model_member_current_point;
 	}
-	public void setMember_role(String member_role) {
-		this.member_role = member_role;
+	public void setModel_member_current_point(int model_member_current_point) {
+		this.model_member_current_point = model_member_current_point;
 	}
-	public String getMember_condition() {
-		return member_condition;
+	public int getModel_member_total_point() {
+		return model_member_total_point;
 	}
-	public void setMember_condition(String member_condition) {
-		this.member_condition = member_condition;
+	public void setModel_member_total_point(int model_member_total_point) {
+		this.model_member_total_point = model_member_total_point;
 	}
-	public String getMember_phone() {
-		return member_phone;
+	public int getModel_member_crew_num() {
+		return model_member_crew_num;
 	}
-	public void setMember_phone(String member_phone) {
-		this.member_phone = member_phone;
+	public void setModel_member_crew_num(int model_member_crew_num) {
+		this.model_member_crew_num = model_member_crew_num;
 	}
-	public int getMember_crew_num() {
-		return member_crew_num;
+	public String getModel_member_crew_join_date() {
+		return model_member_crew_join_date;
 	}
-	public void setMember_crew_num(int member_crew_num) {
-		this.member_crew_num = member_crew_num;
+	public void setModel_member_crew_join_date(String model_member_crew_join_date) {
+		this.model_member_crew_join_date = model_member_crew_join_date;
 	}
-	public Date getMember_crew_join_date() {
-		return member_crew_join_date;
+	public String getModel_member_location() {
+		return model_member_location;
 	}
-	public void setMember_crew_join_date(Date member_crew_join_date) {
-		this.member_crew_join_date = member_crew_join_date;
+	public void setModel_member_location(String model_member_location) {
+		this.model_member_location = model_member_location;
 	}
-	public Date getMember_registration_date() {
-		return member_registration_date;
+	public Date getModel_member_registration_date() {
+		return model_member_registration_date;
 	}
-	public void setMember_registration_date(Date member_registration_date) {
-		this.member_registration_date = member_registration_date;
+	public void setModel_member_registration_date(Date model_member_registration_date) {
+		this.model_member_registration_date = model_member_registration_date;
+	}
+	public String getModel_member_role() {
+		return model_member_role;
+	}
+	public void setModel_member_role(String model_member_role) {
+		this.model_member_role = model_member_role;
+	}
+	public String getModel_member_condition() {
+		return model_member_condition;
+	}
+	public void setModel_member_condition(String model_member_condition) {
+		this.model_member_condition = model_member_condition;
+	}
+	public String getModel_member_crew_name() {
+		return model_member_crew_name;
+	}
+	public void setModel_member_crew_name(String model_member_crew_name) {
+		this.model_member_crew_name = model_member_crew_name;
+	}
+	public String getModel_member_crew_profile() {
+		return model_member_crew_profile;
+	}
+	public void setModel_member_crew_profile(String model_member_crew_profile) {
+		this.model_member_crew_profile = model_member_crew_profile;
 	}
 	@Override
 	public String toString() {
-		return "MemberDTO [member_id=" + member_id + ", member_name=" + member_name + ", member_password="
-				+ member_password + ", member_phone=" + member_phone + ", member_profile=" + member_profile
-				+ ", member_current_point=" + member_current_point + ", member_total_point=" + member_total_point
-				+ ", member_crew_num=" + member_crew_num + ", member_crew_join_date=" + member_crew_join_date
-				+ ", member_location=" + member_location + ", member_registration_date=" + member_registration_date
-				+ ", member_role=" + member_role + ", member_condition=" + member_condition + "]";
+		return "MemberDTO [model_member_id=" + model_member_id + ", model_member_name=" + model_member_name
+				+ ", model_member_password=" + model_member_password + ", model_member_phone=" + model_member_phone
+				+ ", model_member_profile=" + model_member_profile + ", model_member_current_point="
+				+ model_member_current_point + ", model_member_total_point=" + model_member_total_point
+				+ ", model_member_crew_num=" + model_member_crew_num + ", model_member_crew_join_date="
+				+ model_member_crew_join_date + ", model_member_location=" + model_member_location
+				+ ", model_member_registration_date=" + model_member_registration_date + ", model_member_role="
+				+ model_member_role + ", model_member_condition=" + model_member_condition + ", model_member_crew_name="
+				+ model_member_crew_name + ", model_member_crew_profile=" + model_member_crew_profile + "]";
 	}
+	
+	
 	
 }
