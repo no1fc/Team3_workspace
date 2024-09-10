@@ -1,11 +1,11 @@
 package model.crew_board;
 
 public class Crew_boardDTO {
-	private int model_crew_board_id;            //크루 글 번호
-	private String model_crew_board_writer;     //크루 글 작성자
+	private int model_crew_board_num;            //크루 글 번호
+	private String model_crew_board_writer_id;     //크루 글 작성자
 	private String model_crew_board_content;    //크루 글 내용
 	private String model_crew_board_title;      //크루 글 제목
-	
+	private int model_crew_board_cnt; 		//크루 글 조회수
 	
 	//DTO에만 존재하는 데이터 
 	private int model_crew_board_total;		      // 전체 커뮤니티 게시글 총 개수
@@ -13,20 +13,28 @@ public class Crew_boardDTO {
 	private int model_crew_board_min_num;	      // 페이지네이션 데이터
 	private String model_crew_board_condition;  // 개발자 데이터
 
-	public int getModel_crew_board_id() {
-		return model_crew_board_id;
+
+	public int getModel_crew_board_num() {
+		return model_crew_board_num;
 	}
 
-	public void setModel_crew_board_id(int model_crew_board_id) {
-		this.model_crew_board_id = model_crew_board_id;
+	public void setModel_crew_board_num(int model_crew_board_num) {
+		this.model_crew_board_num = model_crew_board_num;
 	}
 
-	public String getModel_crew_board_writer() {
-		return model_crew_board_writer;
+	public String getModel_crew_board_writer_id() {
+		return model_crew_board_writer_id;
 	}
 
-	public void setModel_crew_board_writer(String model_crew_board_writer) {
-		this.model_crew_board_writer = model_crew_board_writer;
+	public void setModel_crew_board_writer_id(String model_crew_board_writer_id) {
+		this.model_crew_board_writer_id = model_crew_board_writer_id;
+	}
+	public int getModel_crew_board_cnt() {
+		return model_crew_board_cnt;
+	}
+
+	public void setModel_crew_board_cnt(int model_crew_board_cnt) {
+		this.model_crew_board_cnt = model_crew_board_cnt;
 	}
 
 	public String getModel_crew_board_content() {
@@ -79,12 +87,13 @@ public class Crew_boardDTO {
 
 	@Override
 	public String toString() {
-		return "Crew_boardDTO [model_crew_board_id=" + model_crew_board_id + ", model_crew_board_writer="
-				+ model_crew_board_writer + ", model_crew_board_content=" + model_crew_board_content
-				+ ", model_crew_board_title=" + model_crew_board_title + ", model_crew_board_total="
-				+ model_crew_board_total + ", model_crew_board_max_num=" + model_crew_board_max_num
-				+ ", model_crew_board_min_num=" + model_crew_board_min_num + ", model_crew_board_condition="
-				+ model_crew_board_condition + "]";
+		return "Crew_boardDTO [model_crew_board_num=" + model_crew_board_num + ", model_crew_board_writer_id="
+				+ model_crew_board_writer_id + ", model_crew_board_content=" + model_crew_board_content
+				+ ", model_crew_board_title=" + model_crew_board_title + ", model_crew_board_cnt="
+				+ model_crew_board_cnt + ", model_crew_board_total=" + model_crew_board_total
+				+ ", model_crew_board_max_num=" + model_crew_board_max_num + ", model_crew_board_min_num="
+				+ model_crew_board_min_num + ", model_crew_board_condition=" + model_crew_board_condition + "]";
 	}
+
 	
 }

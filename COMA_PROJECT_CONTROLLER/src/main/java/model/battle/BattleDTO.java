@@ -1,14 +1,19 @@
 package model.battle;
 
-import java.sql.Date;
 
 public class BattleDTO {
 	private int model_battle_num;	 			        // 크루전 PK
 	private int model_battle_gym_num; 		      	// 암벽장 번호 FK
-	private Date model_battle_registration_date; // 크루전 등록날짜
-	private Date model_battle_game_date; 		    // 크루전의 실제 게임하는 날짜
+	private String model_battle_registration_date; // 크루전 등록날짜
+	//FIXME SQL DATE형식이라 String으로 변환하여 줄것
+	private String model_battle_game_date; 		    // 크루전의 실제 게임하는 날짜
+	//FIXME SQL DATE형식이라 String으로 변환하여 줄것
 	
 	//DTO에만 존재하는 데이터
+	private String model_battle_gym_name;	//크루전 참여크루 이름
+	private String model_battle_gym_profile;	//크루전 참여크루 사진 url
+	private String model_battle_gym_location;	//크루전 참여크루 지역
+	private	int model_battle_crew_num;		//크루전 참여 크루 번호
 	private int model_battle_total;			       // 전체 게시글 총수 
 	private int model_battle_max_num; 		       // 페이지네이션 데이터
 	private int model_battle_min_num;  		     // 페이지네이션 데이터
@@ -25,16 +30,16 @@ public class BattleDTO {
 	public void setModel_battle_gym_num(int model_battle_gym_num) {
 		this.model_battle_gym_num = model_battle_gym_num;
 	}
-	public Date getModel_battle_registration_date() {
+	public String getModel_battle_registration_date() {
 		return model_battle_registration_date;
 	}
-	public void setModel_battle_registration_date(Date model_battle_registration_date) {
+	public void setModel_battle_registration_date(String model_battle_registration_date) {
 		this.model_battle_registration_date = model_battle_registration_date;
 	}
-	public Date getModel_battle_game_date() {
+	public String getModel_battle_game_date() {
 		return model_battle_game_date;
 	}
-	public void setModel_battle_game_date(Date model_battle_game_date) {
+	public void setModel_battle_game_date(String model_battle_game_date) {
 		this.model_battle_game_date = model_battle_game_date;
 	}
 	public int getModel_battle_total() {
@@ -61,14 +66,39 @@ public class BattleDTO {
 	public void setModel_battle_condition(String model_battle_condition) {
 		this.model_battle_condition = model_battle_condition;
 	}
+	public String getModel_battle_gym_name() {
+		return model_battle_gym_name;
+	}
+	public void setModel_battle_gym_name(String model_battle_gym_name) {
+		this.model_battle_gym_name = model_battle_gym_name;
+	}
+	public String getModel_battle_gym_profile() {
+		return model_battle_gym_profile;
+	}
+	public void setModel_battle_gym_profile(String model_battle_gym_profile) {
+		this.model_battle_gym_profile = model_battle_gym_profile;
+	}
+	public String getModel_battle_gym_location() {
+		return model_battle_gym_location;
+	}
+	public void setModel_battle_gym_location(String model_battle_gym_location) {
+		this.model_battle_gym_location = model_battle_gym_location;
+	}
+	public int getModel_battle_crew_num() {
+		return model_battle_crew_num;
+	}
+	public void setModel_battle_crew_num(int model_battle_crew_num) {
+		this.model_battle_crew_num = model_battle_crew_num;
+	}
 	@Override
 	public String toString() {
 		return "BattleDTO [model_battle_num=" + model_battle_num + ", model_battle_gym_num=" + model_battle_gym_num
 				+ ", model_battle_registration_date=" + model_battle_registration_date + ", model_battle_game_date="
-				+ model_battle_game_date + ", model_battle_total=" + model_battle_total + ", model_battle_max_num="
-				+ model_battle_max_num + ", model_battle_min_num=" + model_battle_min_num + ", model_battle_condition="
+				+ model_battle_game_date + ", model_battle_gym_name=" + model_battle_gym_name
+				+ ", model_battle_gym_profile=" + model_battle_gym_profile + ", model_battle_gym_location="
+				+ model_battle_gym_location + ", model_battle_crew_num=" + model_battle_crew_num
+				+ ", model_battle_total=" + model_battle_total + ", model_battle_max_num=" + model_battle_max_num
+				+ ", model_battle_min_num=" + model_battle_min_num + ", model_battle_condition="
 				+ model_battle_condition + "]";
 	}
-	
-	
 }

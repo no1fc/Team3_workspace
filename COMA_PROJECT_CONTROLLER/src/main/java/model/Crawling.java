@@ -13,7 +13,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import model.board.BoardDTO;
 import model.product.ProductDTO;
 
-
 public class Crawling {
 	private WebDriver driver;
 	private String target_url;
@@ -23,7 +22,7 @@ public class Crawling {
 		// 크롬 옵션 설정
 		ChromeOptions options = new ChromeOptions();
 		// 헤드리스 모드 추가 (코드 실행시 크롬창이 뜨지않게 함)
-		//options.addArguments("--headless");
+		options.addArguments("--headless");
 		// 팝업창 제거 옵션 추가
 		options.addArguments("--disable-popup-blocking");
 		//GPU 가속 비활성화

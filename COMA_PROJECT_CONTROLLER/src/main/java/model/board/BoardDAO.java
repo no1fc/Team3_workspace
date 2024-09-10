@@ -32,7 +32,7 @@ public class BoardDAO {
 			+ ")\r\n"
 			+ "WHERE RN BETWEEN ? AND ?";
 
-	// 최신글5개 검색 
+	// 최신글6개 검색 
 	private final String ALL_ROWNUM = "SELECT \r\n"
 			+ "    BOARD_NUM,\r\n"
 			+ "    BOARD_TITLE,\r\n"
@@ -57,7 +57,7 @@ public class BoardDAO {
 			+ "    ORDER BY \r\n"
 			+ "        B.BOARD_NUM DESC\r\n"
 			+ ")\r\n"
-			+ "WHERE ROWNUM <= 5";
+			+ "WHERE ROWNUM <= 6";
 
 	// 전체 글 개수 FIXME TOTAL
 	private final String ONE_COUNT = "SELECT COUNT(*) AS BOARD_TOTAL FROM BOARD";
@@ -326,7 +326,7 @@ public class BoardDAO {
 				return null;
 			}
 			//FIXME
-			System.out.println("sqlq = "+sqlq);
+			System.out.println("쿼리수행결과 구분용 데이터 = "+sqlq);
 	         ResultSet rs = pstmt.executeQuery();
 	         boolean flag = rs.next();
 	         if (flag && sqlq.equals("one")) {
@@ -394,7 +394,7 @@ public class BoardDAO {
 				pstmt.setInt(1, boardDTO.getModel_board_min_num());
 				pstmt.setInt(2, boardDTO.getModel_board_max_num());
 			}
-			// 최신글5개 검색 
+			// 최신글6개 검색 
 			else if(boardDTO.getModel_board_condition().equals("BOARD_ALL_ROWNUM")) {
 				pstmt = conn.prepareStatement(ALL_ROWNUM);
 			}

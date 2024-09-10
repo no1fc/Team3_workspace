@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코마 : 마이 페이지</title>
+<title>Insert title here</title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -33,7 +33,7 @@
 						<div class="row">
 							<div class="col-12 d-flex justify-content-center">
 								<div class="avatar avatar-xxl">
-									<img src="${MEMBERDATA.member_profile}"
+									<img src="${MEMBERDATA.model_member_profile}"
 										class="avatar-img rounded-circle" alt="profile image" />
 								</div>
 							</div>
@@ -41,9 +41,9 @@
 						<div class="row">
 							<div class="col-12">
 								<div class="info-user pt-4 pb-4">
-									<h5>이름 : ${MEMBERDATA.member_name}</h5>
-									<h5>전화번호 : ${MEMBERDATA.member_phone}</h5>
-									<h5>이메일 : ${MEMBERDATA.member_id}</h5>
+									<h5>이름 : ${MEMBERDATA.model_member_name}</h5>
+									<h5>전화번호 : ${MEMBERDATA.model_member_phone}</h5>
+									<h5>이메일 : ${MEMBERDATA.model_member_id}</h5>
 								</div>
 							</div>
 						</div>
@@ -74,28 +74,32 @@
 									내가 작성한 글 관리 
 								</a>
 							</li>
-							<c:if test="${MEMBERDATA.member_role == 'T'}">
+							<c:if test="${MEMBERDATA.model_member_role == 'T'}">
 								<li class="nav-item"><a class="nav-link" id="line-crew-tab"
 									data-bs-toggle="pill" href="#line-crew" role="tab"
 									aria-controls="pills-crew" aria-selected="false"> 신규 회원 관리 </a>
 								</li>
 							</c:if>
+							<li class="nav-item"><a class="nav-link"
+								id="line-reservation-tab" data-bs-toggle="pill"
+								href="#line-reservation" role="tab"
+								aria-controls="pills-reservation" aria-selected="true"> 예약 관리 </a>
+							</li>
 						</ul>
 						<div class="tab-content mt-3 mb-3" id="line-tabContent">
 							<div class="tab-pane fade show active" id="line-post"
 								role="tabpanel" aria-labelledby="line-post-tab">
 								<table class="w-100">
 									<tbody>
-										<tr ><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 										<c:forEach var="board" items="${BOARD}">
 											<tr>
-												<td colspan=5><a href="BOARDONEPAGEACTION.do?board_num=${board.board_num}"
-													class="text-muted"> ${board.board_title} </a></td>
+												<td colspan=5><a href="BOARDONEPAGEACTION.do?board_num=${board.model_board_num}"
+													class="text-muted"> ${board.model_board_title} </a></td>
 												<td align="right">
 													<button class="btn btn-primary me-3"
-														onclick="location.href='BOARDUPDATAPAGEACTION.do?board_num=${board.board_num}'">수정</button>
+														onclick="location.href='BOARDUPDATAPAGEACTION.do?board_num=${board.model_board_num}'">수정</button>
 													<button class="btn btn-danger"
-														onclick="deleteBoard(${board.board_num})">삭제</button>
+														onclick="deleteBoard(${board.model_board_num})">삭제</button>
 												</td>
 											</tr>
 										</c:forEach>
@@ -108,10 +112,40 @@
 									<div class="col-12 text-center">
 										<h3>신규 회원 목록</h3>
 										<c:forEach var="newmember" items="${MEMBER_LIST}">
-											<p>${newmember.member_name}</p>
+											<p>${newmember.model_member_name}</p>
 										</c:forEach>
 									</div>
 								</div>
+							</div>
+							<div class="tab-pane fade" id="line-reservation" role="tabpanel"
+								aria-labelledby="line-post-tab">
+								<table class="w-100">
+									<tbody>
+										<c:forEach var="reservation" items="${model_reservation_datas}">
+											<tr>
+												<td colspan="2">
+													<p>암벽장명</p>
+													<p>
+														<a href="MypagePageAction.do?model_reservation_gym_num=${reservation.model_reservation_gym_num}">
+															${reservation.model_reservation_gym_name}
+														</a>
+													</p>
+												</td>
+												<td colspan="2">
+													<p>날짜</p>
+													<p>${reservation.model_reservation_date}</p>
+												</td>
+												<td colspan="2">
+													<p>가격</p>
+													<p>${reservation.model_reservation_price}</p>
+												</td>
+												<td align="right">
+													<button type="button" onclick="deleteReservation(${reservation.model_reservation_num})" class="btn btn-danger">예약 취소</button>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -128,10 +162,14 @@
 	<script type="text/javascript">
 		function deleteBoard(boardNum){
 			if(confirm('정말 삭제하시겠습니까?')){
-				location.href='BOARDDELETEACTION.do?board_num='+boardNum;
+				location.href='BOARDDELETEACTION.do?model_board_num='+boardNum;
 			}
 		}
-	
+		function deleteReservation(reservationNum){
+			if(confirm('정말 예약을 취소하시겠습니까?')){
+				location.href='RESERVATIONDELETEACTION.do?model_reservation_num='+reservationNum;
+			}
+		}
 	</script>
 </body>
 

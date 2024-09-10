@@ -12,4 +12,20 @@
     <error-code>500</error-code>
     <location>/error/500error.jsp</location>
   </error-page>
+  <listener>
+    <listener-class>model.SampleListener</listener-class>
+  </listener>
+  <servlet>
+    <description></description>
+    <display-name>FileTestServlet</display-name>
+    <servlet-name>FileTestServlet</servlet-name>
+    <servlet-class>controller.asycnServlet.FileTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileTestServlet</servlet-name>
+    <url-pattern>/FileTestServlet</url-pattern>
+  </servlet-mapping>
+  <listener>
+    <listener-class>controller.common.FileManager</listener-class>
+  </listener>
 </web-app>

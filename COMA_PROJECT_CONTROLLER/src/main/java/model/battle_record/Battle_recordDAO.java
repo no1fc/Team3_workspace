@@ -1,29 +1,269 @@
 package model.battle_record;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.reply.ReplyDTO;
+import model.JDBCUtil;
 
 public class Battle_recordDAO {
-	public boolean insert(Battle_recordDTO replyDTO) {
-		return true;
-	}
-	public boolean update(Battle_recordDTO replyDTO) {
-		return true;
-	}
-	public boolean delete(Battle_recordDTO replyDTO) {
-		return true;
-	}
+	//내 크루 승리목록 전부 출력 BATTLE_RECORD_CREW_NUM
+	private final String ALL_WINNER = "SELECT\r\n"
+			+ "	BR.BATTLE_RECORD_NUM,\r\n"
+			+ "	BR.BATTLE_RECORD_BATTLE_NUM,\r\n"
+			+ "	BR.BATTLE_RECORD_CREW_NUM,\r\n"
+			+ "	BR.BATTLE_RECORD_IS_WINNER,\r\n"
+			+ "	BR.BATTLE_RECORD_MVP_ID\r\n"
+			+ "FROM\r\n"
+			+ "	BATTLE_RECORD BR\r\n"
+			+ "JOIN\r\n"
+			+ "	CREW C\r\n"
+			+ "ON\r\n"
+			+ "	BR.BATTLE_RECORD_CREW_NUM = C.CREW_NUM\r\n"
+			+ "JOIN\r\n"
+			+ "	BATTLE B\r\n"
+			+ "ON\r\n"
+			+ "	BR.BATTLE_RECORD_BATTLE_NUM = B.BATTLE_NUM\r\n"
+			+ "WHERE\r\n"
+			+ "	BR.BATTLE_RECORD_IS_WINNER = 'T' \r\n"
+			+ "	AND BR.BATTLE_RECORD_CREW_NUM = ?";
 
-	public Battle_recordDTO selectOne(Battle_recordDTO replyDTO){
-		System.out.println("reply.ReplyDAO.selectOne 시작");
+	//해당 크루전 내용 BATTLE_RECORD_BATTLE_NUM
+	private final String ONE_BATTLE = "SELECT\r\n"
+			+ "	BR.BATTLE_RECORD_NUM,\r\n"
+			+ "	G.GYM_NAME,\r\n"
+			+ "	G.GYM_LOCATION,\r\n"
+			+ "	B.BATTLE_GAME_DATE\r\n"
+			+ "FROM\r\n"
+			+ "	BATTLE_RECORD BR\r\n"
+			+ "JOIN\r\n"
+			+ "	BATTLE B\r\n"
+			+ "ON\r\n"
+			+ "	B.BATTLE_NUM = BR.BATTLE_RECORD_BATTLE_NUM\r\n"
+			+ "JOIN\r\n"
+			+ "	CREW C\r\n"
+			+ "ON\r\n"
+			+ "	BR.BATTLE_RECORD_CREW_NUM = C.CREW_NUM\r\n"
+			+ "JOIN\r\n"
+			+ "	GYM G\r\n"
+			+ "ON\r\n"
+			+ "	B.BATTLE_GYM_NUM = G.GYM_NUM\r\n"
+			+ "WHERE\r\n"
+			+ "	B.BATTLE_NUM = ?";
+	
+	//해당 크루전 참가한 크루 개수 BATTLE_RECORD_BATTLE_NUM
+	private final String ONE_COUNT_CREW = "SELECT\r\n"
+			+ "    BR.BATTLE_RECORD_BATTLE_NUM,\r\n"
+			+ "    COUNT(DISTINCT BR.BATTLE_RECORD_CREW_NUM) OVER (PARTITION BY B.BATTLE_NUM) AS BATTLE_CREW_TOTAL\r\n"
+			+ "FROM\r\n"
+			+ "    BATTLE_RECORD BR\r\n"
+			+ "JOIN\r\n"
+			+ "    BATTLE B \r\n"
+			+ "ON \r\n"
+			+ "    B.BATTLE_NUM = BR.BATTLE_RECORD_BATTLE_NUM\r\n"
+			+ "WHERE\r\n"
+			+ "    BR.BATTLE_RECORD_BATTLE_NUM = ?";
+	
+	//해당 크루전 참가한 크루 전부 출력 BATTLE_RECORD_BATTLE_NUM
+	private final String ALL_PARTICIPANT_CREW = "SELECT\r\n"
+			+ "	BR.BATTLE_RECORD_BATTLE_NUM,\r\n"
+			+ "	BR.BATTLE_RECORD_IS_WINNER,\r\n"
+			+ "	BR.BATTLE_RECORD_MVP_ID,\r\n"
+			+ "	BR.BATTLE_RECORD_CREW_NUM,\r\n"
+			+ "	C.CREW_NAME,\r\n"
+			+ "	C.CREW_LEADER\r\n"
+			+ "FROM\r\n"
+			+ "	BATTLE_RECORD BR\r\n"
+			+ "JOIN\r\n"
+			+ "	CREW C\r\n"
+			+ "ON\r\n"
+			+ "	BR.BATTLE_RECORD_CREW_NUM = C.CREW_NUM\r\n"
+			+ "WHERE\r\n"
+			+ "	BR.BATTLE_RECORD_BATTLE_NUM = ?";
+	
+	//크루전 등록 BATTLE_RECORD_BATTLE_NUM, BATTLE_RECORD_CREW_NUM
+	private final String INSERT = "INSERT INTO BATTLE_RECORD(BATTLE_RECORD_NUM,BATTLE_RECORD_BATTLE_NUM,BATTLE_RECORD_CREW_NUM)\r\n"
+			+ "VALUES ((SELECT NVL(MAX(BATTLE_RECORD_NUM),0)+1 FROM BATTLE_RECORD),?,?)";
+	
+	//크루전 승리크루 업데이트 BATTLE_RECORD_IS_WINNER, BATTLE_RECORD_MVP_ID, BATTLE_RECORD_BATTLE_NUM, BATTLE_RECORD_CREW_NUM
+	private final String UPDATE = "UPDATE \r\n"
+			+ "	BATTLE_RECORD \r\n"
+			+ "SET \r\n"
+			+ "	BATTLE_RECORD_IS_WINNER = ?,\r\n"
+			+ "	BATTLE_RECORD_MVP_ID = ?\r\n"
+			+ "WHERE \r\n"
+			+ "	BATTLE_RECORD_BATTLE_NUM = ? \r\n"
+			+ "	AND BATTLE_RECORD_CREW_NUM = ?";
+	
+	public boolean insert(Battle_recordDTO battle_recordDTO) {
+		System.out.println("battle_record.Battle_recordDAO.insert 시작");
+		Connection conn=JDBCUtil.connect();
+		PreparedStatement pstmt=null;
+		try {
+			//크루전 등록 BATTLE_RECORD_BATTLE_NUM, BATTLE_RECORD_CREW_NUM
+			pstmt=conn.prepareStatement(INSERT);
+			pstmt.setInt(1, battle_recordDTO.getModel_battle_record_battle_num());
+			pstmt.setInt(2, battle_recordDTO.getModel_battle_record_crew_num());
+			int rs = pstmt.executeUpdate();
+			if(rs<=0) {
+				System.err.println("battle_record.Battle_recordDAO.insert 실패");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("battle_record.Battle_recordDAO.insert SQL문 실패");
+			return false;
+		}finally {
+			JDBCUtil.disconnect(pstmt,conn);
+		}
+		System.out.println("battle_record.Battle_recordDAO.insert 성공");
+		return true;
+	}
+	public boolean update(Battle_recordDTO battle_recordDTO) {
+		System.out.println("battle_record.Battle_recordDAO.update 시작");
+		Connection conn=JDBCUtil.connect();
+		PreparedStatement pstmt=null;
+		try {
+			//크루전 승리크루 업데이트 BATTLE_RECORD_IS_WINNER, BATTLE_RECORD_MVP_ID, BATTLE_RECORD_BATTLE_NUM, BATTLE_RECORD_CREW_NUM
+			pstmt=conn.prepareStatement(UPDATE);
+			pstmt.setString(1, battle_recordDTO.getModel_battle_record_is_winner());
+			pstmt.setString(2, battle_recordDTO.getModel_battle_record_mvp_id());
+			pstmt.setInt(3, battle_recordDTO.getModel_battle_record_battle_num());
+			pstmt.setInt(4, battle_recordDTO.getModel_battle_record_crew_num());
+			int rs = pstmt.executeUpdate();
+			if(rs<=0) {
+				System.err.println("battle_record.Battle_recordDAO.update 실패");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.err.println("battle_record.Battle_recordDAO.update SQL문 실패");
+			return false;
+		}finally {
+			JDBCUtil.disconnect(pstmt,conn);
+		}
+		System.out.println("battle_record.Battle_recordDAO.update 성공");
+		return true;
+	}
+	private boolean delete(Battle_recordDTO battle_recordDTO) {
+		System.err.println("battle_record.Battle_recordDAO.delete 시작");
+		Connection conn=JDBCUtil.connect();
+		PreparedStatement pstmt=null;
+		try {
+			pstmt=conn.prepareStatement("");
+			int rs = pstmt.executeUpdate();
+			if(rs<=0) {
+				System.err.println("battle_record.Battle_recordDAO.delete 실패");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.err.println("battle_record.Battle_recordDAO.delete SQL문 실패");
+			return false;
+		}finally {
+			JDBCUtil.disconnect(pstmt,conn);
+		}
+		System.out.println("battle_record.Battle_recordDAO.delete 성공");
+		return true;
+	}
+	public Battle_recordDTO selectOne(Battle_recordDTO battle_recordDTO){
+		System.out.println("battle_record.Battle_recordDAO.selectOne 시작");
 		Battle_recordDTO data = null;
+		String sqlq; // 쿼리수행결과 구분용 데이터
+		Connection conn=JDBCUtil.connect();
+		PreparedStatement pstmt=null;
+		try {
+			//해당 크루전 내용 BATTLE_RECORD_BATTLE_NUM
+			if(battle_recordDTO.getModel_battle_record_conditon().equals("BATTLE_RECORD_ONE_BATTLE")) {
+				pstmt=conn.prepareStatement(ONE_BATTLE);
+				pstmt.setInt(1, battle_recordDTO.getModel_battle_record_battle_num());
+				sqlq = "one";
+			}
+			//해당 크루전 참가한 크루 개수 BATTLE_RECORD_BATTLE_NUM
+			else if(battle_recordDTO.getModel_battle_record_conditon().equals("BATTLE_RECORD_ONE_COUNT_CREW")) {
+				pstmt=conn.prepareStatement(ONE_COUNT_CREW);
+				pstmt.setInt(1, battle_recordDTO.getModel_battle_record_battle_num());
+				sqlq = "count";
+			}
+			else {
+				System.err.println("condition 틀림");
+				return null;
+			}
+			
+			ResultSet rs = pstmt.executeQuery();
+			boolean flag = rs.next();
+			if(flag && sqlq.equals("one")) {
+				System.out.println("battle_record.Battle_recordDAO.selectOne 검색 성공");
+				data = new Battle_recordDTO();
+				data.setModel_battle_record_num(rs.getInt("BATTLE_RECORD_NUM"));
+				data.setModel_battle_record_battle_num(rs.getInt("BATTLE_RECORD_BATTLE_NUM"));
+				data.setModel_battle_record_crew_num(rs.getInt("BATTLE_RECORD_CREW_NUM"));
+				data.setModel_battle_record_is_winner(rs.getString("BATTLE_RECORD_IS_WINNER"));
+				data.setModel_battle_record_mvp_id(rs.getString("BATTLE_RECORD_MVP_ID"));
+				data.setModel_battle_record_crew_leader(rs.getString("C.CREW_LEADER"));
+				data.setModel_battle_record_crew_name(rs.getString("C.CREW_NAME"));
+			}
+			else if (flag && sqlq.equals("count")) {
+	            System.out.println("BoardDAO.selectOne 검색 성공");
+	            data = new Battle_recordDTO();
+	            data.setModel_battle_record_total(rs.getInt("BATTLE_RECORD_CREW_TOTAL"));
+	         }
+		} catch (SQLException e) {
+			System.err.println("battle_record.Battle_recordDAO.selectOne SQL문 실패");
+			return null;
+		}finally {
+			JDBCUtil.disconnect(pstmt,conn);
+		}
+		System.out.println("battle_record.Battle_recordDAO.selectOne 성공");
 		return data;
 	}
 
-	public ArrayList<Battle_recordDTO> selectAll(Battle_recordDTO replyDTO){
-		System.out.println("reply.ReplayDAO.selectAll 시작");
+	public ArrayList<Battle_recordDTO> selectAll(Battle_recordDTO battle_recordDTO){
+		System.out.println("battle_record.Battle_recordDAO.selectAll 시작");
 		ArrayList<Battle_recordDTO> datas = new ArrayList<Battle_recordDTO>();
+		int rsCnt=1;//로그용
+		Connection conn = JDBCUtil.connect();
+		PreparedStatement pstmt = null;
+		try {
+			//내 크루 승리목록 전부 출력 CREW_NUM
+			if(battle_recordDTO.getModel_battle_record_conditon().equals("BATTLE_RECORD_ALL_WINNER")) {
+				pstmt=conn.prepareStatement(ALL_WINNER);
+				pstmt.setInt(1,battle_recordDTO.getModel_battle_record_crew_num());
+			}
+			//해당 크루전 참가한 크루 전부 출력 BATTLE_RECORD_BATTLE_NUM
+			else if(battle_recordDTO.getModel_battle_record_conditon().equals("BATTLE_RECORD_ALL_PARTICIPANT_CREW")) {
+				pstmt=conn.prepareStatement(ALL_PARTICIPANT_CREW);
+				pstmt.setInt(1, battle_recordDTO.getModel_battle_record_battle_num());
+			}
+			else {
+				System.err.println("condition 틀림");
+				return datas;
+			}
+
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				System.out.println(rsCnt+"번행 출력중...");
+				Battle_recordDTO data = new Battle_recordDTO();
+				data.setModel_battle_record_num(rs.getInt("BATTLE_RECORD_NUM"));
+				data.setModel_battle_record_battle_num(rs.getInt("BATTLE_RECORD_BATTLE_NUM"));
+				data.setModel_battle_record_crew_num(rs.getInt("BATTLE_RECORD_CREW_NUM"));
+				data.setModel_battle_record_is_winner(rs.getString("BATTLE_RECORD_IS_WINNER"));
+				data.setModel_battle_record_mvp_id(rs.getString("BATTLE_RECORD_MVP_ID"));
+				data.setModel_battle_record_crew_name(rs.getString("CREW_NAME"));
+				data.setModel_battle_record_crew_leader(rs.getString("CREW_LEADER"));
+				datas.add(data);
+				rsCnt++;
+			}
+
+		}catch(SQLException e) {
+			System.err.println("battle_record.Battle_recordDAO.selectAll SQL문 실패");
+			return datas;
+		}finally {
+			JDBCUtil.disconnect(pstmt,conn);
+		}
+		System.out.println("battle_record.Battle_recordDAO.selectAll 성공");
 		return datas;
 
 	}

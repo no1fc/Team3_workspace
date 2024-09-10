@@ -15,7 +15,7 @@ public class RankingPageAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
-		String path = "RankingPage.jsp"; // view에서 알려줄 예정
+		String path = "personalRank.jsp"; // view에서 알려줄 예정
 		boolean flag_Redirect = false; // 값을 전달해야하게 때문에 forward 방식으로 전달해야한다.
 		
 		//개인 랭킹을 model에 요청 point 요청 순으로 selectAll 예정 
@@ -53,12 +53,12 @@ public class RankingPageAction implements Action {
 
 					//해당 등급 최소 점수보다 사용자의 점수가 크거나 같고 //사용자의 점수가 해당 등급의 최대 점수보다 작거나 같으면
 					if(grade_min <= member_total_point && member_total_point <= grade_max) {
-						data.setModel_member_grade_profile(request.getServletContext().getRealPath("/등급폴더/") + model_grade_datas.get(i).getModel_grade_prople());
+						data.setModel_member_grade_profile(request.getServletContext().getRealPath("/grade_foloder/") + model_grade_datas.get(i).getModel_grade_profile());
 						data.setModel_member_grade_name(model_grade_datas.get(i).getModel_grade_name());
 					}
 					//만약 등급의 최대 점수보다 사용자 점수가 크다면
 					else if(grade_max < member_total_point) {
-						data.setModel_member_grade_profile(request.getServletContext().getRealPath("/등급폴더/") + model_grade_datas.get(i).getModel_grade_prople());
+						data.setModel_member_grade_profile(request.getServletContext().getRealPath("/grade_foloder/") + model_grade_datas.get(i).getModel_grade_profile());
 						data.setModel_member_grade_name(model_grade_datas.get(i).getModel_grade_name());
 					}
 					

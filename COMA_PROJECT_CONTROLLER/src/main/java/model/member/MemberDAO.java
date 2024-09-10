@@ -68,7 +68,87 @@ public class MemberDAO {
 	private final String ALL_NEW ="SELECT MEMBER_ID,MEMBER_PASSWORD,MEMBER_NAME,MEMBER_PHONE,MEMBER_PROFILE,MEMBER_REGISTRATION_DATE,MEMBER_CURRENT_POINT,MEMBER_TOTAL_POINT,MEMBER_CREW_NUM,MEMBER_CREW_JOIN_DATE,MEMBER_LOCATION,MEMBER_ROLE\r\n"
 			+ "FROM MEMBER\r\n"
 			+ "WHERE MEMBER_REGISTRATION_DATE >= SYSDATE - INTERVAL '7' DAY AND MEMBER_ROLE='F'";
-
+	
+	//크루 랭킹 상위 10개 조회
+	private final String ALL_TOP10_CREW_RANK = "SELECT\r\n"
+			+ "    ROWNUM AS RANKING,\r\n"
+			+ "    SUB.CREW_PROFILE,\r\n"
+			+ "    SUB.CREW_NAME,\r\n"
+			+ "    MEMBER_CREW_RANK\r\n"
+			+ "FROM (\r\n"
+			+ "    SELECT\r\n"
+			+ "        C.CREW_PROFILE,\r\n"
+			+ "        C.CREW_NAME,\r\n"
+			+ "        SUM(M.MEMBER_TOTAL_POINT) AS MEMBER_CREW_RANK\r\n"
+			+ "    FROM\r\n"
+			+ "        MEMBER M\r\n"
+			+ "    JOIN\r\n"
+			+ "        CREW C \r\n"
+			+ "    ON \r\n"
+			+ "        M.MEMBER_CREW_NUM = C.CREW_NUM\r\n"
+			+ "    GROUP BY\r\n"
+			+ "        C.CREW_PROFILE,\r\n"
+			+ "        C.CREW_NAME\r\n"
+			+ "    ORDER BY\r\n"
+			+ "        MEMBER_CREW_RANK DESC\r\n"
+			+ ") SUB\r\n"
+			+ "WHERE ROWNUM <= 10";
+	
+	//상위 개인 랭킹 10개
+	private final String ALL_TOP10_RANK = "SELECT\r\n"
+			+ "    MEMBER_NAME,\r\n"
+			+ "    MEMBER_PROFILE\r\n"
+			+ "FROM (\r\n"
+			+ "    SELECT\r\n"
+			+ "        MEMBER_NAME,\r\n"
+			+ "        MEMBER_PROFILE\r\n"
+			+ "    FROM\r\n"
+			+ "        MEMBER\r\n"
+			+ "    ORDER BY\r\n"
+			+ "        MEMBER_TOTAL_POINT DESC\r\n"
+			+ ")\r\n"
+			+ "WHERE\r\n"
+			+ "    ROWNUM <= 10;";
+	
+	//특정 크루에 속한 사용자 이름 전부 조회 CREW_NUM
+	private final String ALL_SEARCH_CREW_MEMBER_NAME = "SELECT MEMBER_NAME FROM MEMBER M JOIN CREW C ON C.CREW_NUM = M.MEMBER_CREW_NUM WHERE CREW_NUM = ?";
+	
+	//특정 사용자가 속한 크루 찾기 MEMBER_ID
+	private final String SEARCH_MY_CREW = "SELECT\r\n"
+			+ "	M.MEMBER_CREW_NUM\r\n"
+			+ "FROM\r\n"
+			+ "	MEMBER M\r\n"
+			+ "JOIN\r\n"
+			+ "	CREW C\r\n"
+			+ "ON\r\n"
+			+ "	M.MEMBER_CREW_NUM = C.CREW_NUM\r\n"
+			+ "WHERE\r\n"
+			+ "	MEMBER_ID = ?";
+	
+	//크루 랭킹 전체 출력
+	private final String ALL_CREW_RANK = "SELECT\r\n"
+			+ "	C.CREW_NUM,\r\n"
+			+ "    C.CREW_NAME,\r\n"
+			+ "    C.CREW_LEADER,\r\n"
+			+ "    C.CREW_MAX_MEMBER_SIZE,\r\n"
+			+ "    COUNT(M.MEMBER_ID) AS CREW_CURRENT_SIZE,\r\n"
+			+ "    SUM(M.MEMBER_TOTAL_POINT) AS MEMBER_TOTAL_POINT\r\n"
+			+ "FROM\r\n"
+			+ "    CREW C\r\n"
+			+ "JOIN\r\n"
+			+ "    MEMBER M \r\n"
+			+ "ON \r\n"
+			+ "    M.MEMBER_CREW_NUM = C.CREW_NUM\r\n"
+			+ "GROUP BY\r\n"
+			+ "	C.CREW_NUM,\r\n"
+			+ "    C.CREW_NAME,\r\n"
+			+ "    C.CREW_LEADER,\r\n"
+			+ "    C.CREW_MAX_MEMBER_SIZE\r\n"
+			+ "ORDER BY\r\n"
+			+ "    MEMBER_TOTAL_POINT DESC";
+	
+	//사용자 포인트 업데이트 MEMBER_CURRENT_POINT, MEMBER_ID
+	private final String UPDATE_CURRENT_POINT = "UPDATE MEMBER SET MEMBER_CURRENT_POINT = ? WHERE MEMBER_ID = ?";
 	public boolean insert(MemberDTO memberDTO) {
 		System.out.println("member.MemberDAO.insert 시작");
 		Connection conn=JDBCUtil.connect();
@@ -130,6 +210,12 @@ public class MemberDAO {
 				pstmt.setString(1, memberDTO.getModel_member_role());
 				pstmt.setString(2, memberDTO.getModel_member_id());
 			}
+			//사용자 포인트 업데이트 MEMBER_CURRENT_POINT, MEMBER_ID
+			else if(memberDTO.getModel_member_condition().equals("MEMBER_UPDATE_CURRENT_POINT")) {
+				pstmt=conn.prepareStatement(UPDATE_CURRENT_POINT);
+				pstmt.setInt(1, memberDTO.getModel_member_current_point());
+				pstmt.setString(2, memberDTO.getModel_member_id());
+			}
 			else {
 				System.err.println("condition 틀림");
 				return false;
@@ -188,6 +274,11 @@ public class MemberDAO {
 				pstmt.setString(1, memberDTO.getModel_member_id());
 				pstmt.setString(2, memberDTO.getModel_member_password());
 			}
+			//특정 사용자가 속한 크루 찾기 MEMBER_ID
+			else if(memberDTO.getModel_member_condition().equals("MEMBER_SEARCH_MY_CREW")) {
+				pstmt=conn.prepareStatement(SEARCH_MY_CREW);
+				pstmt.setString(1, memberDTO.getModel_member_id());
+			}
 			else {
 				System.err.println("condition 틀림");
 				return null;
@@ -231,6 +322,10 @@ public class MemberDAO {
 			if(memberDTO.getModel_member_condition().equals("MEMBER_SEARCH_RANK")) {
 				pstmt=conn.prepareStatement(SEARCH_RANK);
 			}
+			//크루 랭킹 높은순으로 전체 출력
+			else if(memberDTO.getModel_member_condition().equals("MEMBER_ALL_CREW_RANK")) {
+				pstmt=conn.prepareStatement(ALL_CREW_RANK);
+			}
 			//크루에 속한 회원목록 조회 MEMBER_CREW_NUM
 			else if(memberDTO.getModel_member_condition().equals("MEMBER_SEARCH_CREW")) {
 				pstmt=conn.prepareStatement(SEARCH_CREW);
@@ -240,6 +335,19 @@ public class MemberDAO {
 			else if(memberDTO.getModel_member_condition().equals("MEMBER_ALL_NEW")) {
 				pstmt=conn.prepareStatement(ALL_NEW);
 			}
+			//크루 랭킹 상위 10개
+			else if(memberDTO.getModel_member_condition().equals("MEMBER_ALL_TOP10_CREW_RANK")) {
+				pstmt=conn.prepareStatement(ALL_TOP10_CREW_RANK);
+			}
+			//개인 랭킹 상위  10개
+			else if(memberDTO.getModel_member_condition().equals("MEMBER_ALL_TOP10_RANK")) {
+				pstmt=conn.prepareStatement(ALL_TOP10_RANK);
+			}
+			//특정 크루에 속한 사용자 이름 전부 조회 CREW_NUM
+			else if(memberDTO.getModel_member_condition().equals("MEMBER_ALL_SEARCH_CREW_MEMBER_NAME")) {
+				pstmt=conn.prepareStatement(ALL_SEARCH_CREW_MEMBER_NAME);
+				pstmt.setInt(1, memberDTO.getModel_member_crew_num());
+			}
 			else {
 				System.err.println("condition 틀림");
 				return datas;
@@ -248,18 +356,103 @@ public class MemberDAO {
 			while(rs.next()) {
 				System.out.println(rsCnt+"번행 출력중..");
 				data = new MemberDTO();
-				data.setModel_member_id(rs.getString("MEMBER_ID"));
-				data.setModel_member_name(rs.getString("MEMBER_NAME"));
-				data.setModel_member_password(rs.getString("MEMBER_PASSWORD"));
-				data.setModel_member_phone(rs.getString("MEMBER_PHONE"));
-				data.setModel_member_registration_date(rs.getDate("MEMBER_REGISTRATION_DATE"));
-				data.setModel_member_profile(rs.getString("MEMBER_PROFILE"));
-				data.setModel_member_current_point(rs.getInt("MEMBER_CURRENT_POINT"));
-				data.setModel_member_total_point(rs.getInt("MEMBER_TOTAL_POINT"));
-				data.setModel_member_crew_num(rs.getInt("MEMBER_CREW_NUM"));
-				data.setModel_member_crew_join_date(rs.getString("MEMBER_CREW_JOIN_DATE"));
-				data.setModel_member_location(rs.getString("MEMBER_LOCATION"));
-				data.setModel_member_role(rs.getString("MEMBER_ROLE"));
+				try {
+	                data.setModel_member_id(rs.getString("MEMBER_ID"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_id = null");
+	                data.setModel_member_id(null);
+	            }
+	            try {
+	                data.setModel_member_name(rs.getString("MEMBER_NAME"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_name = null");
+	                data.setModel_member_name(null);
+	            }
+	            try {
+	                data.setModel_member_password(rs.getString("MEMBER_PASSWORD"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_password = null");
+	                data.setModel_member_password(null);
+	            }
+	            try {
+	                data.setModel_member_phone(rs.getString("MEMBER_PHONE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_phone = null");
+	                data.setModel_member_phone(null);
+	            }
+	            try {
+	                data.setModel_member_registration_date(rs.getDate("MEMBER_REGISTRATION_DATE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_registration_date = null");
+	                data.setModel_member_registration_date(null);
+	            }
+	            try {
+	                data.setModel_member_profile(rs.getString("MEMBER_PROFILE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_profile = null");
+	                data.setModel_member_profile(null);
+	            }
+	            try {
+	                data.setModel_member_current_point(rs.getInt("MEMBER_CURRENT_POINT"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_current_point = null");
+	                data.setModel_member_current_point(0);
+	            }
+	            try {
+	                data.setModel_member_total_point(rs.getInt("MEMBER_TOTAL_POINT"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_total_point = null");
+	                data.setModel_member_total_point(0);
+	            }
+	            try {
+	                data.setModel_member_crew_num(rs.getInt("MEMBER_CREW_NUM"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_crew_num = null");
+	                data.setModel_member_crew_num(0);
+	            }
+	            try {
+	                data.setModel_member_crew_join_date(rs.getString("MEMBER_CREW_JOIN_DATE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_crew_join_date = null");
+	                data.setModel_member_crew_join_date(null);
+	            }
+	            try {
+	                data.setModel_member_location(rs.getString("MEMBER_LOCATION"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_location = null");
+	                data.setModel_member_location(null);
+	            }
+	            try {
+	                data.setModel_member_role(rs.getString("MEMBER_ROLE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_role = null");
+	                data.setModel_member_role(null);
+	            }
+	            // DTO 데이터 처리
+	            try {
+	                data.setModel_member_crew_name(rs.getString("CREW_NAME"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_crew_name = null");
+	                data.setModel_member_crew_name(null);
+	            }
+	            try {
+	                data.setModel_member_crew_profile(rs.getString("CREW_PROFILE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_crew_profile = null");
+	                data.setModel_member_crew_profile(null);
+	            }
+	            try {
+	                data.setModel_member_crew_current_size(rs.getInt("CREW_CURRENT_SIZE"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_current_size = null");
+	                data.setModel_member_crew_current_size(0);
+	            }
+	            try {
+	                data.setModel_member_crew_leader(rs.getString("CREW_LEADER"));
+	            } catch (SQLException e) {
+	            	System.err.println("member_crew_leader = null");
+	                data.setModel_member_crew_leader(null);
+	            }
 				datas.add(data);
 				rsCnt++;
 			}

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코마 : 회원 가입</title>
+<title>회원 가입</title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -53,7 +53,7 @@
 							<div class="col-md-7">
 								<div class="form-group">
 									<input type="email" class="form-control" id="member_id"
-										name="member_id" placeholder="이메일을 입력해주세요" required /> <small
+										name="VIEW_EMAIL" placeholder="이메일을 입력해주세요" required /> <small
 										id="errorId" class="form-text text-muted"
 										style="display: none;"></small>
 								</div>
@@ -74,7 +74,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="password" class="form-control"
-										id="member_password" name="member_password"
+										id="member_password" name="VIEW_PASSWORD"
 										placeholder="비밀번호를 입력해주세요" required />
 								</div>
 							</div>
@@ -86,7 +86,7 @@
 							<div class="col-md-10">
 								<div id="password-check-container" class="form-group">
 									<input type="password" class="form-control" id="password_check"
-										name="password_check" placeholder="비밀번호를 확인해주세요" required />
+										name="VIEW_PASSWORD_CHECK" placeholder="비밀번호를 확인해주세요" required />
 									<small id="errorPassword" class="form-text text-muted"
 										style="display: none;"></small>
 								</div>
@@ -99,7 +99,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_name"
-										name="member_name" placeholder="이름을 입력해주세요" required />
+										name="VIEW_NAME" placeholder="이름을 입력해주세요" required />
 								</div>
 							</div>
 						</div>
@@ -109,7 +109,7 @@
 							</div>
 							<div class="col-md-10">
 								<div class="form-group">
-									<select id="member_location" name="member_location">
+									<select id="member_location" name="VIEW_LOCATION">
 										<option>서울특별시</option>
 										<option>세종특별자치도</option>
 										<option>부산광역시</option>
@@ -139,7 +139,7 @@
 							<div class="col-md-7">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_phoneNumber"
-										name="member_phoneNumber"
+										name="VIEW_PHONENUMBER"
 										placeholder="하이폰(-)을 제외한 전화번호 11자리를 입력해주세요" required />
 								</div>
 							</div>
@@ -155,7 +155,7 @@
 							<div class="col-md-7">
 								<div class="form-group">
 									<input type="text" class="form-control" id="phone_check"
-										name="phone_check" placeholder="인증번호를 입력해주세요" disabled
+										name="VIEW_PHONE_CHECK" placeholder="인증번호를 입력해주세요" disabled
 										required /> <small id="errorCheck"
 										class="form-text text-muted" style="display: none;"></small>
 								</div>
@@ -245,7 +245,7 @@
 
 	<script>
 	// 아이디 유효성 검사 = 1. 이메일 형식인지 확인한다 2. 아이디가 기존 가입되어 있는 중복 아이디인지 확인한다
-	
+	// 3. 
 	$(document).ready(function() {
 	    let idCheckPassed = false; // 전역변수 - 유효한 아이디(이메일) 입력 true false
 	    let idCheckBtnPassed = false; // 전역변수 - 중복검사 버튼 눌렀을 때 중복인지 true false

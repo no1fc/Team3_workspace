@@ -1,14 +1,13 @@
 package model.grade;
 
-
 public class GradeDTO {
 	private int model_grade_num;		     // 등급별 PK
-	private String model_grade_prople;   // 등급 이미지 URL
+	private String model_grade_profile;   // 등급 이미지 URL
 	private String model_grade_name;     // 등급에 대한 이름
 	private int model_grade_min_point;   // 최소 등급
 	private int model_grade_max_point;   // 최대 등급
 	
-	//DTO에만 있는 데이터
+	//DTO에만 존재하는 데이터
 	private String model_grade_conditon; // 개발자 데이터 
 	
 	public int getModel_grade_num() {
@@ -17,11 +16,11 @@ public class GradeDTO {
 	public void setModel_grade_num(int model_grade_num) {
 		this.model_grade_num = model_grade_num;
 	}
-	public String getModel_grade_prople() {
-		return model_grade_prople;
+	public String getModel_grade_profile() {
+		return model_grade_profile;
 	}
-	public void setModel_grade_prople(String model_grade_prople) {
-		this.model_grade_prople = model_grade_prople;
+	public void setModel_grade_profile(String model_grade_profile) {
+		this.model_grade_profile = model_grade_profile;
 	}
 	public String getModel_grade_name() {
 		return model_grade_name;
@@ -49,7 +48,7 @@ public class GradeDTO {
 	}
 	@Override
 	public String toString() {
-		return "GradeDTO [model_grade_num=" + model_grade_num + ", model_grade_prople=" + model_grade_prople
+		return "GradeDTO [model_grade_num=" + model_grade_num + ", model_grade_profile=" + model_grade_profile
 				+ ", model_grade_name=" + model_grade_name + ", model_grade_min_point=" + model_grade_min_point
 				+ ", model_grade_max_point=" + model_grade_max_point + ", model_grade_conditon=" + model_grade_conditon
 				+ "]";

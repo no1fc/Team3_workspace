@@ -14,6 +14,7 @@ import controller.gym.CrewBattleApplicationAction;
 import controller.gym.GymInformationPageAction;
 import controller.gym.GymMainPageAction;
 import controller.gym.GymReservationAction;
+import controller.gym.GymReservationInformationPageAction;
 import controller.main.MainPageAction;
 import controller.member.ChangeMemberAction;
 import controller.member.JoinAction;
@@ -28,6 +29,7 @@ import controller.mypage.DeleteMemberAction;
 import controller.mypage.MypagePageAction;
 import controller.ranking.CrewRankingPageAction;
 import controller.ranking.RankingPageAction;
+import controller.store.StorePageAction;
 
 public class HandlerMapper {
 	//Map 에 요청과 Action 값을 저장할 수 있도록 만들어 줍니다
@@ -88,16 +90,23 @@ public class HandlerMapper {
 		this.mapper.put("/RankingPage.do", new RankingPageAction()); //개인 랭킹 페이지 이동
 		
 		//-------------------------------------------------------------------------------------------------
-		//gym Action
+		//Gym Action
 		//Page 이동 Action
 		this.mapper.put("/GymMainPage.do", new GymMainPageAction()); //암벽장 메인 페이지 이동 
-		this.mapper.put("/GymInformationPage.do", new GymInformationPageAction()); //암벽장 메인 페이지 이동 		
+		this.mapper.put("/GymInformationPage.do", new GymInformationPageAction()); //암벽장 상세보기 페이지 이동 		
+		this.mapper.put("/GymReservationInformationPage.do", new GymReservationInformationPageAction()); //암벽장 예약 상세보기 페이지 이동
 		
 		//기능 Action
-		this.mapper.put("/GymInformationPage.do", new CrewBattleApplicationAction()); //크루전 신청 기능
-		this.mapper.put("/GymInformationPage.do", new GymReservationAction()); //암벽장 기능
+		this.mapper.put("/CrewBattleApplication.do", new CrewBattleApplicationAction()); //크루전 신청 기능
+		this.mapper.put("/GymReservation.do", new GymReservationAction()); //암벽장 기능
 		//암벽장 좋아요 기능은 Servlet 으로 비동기 처리할 예정
 		//-------------------------------------------------------------------------------------------------
+		//Store Action
+		//Page 이동 Action
+		this.mapper.put("/StorePage.do", new StorePageAction()); //상점 페이지 이동 
+		
+		//-------------------------------------------------------------------------------------------------
+		
 	}
 	
 	//요청을 받아와 Action 을 반환해줍니다.

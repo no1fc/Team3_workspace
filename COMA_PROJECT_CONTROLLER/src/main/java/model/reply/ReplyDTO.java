@@ -6,7 +6,6 @@ public class ReplyDTO {
 	private String model_reply_writer_id;       //댓글 작성자
 	private int model_reply_board_num;          //댓글이 속한 게시판 ID
 	
-	//DTO에만 존재하는 데이터
 	private String model_reply_condition;       //개발자 데이터
 	
 	public int getModel_reply_num() {

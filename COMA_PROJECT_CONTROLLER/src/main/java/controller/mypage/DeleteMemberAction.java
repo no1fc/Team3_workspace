@@ -36,6 +36,7 @@ public class DeleteMemberAction implements Action{
 			//delete 를 성공하지 못했다면 Mypage로 보냅니다.
 			boolean flag = memberDAO.delete(data);
 			if(flag) {//멤버 삭제에 성공했다면 logout 페이지로 넘어갑니다.
+				data.setModel_member_profile(request.getServletContext().getContextPath()+ "/profile_img/" + member_id);
 				path = "LOGOUTPAGEACTION.do";
 			}
 		}

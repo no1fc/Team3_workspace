@@ -18,25 +18,13 @@ public class MemberDTO {
 	private String model_member_role;            //관리자 권한
 	
 	//DTO에만 존재하는 데이터
+	private String model_member_grade_profile; //사용자의 등급 사진
+	private String model_member_grade_name; //사용자의 등급 이름
+	private int model_member_crew_current_size; //사용자의 크루의 현재 인원수
 	private String model_member_condition;       //개발자 데이터
 	private String model_member_crew_name;		//사용자가 속한 크루 이름
 	private String model_member_crew_profile;	//사용자가 속한 크루 이미지 url
-	private String model_member_grade_profile;	//사용자가 속한 크루 이미지 url
-	private String model_member_grade_name;	//사용자가 속한 크루 이미지 url
-
-	
-	public String getModel_member_grade_name() {
-		return model_member_grade_name;
-	}
-	public void setModel_member_grade_name(String model_member_grade_name) {
-		this.model_member_grade_name = model_member_grade_name;
-	}
-	public String getModel_member_grade_profile() {
-		return model_member_grade_profile;
-	}
-	public void setModel_member_grade_profile(String model_member_grade_profile) {
-		this.model_member_grade_profile = model_member_grade_profile;
-	}
+	private String model_member_crew_leader;	//사용자가 속한 크루장 pk
 	public String getModel_member_id() {
 		return model_member_id;
 	}
@@ -127,6 +115,30 @@ public class MemberDTO {
 	public void setModel_member_crew_profile(String model_member_crew_profile) {
 		this.model_member_crew_profile = model_member_crew_profile;
 	}
+	public String getModel_member_grade_profile() {
+		return model_member_grade_profile;
+	}
+	public void setModel_member_grade_profile(String model_member_grade_profile) {
+		this.model_member_grade_profile = model_member_grade_profile;
+	}
+	public String getModel_member_grade_name() {
+		return model_member_grade_name;
+	}
+	public void setModel_member_grade_name(String model_member_grade_name) {
+		this.model_member_grade_name = model_member_grade_name;
+	}
+	public int getModel_member_crew_current_size() {
+		return model_member_crew_current_size;
+	}
+	public void setModel_member_crew_current_size(int model_member_crew_current_size) {
+		this.model_member_crew_current_size = model_member_crew_current_size;
+	}
+	public String getModel_member_crew_leader() {
+		return model_member_crew_leader;
+	}
+	public void setModel_member_crew_leader(String model_member_crew_leader) {
+		this.model_member_crew_leader = model_member_crew_leader;
+	}
 	@Override
 	public String toString() {
 		return "MemberDTO [model_member_id=" + model_member_id + ", model_member_name=" + model_member_name
@@ -136,8 +148,11 @@ public class MemberDTO {
 				+ ", model_member_crew_num=" + model_member_crew_num + ", model_member_crew_join_date="
 				+ model_member_crew_join_date + ", model_member_location=" + model_member_location
 				+ ", model_member_registration_date=" + model_member_registration_date + ", model_member_role="
-				+ model_member_role + ", model_member_condition=" + model_member_condition + ", model_member_crew_name="
-				+ model_member_crew_name + ", model_member_crew_profile=" + model_member_crew_profile + "]";
+				+ model_member_role + ", model_member_grade_profile=" + model_member_grade_profile
+				+ ", model_member_grade_name=" + model_member_grade_name + ", model_member_crew_current_size="
+				+ model_member_crew_current_size + ", model_member_condition=" + model_member_condition
+				+ ", model_member_crew_name=" + model_member_crew_name + ", model_member_crew_profile="
+				+ model_member_crew_profile + ", model_member_crew_leader=" + model_member_crew_leader + "]";
 	}
 	
 	

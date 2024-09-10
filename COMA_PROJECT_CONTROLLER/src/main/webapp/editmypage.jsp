@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코마 : 회원 정보 수정</title>
+<title>회원 정보 수정</title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -27,6 +27,7 @@
 	border-color: #dc3545;
 	background-color: #fbe9e9;
 }
+
 </style>
 
 </head>
@@ -90,13 +91,11 @@
 						<div class="row">
 							<div class="col-md-2 d-flex align-items-center">
 								<p class="mb-0">이름</p>
-								<input type="hidden" name="member_id"
-									value="${data.member_name}" />
 							</div>
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_name"
-										name="member_name" value="${data.member_name}" readonly />
+										name="VIEW_NAME" value="${data.member_name}" readonly />
 								</div>
 							</div>
 						</div>
@@ -107,7 +106,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="phone"
-										name="member-phone" value="${data.member_phone}"
+										name="VIEW_PHONE" value="${data.member_phone}"
 										placeholder="전화번호를 입력해주세요" />
 								</div>
 							</div>
@@ -118,7 +117,7 @@
 							</div>
 							<div class="col-md-10">
 								<div class="form-group">
-									<select id="member_location" name="member_location">
+									<select id="member_location" name="VIEW_LOCATION">
 										<option>서울특별시</option>
 										<option>세종특별자치도</option>
 										<option>부산광역시</option>
@@ -147,7 +146,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="password" class="form-control"
-										id="update_password" name="update_password"
+										id="update_password" name="VIEW_UPDATE_PASSWORD"
 										placeholder="변경할 비밀번호를 입력해주세요" />
 								</div>
 							</div>
@@ -159,7 +158,7 @@
 							<div class="col-md-10">
 								<div id="password-check-container" class="form-group">
 									<input type="password" class="form-control" id="password_check"
-										name="password_check" placeholder="변경할 비밀번호를 확인해주세요" /> <small
+										name="VIEW_PASSWORD_CHECK" placeholder="변경할 비밀번호를 확인해주세요" /> <small
 										id="errorPassword" class="form-text text-muted"
 										style="display: none;"></small>
 								</div>

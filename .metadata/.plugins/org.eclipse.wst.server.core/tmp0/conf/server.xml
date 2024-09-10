@@ -142,7 +142,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="C:\NSD\Team3_WebProject\Team3_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\NSD\Team3_WebProject\Team3_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CkeditorTest" path="/CkeditorTest" reloadable="true" source="org.eclipse.jst.jee.server:CkeditorTest"/></Host>
+      <Context docBase="C:\NSD\Team3_WebProject\Team3_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\NSD\Team3_WebProject\Team3_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CkeditorTest" path="/CkeditorTest" reloadable="true" source="org.eclipse.jst.jee.server:CkeditorTest"/><Context docBase="C:\NSD\Team3_WebProject\Team3_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\COMA_PROJECT_CONTROLLER" path="/COMA_PROJECT_CONTROLLER" reloadable="true" source="org.eclipse.jst.jee.server:COMA_PROJECT_CONTROLLER"/></Host>
     </Engine>
   </Service>
 </Server>
