@@ -10,11 +10,25 @@ public class GymDTO {
 	private String model_gym_price;           // 이용 가격
 	
 	//DTO에만 존재하는 데이터
-	private String model_gym_conditon;        // 개발자 데이터 검색
+	private String model_gym_condition;        // 개발자 데이터 검색
+	private int model_gym_max_num; 		//페이지네이션 데이터
+	private int model_gym_min_num; 		//페이지네이션 데이터
 	private int model_gym_battle_num;		//현재 암벽장의 크루전 pk
 	private String model_gym_battle_game_date;	//현재 암벽장의 크루전 게임날짜
 	private int model_gym_total;		//암벽장 총 개수
 	
+	public int getModel_gym_max_num() {
+		return model_gym_max_num;
+	}
+	public void setModel_gym_max_num(int model_gym_max_num) {
+		this.model_gym_max_num = model_gym_max_num;
+	}
+	public int getModel_gym_min_num() {
+		return model_gym_min_num;
+	}
+	public void setModel_gym_min_num(int model_gym_min_num) {
+		this.model_gym_min_num = model_gym_min_num;
+	}
 	public int getModel_gym_num() {
 		return model_gym_num;
 	}
@@ -75,18 +89,19 @@ public class GymDTO {
 	public void setModel_gym_battle_game_date(String model_gym_battle_game_date) {
 		this.model_gym_battle_game_date = model_gym_battle_game_date;
 	}
-	public String getModel_gym_conditon() {
-		return model_gym_conditon;
+	public String getModel_gym_condition() {
+		return model_gym_condition;
 	}
-	public void setModel_gym_conditon(String model_gym_conditon) {
-		this.model_gym_conditon = model_gym_conditon;
+	public void setModel_gym_condition(String model_gym_condition) {
+		this.model_gym_condition = model_gym_condition;
 	}
 	@Override
 	public String toString() {
 		return "GymDTO [model_gym_num=" + model_gym_num + ", model_gym_name=" + model_gym_name + ", model_gym_profile="
 				+ model_gym_profile + ", model_gym_description=" + model_gym_description + ", model_gym_location="
 				+ model_gym_location + ", model_gym_reservation_cnt=" + model_gym_reservation_cnt + ", model_gym_price="
-				+ model_gym_price + ", model_gym_conditon=" + model_gym_conditon + ", model_gym_battle_num="
+				+ model_gym_price + ", model_gym_condition=" + model_gym_condition + ", model_gym_max_num="
+				+ model_gym_max_num + ", model_gym_min_num=" + model_gym_min_num + ", model_gym_battle_num="
 				+ model_gym_battle_num + ", model_gym_battle_game_date=" + model_gym_battle_game_date
 				+ ", model_gym_total=" + model_gym_total + "]";
 	}

@@ -34,7 +34,7 @@
 					</div>
 					<form action="GymReservation.do">
 					<div class="card-body">
-					
+						<input type="hidden" id="gymNum" name="VIEW_RESERVATION_GYM_NUM" value="${model_gym_num}">
 						<div class="row">
 							<div class="col-md-2 d-flex align-items-center">
 								<p class="mb-0">아이디</p>
@@ -42,7 +42,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_id"
-										 value="${data.member_id}" name="VIEW_MEMBER_ID"
+										 value="${MEMBER_ID}" name="VIEW_MEMBER_ID"
 										readonly/>
 								</div>
 							</div>
@@ -52,7 +52,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_name"
-										 value="${data.member_name}" name="VIEW_MEMBER_NAME"
+										 value="${MEMBER_NAME}" name="VIEW_MEMBER_NAME"
 										readonly/>
 								</div>
 							</div>
@@ -62,7 +62,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_date"
-										 value="${data.member_date}" name="VIEW_RESERVATION_DATE"
+										 value="${reservation_date}" name="VIEW_RESERVATION_DATE"
 										readonly/>
 								</div>
 							</div>
@@ -72,7 +72,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_cnt"
-										 value="${data.member_cnt}명" name="VIEW_MAX_CNT"
+										 value="${reservation_cnt}명" name="VIEW_MAX_CNT"
 										readonly/>
 								</div>
 							</div>
@@ -82,7 +82,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_point"
-										 value="${data.member_point}pt" name="VIEW_USE_POINT"
+										 value="${use_point}" name="VIEW_USE_POINT"
 										readonly/>
 								</div>
 							</div>
@@ -92,7 +92,7 @@
 							<div class="col-md-10">
 								<div class="form-group">
 									<input type="text" class="form-control" id="member_money"
-										 value="${data.member_money}원" name="VIEW_REGISTRATION_PRICE"
+										 value="${reservation_price}" name="VIEW_RESERVATION_PRICE"
 										readonly/>
 								</div>
 							</div>

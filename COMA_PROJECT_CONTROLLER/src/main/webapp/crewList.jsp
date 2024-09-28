@@ -35,23 +35,23 @@
 			<div class="row pt-2 pb-5">
 				<div class="col-12">
 					<div class="d-flex justify-content-center align-items-center">
-						<a href="CREWPAGEACTION.do"
+						<a href="CrewPage.do"
 							class="text-dark text-decoration-none link-primary">
 							<p class="fs-4 m-0">내 크루</p>
 						</a>
 						<h3 class="px-5 m-0">/</h3>
-						<a href="CREWCOMMUNITYPAGEACTION.do"
-							class="text-dark text-decoration-none  link-primary">
+						<a href="CrewCommunityPage.do"
+							class="text-dark text-decoration-none link-primary">
 							<p class="fs-4 m-0">커뮤니티</p>
 						</a>
 						<h3 class="px-5 m-0">/</h3>
-						<a href="CREWBATTLEPAGEACTION.do"
+						<a href="CrewBattlePage.do"
 							class="text-dark text-decoration-none link-primary">
 							<p class="fs-4 m-0">크루전 개최</p>
 						</a>
 						<h3 class="px-5 m-0">/</h3>
-						<a href="CREWLISTPAGEACTION.do"
-							class="text-dark text-decoration-underline link-primary">
+						<a href="CrewListPage.do"
+							class="text-dark text-decoration-underline  link-primary">
 							<h3 class="m-0">
 								<b>크루 가입</b>
 							</h3>
@@ -64,40 +64,41 @@
 					<div class="row justify-content-center">
 						<div class="col-md-5">크루명</div>
 						<div class="col-md-4">크루장명</div>
-						<div class="col-md-1">인원수</div>
+						<div class="col-md-3">인원수</div>
 					</div>
 				</div>
 			</div>
 			<div class="row justify-content-center">
-				<div class="col-md-10">
-					<div class="card card-stats card-round pt-4 px-4 pb-4">
-						<div class="row justify-content-center">
-							<c:if test="${empty model_crew_num}">
-								<div class="alert alert-danger" role="alert">크루 번호가
-									누락되었습니다.</div>
-							</c:if>
-							<c:if test="${not empty model_crew_num}">
-								<c:forEach var="model_crew_data" items="${model_crew_datas}">
-									<c:choose>
-										<c:when test="${model_crew_data != null}">
+				<c:if test="${empty model_crew_datas}">
+					<div class="alert alert-danger" role="alert">
+						크루가 없습니다
+					</div>
+				</c:if>
+				<c:if test="${not empty model_crew_datas}">
+					<c:forEach var="model_crew_data" items="${model_crew_datas}">
+						<c:choose>
+							<c:when test="${model_crew_data != null}">
+								<div class="col-md-10">
+									<div class="card card-stats card-round pt-4 px-4 pb-4">
+										<div class="row justify-content-center">
+								
 											<div class="col-md-5">
 												<!-- 아래 링크를 클릭하면 선택한 크루의 설명창이 뜨게 됨 -->
-												<a href="CREWEXPLAINPAGEACTION.do"><b>${model_crew_data.model_crew_name}</b></a>
+												<a href="CrewInformationPage.do?view_crew_num=${model_crew_data.model_crew_num}"><b>${model_crew_data.model_crew_name}</b></a>
 											</div>
 											<div class="col-md-4">${model_crew_data.model_crew_leader}</div>
-											<div class="col-md-1">최대 크루원 수:
+											<div class="col-md-3">최대 크루원 수:
 												${model_crew_data.model_crew_max_member_size}</div>
-										</c:when>
-										<c:otherwise>
-											<p>크루 목록 데이터가 없습니다 ...</p>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</c:if>
-
-						</div>
-					</div>
-				</div>
+											</div>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<p>크루 목록 데이터가 없습니다 ...</p>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</c:if>
 			</div>
 			<div class="row pt-5">
 				<div class="col-md-10 d-flex justify-content-center">
@@ -115,6 +116,12 @@
 		<!-- container end -->
 	</div>
 
+
+<!--   Core JS Files   -->
+	<script src="assets/js/core/jquery-3.7.1.min.js"></script>
+	<script src="assets/js/core/popper.min.js"></script>
+	<script src="assets/js/core/bootstrap.min.js"></script>
+	
 	<script type="text/javascript">
 
 		// 페이지네이션 생성
@@ -128,7 +135,7 @@
 		// 페이지네이션 생성 함수
 		function renderpagination(currentPage, _totalCount) {
 			// 현재 게시물의 전체 개수가 10개 이하면 pagination을 숨깁니다.
-			if (_totalCount <= 10)
+			if (_totalCount <= 5)
 				return;
 
 			// 총 페이지 수 계산 (전체 게시물 수를 한 페이지에 보여줄 게시물 수로 나눈 값의 올림)
@@ -164,7 +171,7 @@
 				preli
 						.insertAdjacentHTML(
 								"beforeend",
-								"<a id='allprev' class='page-link' href='CREWLISTPAGEACTION.do?page="
+								"<a id='allprev' class='page-link' href='CrewListPage.do?page="
 										+ prev
 										+ "' aria-label='Previous'>"
 										+ "<span aria-hidden='true'>&laquo;</span> </a>");
@@ -178,7 +185,7 @@
 				li.className = 'page-item';
 
 				li.insertAdjacentHTML("beforeend",
-						"<a class='page-link m-2' href='CREWLISTPAGEACTION.do?page="
+						"<a class='page-link m-2' href='CrewListPage.do?page="
 								+ i + "' id='page-" + i + "' data-num='" + i
 								+ "'>" + i + "</a>");
 
@@ -194,7 +201,7 @@
 				endli
 						.insertAdjacentHTML(
 								"beforeend",
-								"<a class='page-link' href='CREWLISTPAGEACTION.do?page="
+								"<a class='page-link' href='CrewListPage.do?page="
 										+ next
 										+ "' id='allnext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a>");
 
@@ -207,7 +214,7 @@
 		};
 
 		// 페이지 버튼 클릭 이벤트 처리
-		$("#pagination a").click(function(e) {
+		 $("#pagination a").click(function (e) {
 			// 기본 동작(페이지 이동) 방지
 			e.preventDefault();
 			// 클릭된 페이지 링크 요소를 jQuery 객체로 저장
@@ -232,31 +239,19 @@
 
 		// DOM이 완전히 로드된 후 페이지네이션을 생성
 		document.addEventListener("DOMContentLoaded", function() {
-			const _totalCount = $
-			{
-				totalCount
-			}
-			; // 서버에서 전달된 전체 게시물 개수
-			const currentPage = $
-			{
-				currentPage
-			}
-			;
+			const _totalCount = ${model_crew_page_total}; // 서버에서 전달된 전체 게시물 개수
+			const currentPage = ${currentPage};
 			renderpagination(currentPage, _totalCount); // 페이지네이션 생성 함수 호출
 
 			// 현재 페이지를 표시하기 위해 active 클래스 추가
 			$("#pagination a").removeClass("active text-white");
-			$("#pagination a#page-" + currentPage)
-					.addClass("active text-white");
+			$("#pagination a#page-" + currentPage).addClass("active text-white");
 			console.log(currentPage);
 		});
 	</script>
 
 
-	<!--   Core JS Files   -->
-	<script src="assets/js/core/jquery-3.7.1.min.js"></script>
-	<script src="assets/js/core/popper.min.js"></script>
-	<script src="assets/js/core/bootstrap.min.js"></script>
+	
 </body>
 
 </html>

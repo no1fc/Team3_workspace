@@ -1,23 +1,29 @@
 package model;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import model.board.BoardDTO;
+import model.gym.GymDTO;
 import model.product.ProductDTO;
 
+
 public class Crawling {
-	private WebDriver driver;
+	public static WebDriver driver;
 	private String target_url;
 	private String default_url;
-
+	WebDriverWait wait = null;
 	public Crawling() {
 		// 크롬 옵션 설정
 		ChromeOptions options = new ChromeOptions();
@@ -32,6 +38,8 @@ public class Crawling {
 
 		// 옵션설정한 ChromeDriver 인스턴스 생성
 		driver = new ChromeDriver(options);
+		//
+		wait = new WebDriverWait(driver, Duration.ofSeconds(3));
 	}
 
 	public ArrayList<ProductDTO> makeSampleProduct() {
@@ -71,6 +79,7 @@ public class Crawling {
 			//페이지 이동후 크롤링
 			List<WebElement> product = driver.findElements(By.cssSelector(product_href));
 			for(WebElement detail : product) {
+
 				//링크 파밍
 				String tag = detail.getAttribute("href").replace("..", default_url);
 				System.out.println("74 href = "+ tag);
@@ -114,9 +123,6 @@ public class Crawling {
 			System.err.println("crawling.makeSampleProduct 크롤링 실패");
 			e.printStackTrace();
 			return datas;
-		}finally {
-			//드라이버 종료
-			driver.quit();
 		}
 		System.out.println("model.Crawling.makeSampleProduct 성공");
 		return datas;
@@ -195,13 +201,13 @@ public class Crawling {
 				//System.out.println("board_div_detail_content = "+board_div_detail_content.getText());
 
 				//작성자
-				WebElement board_div_detail_writer = driver.findElement(By.cssSelector(board_writer));
+				String board_div_detail_writer = "coma@naver.com";
 				//System.out.println("board_div_detail_writer = "+board_div_detail_writer.getText());
 
 				BoardDTO boardDTO = new BoardDTO();
 				boardDTO.setModel_board_title(board_div_detail_title.getText());
 				boardDTO.setModel_board_content(board_div_detail_content.getText());
-				boardDTO.setModel_board_writer_id(board_div_detail_writer.getText());
+				boardDTO.setModel_board_writer_id(board_div_detail_writer);
 				datas.add(boardDTO);
 
 				// 들어갔던 링크에서 나가기
@@ -216,12 +222,123 @@ public class Crawling {
 			System.err.println("crawling.makeSampleBoard 크롤링 실패");
 			e.printStackTrace();
 			return datas;
-		}finally {
-			//드라이버 종료
-			driver.quit();
 		}
 		System.out.println("model.Crawling.makeSampleBoard 성공");
 		return datas;
 	}
 
+	public ArrayList<GymDTO> makeSampleGym(){
+		System.out.println("model.Crawling.makeSampleGym 시작");
+		ArrayList<GymDTO> datas = new ArrayList<GymDTO>();
+		//크롤링할 사이트 url
+		default_url = "https://map.kakao.com/";
+		target_url = "";
+
+		//크롤링 동작 부분
+		try {
+			//드라이버에 url 주입
+			driver.get(default_url);
+
+			//검색창 찾기
+			WebElement search = driver.findElement(By.cssSelector(".query"));
+			System.out.println("238"+search.getText());
+
+			//검색어 입력
+			String searchKeyWord = "클라이밍";
+			search.sendKeys(searchKeyWord);
+			search.sendKeys(Keys.ENTER);
+
+			//검색어 입력후 1초 대기
+			Thread.sleep(1000);
+			System.out.println("247 검색어 입력성공");
+
+			//검색후 크롤링
+			List<WebElement> gym = driver.findElements(By.cssSelector("#info\\.search\\.place\\.list >li.PlaceItem.clickArea"));
+			if(gym.isEmpty()) {
+				System.err.println("252 gym 비어있음");
+			}
+
+			for(int i=1;i<=gym.size();i++) {
+				WebElement detail = driver.findElement(By.cssSelector("li.PlaceItem.clickArea:nth-child("+i+") > div > div > a.moreview"));
+				System.out.println("257 "+i+"번째"+detail.getText());
+
+				//상세보기 링크 추출
+				target_url = detail.getAttribute("href").replace("..", default_url);
+				System.out.println("261 "+i+"번째 href = "+target_url);
+
+				//상세보기 링크 접속
+				driver.get(target_url);
+
+				//링크접속후 대기
+				Thread.sleep(1000);
+
+				//암벽장별 첫번째 이미지
+				String img_url = "default.jpg";
+				try {
+					WebElement img_elem = driver.findElement(By.cssSelector("#mArticle > div.cont_photo.no_category > div.photo_area > ul > li > a"));
+
+					//url 정제
+					img_url = img_elem.getAttribute("style").replace("background-image: url", "").replace("(", "").replace("\"", "").replace("//", "").replace(");", "");
+				}catch(NoSuchElementException e) {
+					System.err.println("현재 암벽장에 사진이 없습니다");
+				}
+				System.out.println("279 img_url = "+img_url);
+
+				//이름
+				String name = null;
+				try {
+					WebElement name_elem = driver.findElement(By.cssSelector("div.place_details > div > h2"));
+					name = name_elem.getText();
+				}catch(NoSuchElementException e) {
+					System.err.println("현재 암벽장에 이름이 없습니다");
+				}
+				System.out.println("289 title = "+name);
+
+				//설명
+				String description = null;
+				try {
+					WebElement description_elem = driver.findElement(By.cssSelector("div.placeinfo_default > div > div > a"));
+					description = description_elem.getAttribute("href");
+				}catch(NoSuchElementException e) {
+					System.err.println("현재 암벽장에 설명이 없습니다");
+				}
+				System.out.println("299 description = "+description);
+
+				//주소
+				String location = null;
+				try {
+					WebElement location_elem = driver.findElement(By.cssSelector("span.txt_address"));
+					location = location_elem.getText();
+				}catch(NoSuchElementException e) {
+					System.err.println("현재 암벽장에 주소가 없습니다");
+				}
+				System.out.println("309 location = "+location);
+
+				GymDTO gymDTO = new GymDTO();
+				gymDTO.setModel_gym_profile(img_url);
+				gymDTO.setModel_gym_name(name);
+				gymDTO.setModel_gym_description(description);
+				gymDTO.setModel_gym_location(location);
+				datas.add(gymDTO);
+
+				// 들어갔던 링크를 빠져나오기 위해
+				driver.navigate().back();
+
+				//링크빠져나온후 대기
+				Thread.sleep(1000);
+			}
+		} catch (Exception e) {
+			System.err.println("crawling.makeSampleGym 크롤링 실패");
+			e.printStackTrace();
+			return datas;
+		}
+		return datas;
+	}
+	
+	//드라이버 종료
+	public void close_driver() {
+		if(driver!=null) {
+			driver.quit();
+		}
+	}
 }

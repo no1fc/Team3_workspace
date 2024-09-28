@@ -13,13 +13,14 @@ public class JDBCUtil {
 	
 	public static Connection connect() {
 		Connection conn=null;
-		try {
-			Class.forName(driverName);
-		} catch (ClassNotFoundException e) {
-			System.err.println("드라이버 로드 실패");
-		}finally {
-			System.out.println("model.JDBCUtil.driver load 진행");
-		}
+			try {
+				Class.forName(driverName);
+			} catch (ClassNotFoundException e) {
+				System.err.println("드라이버 로드 실패");
+			} finally {
+				System.out.println("model.JDBCUtil.driver load 진행");
+				
+			}
 		
 		try {
 			conn=DriverManager.getConnection(url, userName, password);

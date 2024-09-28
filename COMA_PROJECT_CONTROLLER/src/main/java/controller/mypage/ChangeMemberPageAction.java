@@ -2,7 +2,7 @@ package controller.mypage;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.funtion.LoginCheck;
+import controller.function.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.member.MemberDAO;
@@ -14,7 +14,7 @@ public class ChangeMemberPageAction implements Action{
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "editmypage.jsp";
+		String path = "editMyPage.jsp";
 		boolean flagRedirect = false;
 
 	      //로그인 정보가 있는지 확인해주고

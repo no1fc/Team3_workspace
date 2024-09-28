@@ -33,25 +33,19 @@ public class CrewDAO {
 			+ "    	CREW_PROFILE,\r\n"
 			+ "        ROW_NUMBER() OVER (ORDER BY CREW_NUM) AS RN\r\n"
 			+ "    FROM \r\n"
-			+ "        BOARD\r\n"
+			+ "       	CREW\r\n"
 			+ ")\r\n"
 			+ "WHERE RN BETWEEN ? AND ?";
-	
+
 	//크루 총 개수
 	private final String ONE_COUNT = "SELECT COUNT(*) AS CREW_TOTAL FROM CREW";
-	
-	
+
+
 	//특정 크루 현재 인원수 CREW_NUM
-	private final String ONE_COUNT_CURRENT_MEMBER_SIZE = "SELECT\r\n"
-			+ "	COUNT(*) AS CREW_CURRENT_MEMBER_SIZE\r\n"
-			+ "FROM\r\n"
-			+ "	CREW C\r\n"
-			+ "JOIN\r\n"
-			+ "	MEMBER M\r\n"
-			+ "ON\r\n"
-			+ "	M.MEMBER_CREW_NUM = C.CREW_NUM\r\n"
-			+ "WHERE\r\n"
-			+ "	C.CREW_NUM = ?";
+	private final String ONE_COUNT_CURRENT_MEMBER_SIZE = "SELECT \r\n"
+			+ "CREW_NUM,CREW_NAME,CREW_DESCRIPTION,CREW_MAX_MEMBER_SIZE,CREW_LEADER,CREW_BATTLE_STATUS,CREW_PROFILE,\r\n"
+			+ "(SELECT count(*) from member where MEMBER_CREW_NUM = ?) AS CREW_CURRENT_MEMBER_SIZE\r\n"
+			+ "FROM CREW WHERE CREW_NUM = ?";
 	public boolean insert(CrewDTO crewDTO) {
 		System.out.println("crew.CrewDAO.insert 시작");
 		Connection conn=JDBCUtil.connect();
@@ -127,21 +121,23 @@ public class CrewDAO {
 		PreparedStatement pstmt=null;
 		try {
 			//크루 PK로 크루 검색 CREW_NUM
-			if(crewDTO.getModel_crew_conditon().equals("CREW_ONE")) {
+			if(crewDTO.getModel_crew_condition().equals("CREW_ONE")) {
 				pstmt=conn.prepareStatement(ONE);
 				pstmt.setInt(1, crewDTO.getModel_crew_num());
 				sqlq = "one";
 			}
 			//크루 총 개수
-			else if(crewDTO.getModel_crew_conditon().equals("CREW_ONE_COUNT")) {
+			else if(crewDTO.getModel_crew_condition().equals("CREW_ONE_COUNT")) {
 				pstmt=conn.prepareStatement(ONE_COUNT);
 				sqlq = "count";
 			}
 			//해당 크루 현재 인원수 CREW_NUM
-			else if(crewDTO.getModel_crew_conditon().equals("CREW_ONE_COUNT_CURRENT_MEMBER_SIZE")) {
+			else if(crewDTO.getModel_crew_condition().equals("CREW_ONE_COUNT_CURRENT_MEMBER_SIZE")) {
 				pstmt=conn.prepareStatement(ONE_COUNT_CURRENT_MEMBER_SIZE);
 				pstmt.setInt(1, crewDTO.getModel_crew_num());
-				sqlq = "count";
+				pstmt.setInt(2, crewDTO.getModel_crew_num());
+				
+				sqlq = "one";
 			}
 			else {
 				System.err.println("condition값 잘못됨");
@@ -160,13 +156,32 @@ public class CrewDAO {
 				data.setModel_crew_leader(rs.getString("CREW_LEADER"));
 				data.setModel_crew_profile(rs.getString("CREW_PROFILE"));
 				data.setModel_crew_max_member_size(rs.getInt("CREW_MAX_MEMBER_SIZE"));
+				try {
+					data.setModel_crew_current_member_size(rs.getInt("CREW_CURRENT_MEMBER_SIZE"));
+				}catch(SQLException e) {
+					System.err.println("CREW_CURRENT_MEMBER_SIZE = null");
+					data.setModel_crew_current_member_size(0);
+				}
 			}
 			else if(flag && sqlq.equals("count")) {
 				data = new CrewDTO();
-				data.setModel_crew_total(rs.getInt("CREW_TOTAL"));
+				try {
+					data.setModel_crew_current_member_size(rs.getInt("CREW_CURRENT_MEMBER_SIZE"));
+				}catch(SQLException e) {
+					System.err.println("CREW_CURRENT_MEMBER_SIZE = null");
+					data.setModel_crew_current_member_size(0);
+				}
+
+				try {
+					data.setModel_crew_total(rs.getInt("CREW_TOTAL"));
+				}catch(SQLException e) {
+					System.err.println("CREW_CURRENT_MEMBER_SIZE = null");
+					data.setModel_crew_current_member_size(0);
+				}
 			}
 		} catch (SQLException e) {
 			System.err.println("crew.CrewDAO.selectOne SQL문 실패");
+			e.printStackTrace();
 			return null;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
@@ -183,10 +198,10 @@ public class CrewDAO {
 		PreparedStatement pstmt = null;
 		try {
 			//(페이지네이션) 크루 전체 목록 model_crew_min_num, model_crew_max_num
-			if(crewDTO.getModel_crew_conditon().equals("CREW_ALL")) {
+			if(crewDTO.getModel_crew_condition().equals("CREW_ALL")) {
 				pstmt=conn.prepareStatement(ALL);
 				pstmt.setInt(1, crewDTO.getModel_crew_min_num());
-				pstmt.setInt(1, crewDTO.getModel_crew_max_num());
+				pstmt.setInt(2, crewDTO.getModel_crew_max_num());
 			}
 			else {
 				System.err.println("condition값 잘못됨");
@@ -209,12 +224,12 @@ public class CrewDAO {
 
 		}catch(SQLException e) {
 			System.err.println("crew.CrewDAO.selectAll SQL문 실패");
+			e.printStackTrace();
 			return datas;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
 		}
 		System.out.println("crew.CrewDAO.selectAll 성공");
 		return datas;
-
 	}
 }

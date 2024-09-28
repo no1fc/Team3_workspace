@@ -16,26 +16,26 @@ import java.io.IOException;
 		maxRequestSize = 1024 * 50, // 여러 파일을 저장한때 50KB
 		fileSizeThreshold = 1024 * 2, // 메모리에 저장할때 크기 2KB
 		location = "/" // 파일이 저장되는 경로
-)
+		)
 //view(Web)에서 보내는 Xxx.do 모든 요청을 받아옵니다.
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private HandlerMapper mapping;
-    public FrontController() {
-        super();
-       this.mapping = new HandlerMapper();
-    }
+	private HandlerMapper mapping;
+	public FrontController() {
+		super();
+		this.mapping = new HandlerMapper();
+	}
 
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doAction(request, response);
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		doAction(request, response);
 	}
 
@@ -46,24 +46,19 @@ public class FrontController extends HttpServlet {
 		String command = url.substring(cp.length()); // URL에서 context Path 길이 만큼 잘라와 요청을 확인합니다.
 		//command 로그
 		System.err.println("요청 : "+command);
-		
+
 		Action action = this.mapping.getAction(command); // 핸들러 맵핑에서 맞는 Action만 가져와서 사용해줍니다.
-		ActionForward forward = action.execute(request, response);
-		
-		//forward 가 null 이면 요청이 없이 들어온 것이기 때문에
-		// 잘못된 요청으로 페이지를 넘겨야합니다.
-		if(forward == null) {
-			try {
-				response.sendRedirect("main.jsp");
-				System.out.println("forward null 로그");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		ActionForward forward = null;
+		try {
+			forward = action.execute(request, response);
+			System.out.println("ActionForward : "+forward.getPath());
+		} catch (Exception e) {
+			e.getStackTrace();
 		}
+
 		//forward 가 null 이 아니라면 요청값이 있는 것이기 때문에
 		// Redirect(리다이렉트) / Forward(포워드) 인지 구분해줍니다.
-		else{
+		if(forward != null) {
 			//만약 forward.isRedirect 가 true 일때 실행됩니다.
 			if(forward.isRedirect()) {
 				try {
@@ -91,6 +86,17 @@ public class FrontController extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+		}
+		//forward 가 null 이면 요청이 없이 들어온 것이기 때문에
+		// 잘못된 요청으로 페이지를 넘겨야합니다.
+		else{
+			try {
+				response.sendRedirect("InfoPage.do");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("forward null 로그");
 		}
 	}
 }

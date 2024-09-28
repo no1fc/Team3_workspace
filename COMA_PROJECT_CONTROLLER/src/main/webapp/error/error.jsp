@@ -9,6 +9,6 @@
 <body>
 <h2>에러발생!</h2>
 
-<a href="main.do">메인으로 이동</a>
+<a href="../COMA_PROJECT_CONTROLLER/MAINPAGEACTION.do">메인으로 이동</a>
 </body>
 </html>

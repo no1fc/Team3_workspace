@@ -33,41 +33,41 @@
 	<div class="row pt-5">
 		<div
 			class="col-md-12 d-flex align-items-center justify-content-center">
-			<img src="images/crewImageEx.jpg" class="crew-image" alt="크루 이미지">
+			<img src="${model_crew_profile}" class="crew-image" alt="크루 이미지">
 		</div>
 	</div>
 	<!-- container start -->
 	<div class="container">
 
 		<div class="page-inner">
-			<c:if test="${empty model_crew_num}">
+			<c:if test="${empty CREW}">
 				<div class="alert alert-danger" role="alert">크루 번호가 누락되었습니다.</div>
 			</c:if>
-			<c:if test="${not empty model_crew_num}">
+			<c:if test="${not empty CREW}">
 				<div class="col-12 d-flex justify-content-center pb-3">
 					<h2>
 						<!-- 크루명 -->
-						<b>${model_crew_name}</b>
+						<b>${CREW.model_crew_name}</b>
 					</h2>
 				</div>
 				<div class="col-12 d-flex justify-content-end pt-3 px-3 pb-3">
 
-					<button type="button" class="btn btn-info" onclick="window.location.href='CREWJOINACTION.do'">가입하기</button>
+					<button type="button" class="btn btn-info" onclick="window.location.href='CrewJoin.do?view_crew_num=${CREW.model_crew_num}'">가입하기</button>
 				</div>
 				<div class="row border-top border-dark pb-3"></div>
 				<div class="row">
 					<div class="col-md-7 d-flex align-items-center">
-						<p class="mb-0">크루장 : ${model_crew_leader}</p>
+						<p class="mb-0">크루장 : ${CREW.model_crew_leader}</p>
 					</div>
 					<div class="col-md-5 d-flex align-items-center justify-content-end">
-						<p class="mb-0">크루 인원 : ${model_crew_current_member_size}</p>
+						<p class="mb-0">크루 인원 : ${CREW.model_crew_current_member_size}</p>
 					</div>
 				</div>
 				<div class="row border-bottom border-dark pb-3"></div>
 				<div class="row py-5">
 					<div class="col-12 d-flex justify-content-center">
 					<!-- 크루에 대한 설명 -->
-						<p class="text-start">${model_crew_description}</p>
+						<p class="text-start">${CREW.model_crew_description}</p>
 					</div>
 				</div>
 				<div class="row border-bottom border-dark pb-3"></div>
@@ -78,22 +78,24 @@
 						</p>
 					</div>
 				</div>
+				<c:forEach var="model_battle_record_data" items="${model_battle_record_datas}">
 				<div class="row pt-1 px-1 pb-1">
 				<!-- 암벽장 이름 -->
 					<div
 						class="col-md-3 d-flex align-items-center justify-content-center">
-						${model_battle_gym_name}</div>
+						${model_battle_record_data.model_battle_record_gym_name}</div>
 					<!-- 암벽장 위치 -->
 					<div
 						class="col-md-3 d-flex align-items-center justify-content-center">
-						${model_battle_gym_location}</div>
+						${model_battle_record_data.model_battle_record_gym_location}</div>
 					<div
 						class="col-md-3 d-flex align-items-center justify-content-center">
-						크루전 MVP : ${model_battle_record_mvp}</div>
+						크루전 MVP : ${model_battle_record_data.model_battle_record_mvp_id}</div>
 					<div
 						class="col-md-3 d-flex align-items-center justify-content-center">
-						진행 날짜 : ${model_battle_game_date}</div>
+						진행 날짜 : ${model_battle_record_data.model_battle_record_game_date}</div>
 				</div>
+				</c:forEach>
 			</c:if>
 		</div>
 		<!-- page inner end -->

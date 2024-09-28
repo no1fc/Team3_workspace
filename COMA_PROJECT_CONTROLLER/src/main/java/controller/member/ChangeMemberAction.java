@@ -2,8 +2,8 @@ package controller.member;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.funtion.LoginCheck;
-import controller.funtion.ProfileUpload;
+import controller.function.LoginCheck;
+import controller.function.ProfileUpload;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -32,10 +32,10 @@ public class ChangeMemberAction implements Action {
 			//profile_img 에 파일을 저장하고
 			
 			data.setModel_member_id(member_id);//바꿀 사용자 아이디를 입력해줍니다.
-			data.setModel_member_password(request.getParameter("update_password"));// 비밀번호
+			data.setModel_member_password(request.getParameter("VIEW_PASSWORD_CHECK"));// 비밀번호
 			//data.setMember_name(request.getParameter("member_name"));//이름은 실명으로 변경하지 않습니다.
-			data.setModel_member_phone(request.getParameter("member-phone"));//전환번호
-			data.setModel_member_location(request.getParameter("member_location"));//지역
+			data.setModel_member_phone(request.getParameter("VIEW_PHONE"));//전환번호
+			data.setModel_member_location(request.getParameter("VIEW_LOCATION"));//지역
 			
 			//file 업로드 확인
 			String filename = ProfileUpload.upload(request);

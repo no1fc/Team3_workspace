@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 가입</title>
+<title>코마 : 회원 가입</title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -41,7 +41,7 @@
 	<div class="container pt-3">
 		<div class="page-inner">
 			<div class="card card-stats card-round p-3">
-				<form id="signup-form" action="SIGNUPACTION.do" method="post">
+				<form id="signup-form" action="JOINACTION.do" method="post">
 					<div class="card-header">
 						<h3 class="text-center">회원가입</h3>
 					</div>
@@ -316,7 +316,7 @@
 	    
 	 	// 카카오톡, 네이버 API를 통해 회원가입으로 넘어온다면 아이디 자동으로 넘어와서 입력되고 수정불가능하게 한다
 	    var idField = $('#member_id'); // 아이디 input
-		var idMember = '${member_id}' // C에서 가져온값
+		var idMember = '${model_member_id}' // C에서 가져온값
 		if(idMember!="") { // C에서 받아온 아이디가 있다면
 			idField.prop('readonly', true); // input창 비활성화
 			idField.val(idMember); // 받아온값으로 value값 넣기
@@ -452,6 +452,7 @@
 		            alert("인증번호를 다시 확인해주세요."); // alert 창 띄워줘
 		            return false;
 		        }
+			
 		    });
 		});
 	</script>

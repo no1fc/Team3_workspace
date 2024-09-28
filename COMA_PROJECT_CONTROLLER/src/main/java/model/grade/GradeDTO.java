@@ -8,7 +8,7 @@ public class GradeDTO {
 	private int model_grade_max_point;   // 최대 등급
 	
 	//DTO에만 존재하는 데이터
-	private String model_grade_conditon; // 개발자 데이터 
+	private String model_grade_condition; // 개발자 데이터 
 	
 	public int getModel_grade_num() {
 		return model_grade_num;
@@ -41,16 +41,16 @@ public class GradeDTO {
 		this.model_grade_max_point = model_grade_max_point;
 	}
 	public String getModel_grade_conditon() {
-		return model_grade_conditon;
+		return model_grade_condition;
 	}
-	public void setModel_grade_conditon(String model_grade_conditon) {
-		this.model_grade_conditon = model_grade_conditon;
+	public void setModel_grade_conditon(String model_grade_condition) {
+		this.model_grade_condition = model_grade_condition;
 	}
 	@Override
 	public String toString() {
 		return "GradeDTO [model_grade_num=" + model_grade_num + ", model_grade_profile=" + model_grade_profile
 				+ ", model_grade_name=" + model_grade_name + ", model_grade_min_point=" + model_grade_min_point
-				+ ", model_grade_max_point=" + model_grade_max_point + ", model_grade_conditon=" + model_grade_conditon
+				+ ", model_grade_max_point=" + model_grade_max_point + ", model_grade_condition=" + model_grade_condition
 				+ "]";
 	}
 	

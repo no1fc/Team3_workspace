@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상점</title>
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
 <script src="https://kit.fontawesome.com/7f7b0ec58f.js"
@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<div class="row py-5">
-				<c:forEach var="product" items="${product.model_product_datas}">
+				<c:forEach var="product" items="${model_product_datas}">
 					<div class="col-3 d-flex align-items-center flex-column">
 						<div class="imageBox p-4">
 							<a href="${product.model_product_link}">
@@ -89,22 +89,22 @@
 	// 페이지네이션 생성 함수
 	function renderpagination(currentPage, _totalCount) {
 	    // 현재 게시물의 전체 개수가 10개 이하면 pagination을 숨깁니다.
-	    if (_totalCount <= 10) return;
+	    if (_totalCount <= 12) return;
 	    
 	    // 총 페이지 수 계산 (전체 게시물 수를 한 페이지에 보여줄 게시물 수로 나눈 값의 올림)
-	    const totalPage = Math.ceil(_totalCount / 10);
+	    const totalPage = Math.ceil(_totalCount / 12);
 	    
 	    // 현재 페이지 그룹 계산 (현재 페이지를 10으로 나눈 값의 올림)
-	    const pageGroup = Math.ceil(currentPage / 10);
+	    const pageGroup = Math.ceil(currentPage / 12);
 	
 	    // 현재 페이지 그룹에서의 마지막 페이지 계산
-	    let last = pageGroup * 10;
+	    let last = pageGroup * 12;
 	
 	    // 마지막 페이지가 총 페이지 수를 초과하지 않도록 조정
 	    if (last > totalPage) last = totalPage;
 	
 	    // 현재 페이지 그룹에서의 첫 번째 페이지 계산
-	    const first = last - (10 - 1) <= 0 ? 1 : last - (10 - 1);
+	    const first = last - (12 - 1) <= 0 ? 1 : last - (12 - 1);
 	
 	    // 다음 그룹의 첫 페이지 계산
 	    const next = last + 1;

@@ -2,7 +2,7 @@ package controller.member;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.funtion.LoginCheck;
+import controller.function.LoginCheck;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,9 +30,9 @@ public class LoginAction implements Action {
 			MemberDAO dao = new MemberDAO();
 			MemberDTO data = new MemberDTO();
 			//사용자의 아이디와 비밀번호를 model 로 전달하여 확인하고
-			System.out.println(request.getParameter("email") + " " + request.getParameter("password"));
-			data.setModel_member_id(request.getParameter("email"));
-			data.setModel_member_password(request.getParameter("password"));
+			System.out.println(request.getParameter("VIEW_EMAIL") + " " + request.getParameter("VIEW_PASSWORD"));
+			data.setModel_member_id(request.getParameter("VIEW_EMAIL"));
+			data.setModel_member_password(request.getParameter("VIEW_PASSWORD"));
 			data.setModel_member_condition("MEMBER_SEARCH_ID_PASSWORD");
 			data = dao.selectOne(data);
 
@@ -57,7 +57,7 @@ public class LoginAction implements Action {
 				session.setAttribute("CREW_CHECK", data.getModel_member_crew_num());				
 
 				//자동로그인을 등록했다면 cookie 에 로그인 정보를 저장해줍니다.	
-				String auto = (String)request.getParameter("AUTO_LOGIN");
+				String auto = (String)request.getParameter("VIEW_AUTO_LOGIN");
 				System.out.println(auto);
 				if(auto != null){
 					Cookie member_id_cookie = new Cookie("MEMBER_ID", data.getModel_member_id());
@@ -71,8 +71,10 @@ public class LoginAction implements Action {
 					// 쿠키 유효 시간 설정 (7일)
 					member_id_cookie.setMaxAge(60 * 60 * 24 * 7); // 7일 동안 유지
 					member_crew_cookie.setMaxAge(60 * 60 * 24 * 7);
+					
 					//쿠키를 추가헤줍니다.
 					response.addCookie(member_id_cookie);
+					response.addCookie(member_crew_cookie);
 					System.out.println("(LoginAction.java) 사용자 아이디 쿠키 값 저장 로그 : " + member_id_cookie.getValue());
 					System.out.println("(LoginAction.java) 사용자 아이디 쿠키 명 저장 로그 : " + member_id_cookie.getName());
 				}

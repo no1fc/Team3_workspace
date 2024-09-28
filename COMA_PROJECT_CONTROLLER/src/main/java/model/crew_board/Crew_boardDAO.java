@@ -16,7 +16,8 @@ public class Crew_boardDAO {
 			+ "	CB.CREW_BOARD_WRITER_ID,\r\n"
 			+ "    CB.CREW_BOARD_TITLE,\r\n"
 			+ "    CB.CREW_BOARD_CONTENT,\r\n"
-			+ "    CB.CREW_BOARD_CNT\r\n"
+			+ "    CB.CREW_BOARD_CNT,\r\n"
+			+ "    M.MEMBER_PROFILE\r\n"
 			+ "FROM (\r\n"
 			+ "    SELECT \r\n"
 			+ "        CREW_BOARD_NUM, \r\n"
@@ -69,7 +70,7 @@ public class Crew_boardDAO {
 	
 	//크루 게시판 글 작성 CREW_BOARD_WRITER_ID, CREW_BOARD_CONTENT, CREW_BOARD_TITLE
 	private final String INSERT = "INSERT INTO CREW_BOARD(CREW_BOARD_NUM,CREW_BOARD_WRITER_ID,CREW_BOARD_CONTENT,CREW_BOARD_TITLE)\r\n"
-			+ "VALUES ((SELECT NVL(MAX(CREW_BOARD_NUM),0)+1 FROM CREW_BOARD),?,?,?);";
+			+ "VALUES ((SELECT NVL(MAX(CREW_BOARD_NUM),0)+1 FROM CREW_BOARD),?,?,?)";
 	
 	//크루 게시판 글 삭제 CREW_NUM
 	private final String DELETE = "DELETE FROM CREW_BOARD WHERE CREW_BOARD_NUM = ?";
@@ -201,6 +202,7 @@ public class Crew_boardDAO {
 				data.setModel_crew_board_title(rs.getString("CREW_BOARD_TITLE"));
 				data.setModel_crew_board_content(rs.getString("CREW_BOARD_CONTENT"));
 				data.setModel_crew_board_cnt(rs.getInt("CREW_BOARD_CNT"));
+				data.setModel_crew_board_member_profile(rs.getString("MEMBER_PROFILE"));
 				datas.add(data);
 				rsCnt++;
 			}

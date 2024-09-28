@@ -56,13 +56,14 @@
 								<div class="row">
 									<div class="col-2 d-flex flex-column align-items-center justify-content-center">
 										<p class="m-0">크루 등급</p>
-										<img class="w-25" src="${member.model_member_grade_profile}" alt="계급1">
+										<img class="w-25" src="${member.model_member_grade_profile}" alt="계급">
+										<p class="m-0">${member.model_member_grade_name}</p>
 									</div>
 									<div class="col-7 d-flex align-items-center">
-										<h4>${member.model_member_crew_name}</h4>
+										<h4>${member.model_member_name}</h4>
 									</div>
 									<div class="col-3 pe-5 d-flex align-items-end justify-content-center flex-column">
-										<h4>크루 점수: ${member.model_member_total_point}</h4>
+										<h4>개인 점수: ${member.model_member_total_point}</h4>
 									</div>
 								</div>
 							</div>

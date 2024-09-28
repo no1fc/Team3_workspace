@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코마 : 글 목록 </title>
+<title>코마 : 게시글확인 </title>
 
 <!-- Fonts and icons -->
 <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -18,6 +18,13 @@
 <link rel="stylesheet" href="assets/css/plugins.min.css" />
 <link rel="stylesheet" href="assets/css/kaiadmin.css" />
 
+<style type="text/css">
+
+figure.image_resized img {
+  width: 100%; /* figure의 크기를 유지 */
+  height: auto; /* 이미지 비율 유지하기 위함 */
+}
+</style>
 </head>
 <body>
 	<!-- GNB 커스텀 태그 -->
@@ -28,7 +35,7 @@
 		<div class="page-inner">
 			<div class="row py-3">
 				<div class="col-12">
-					<h1 class="text-center">${BOARD.board_title}</h1>
+					<h1 class="text-center">${BOARD.model_board_title}</h1>
 				</div>
 			</div>
 			<div class="row border-bottom border-dark pb-3">
@@ -39,19 +46,19 @@
 					</div>
 				</div>
 				<div class="col-md-11 d-flex align-items-center">
-					<p class="mb-0">작성자: ${BOARD.board_writer_id}</p>
+					<p class="mb-0">작성자: ${BOARD.model_board_writer_id}</p>
 				</div>
 			</div>
 			<div class="row py-5">
 				<div class="col-12 d-flex justify-content-center">
 					<div class="w-75">
-						<p class="text-start">${BOARD.board_content}</p>
+						<p class="text-start">${BOARD.model_board_content}</p>
 					</div>
 				</div>
 			</div>
 			<div class="row border-top border-dark py-3">
 				<form action="REPLYACTION.do" method="POST">
-					<input type="hidden" name="board_id" value="${BOARD.board_num}" />
+					<input type="hidden" name="board_id" value="${BOARD.model_board_num}" />
 					<div class="row">
 						<div class="col-11">
 							<div class="form-group">
@@ -70,13 +77,13 @@
 					<c:when test="${not empty REPLY}">
 						<div class="row border-top border-bottom py-3 px-5 comment-item">
 			               <div class="col-md-2">
-			                  <p>작성자: ${reply.reply_writer_id}</p>
+			                  <p>작성자: ${reply.model_reply_writer_id}</p>
 			               </div>
 			               <div class="col-md-9">
 			                  <form action="REPLYUPDATEACTION.do" method="POST">
-			                     <input type="hidden" name="board_id" value="${BOARD.board_num}" />
-			                     <input type="hidden" name="reply_id" value="${reply.reply_num}" />
-			                     <p class="comment-text">${reply.reply_content}</p>
+			                     <input type="hidden" name="board_id" value="${BOARD.model_board_num}" />
+			                     <input type="hidden" name="reply_id" value="${reply.model_reply_num}" />
+			                     <p class="comment-text">${reply.model_reply_content}</p>
 			                     <div class="edit-form d-none">
 			                        <div class="row">
 			                           <div class="col-8">
@@ -92,7 +99,7 @@
 			                  </form>
 			               </div>
 			               <div class="col-1">
-			                  <c:if test="${MEMBER_ID eq reply.reply_writer_id}">
+			                  <c:if test="${MEMBER_ID eq reply.model_reply_writer_id}">
 			                     <div class="dropdown">
 			                        <button class="btn btn-icon btn-clean me-0" type="button"
 			                           id="dropdownMenuButton" data-bs-toggle="dropdown"
@@ -100,8 +107,8 @@
 			                           <i class="fas fa-ellipsis-h"></i>
 			                        </button>
 			                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			                           <a class="dropdown-item edit-comment">수정</a>
-			                           <a class="dropdown-item" href="REPLYDELETEACTION.do?replyId=${reply.reply_num}&board_num=${BOARD.board_num}">삭제</a>
+			                           <a class="dropdown-item" id="edit-comment">수정</a>
+			                           <a class="dropdown-item" href="REPLYDELETEACTION.do?replyId=${reply.model_reply_num}&board_num=${BOARD.model_board_num}">삭제</a>
 			                        </div>
 			                     </div>
 			                  </c:if>
@@ -126,10 +133,10 @@
 
 	    // 각 댓글(comment-item)에 대해 반복 작업을 수행합니다.
 	    comments.forEach(comment => {
-
+	    	try {
 	        // 현재 댓글의 편집 버튼(.edit-comment)을 선택하여 editButton 변수에 저장
-	        const editButton = comment.querySelector('.edit-comment');
-
+	        const editButton = comment.querySelector('#edit-comment');
+	        
 	        // 현재 댓글의 편집 입력란(.comment-edit)을 선택하여 commentEdit 변수에 저장
 	        const commentEdit = comment.querySelector('.comment-edit');
 
@@ -172,6 +179,9 @@
 	            // commentText 요소에서 'd-none' 클래스를 제거하여 댓글 텍스트를 다시 표시
 	            commentText.classList.remove('d-none');
 	        });
+	    	} catch (error) {
+	    	        
+	    	}
 	    });
 	});
 	</script>

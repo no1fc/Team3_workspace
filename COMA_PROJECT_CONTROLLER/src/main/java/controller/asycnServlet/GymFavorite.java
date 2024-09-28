@@ -11,7 +11,7 @@ import model.favorite.FavoriteDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import controller.funtion.LoginCheck;
+import controller.function.LoginCheck;
 
 @WebServlet("/GymFavorite")
 public class GymFavorite extends HttpServlet {
@@ -32,7 +32,8 @@ public class GymFavorite extends HttpServlet {
 		String member_id = login[0];
 //		int crewcheck = Integer.parseInt(login[1]);
 		int view_favorite_gym_num = Integer.parseInt(request.getParameter("view_favorite_gym_num"));
-		
+		System.out.println("좋아요 암벽장 : "+view_favorite_gym_num);
+		System.out.println("로그인한 사용자 : "+member_id);		
 		FavoriteDAO favoriteDAO = new FavoriteDAO();
 		FavoriteDTO favoriteDTO = new FavoriteDTO();
 		

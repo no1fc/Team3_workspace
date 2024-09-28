@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.funtion.LoginCheck;
+import controller.function.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.battle.BattleDAO;
-import model.battle.BattleDTO;
 import model.battle_record.Battle_recordDAO;
 import model.battle_record.Battle_recordDTO;
 import model.favorite.FavoriteDAO;
@@ -35,11 +33,12 @@ public class GymInformationPageAction implements Action {
 		//---------------------------------------------------------------------------
 		//해당 페이지에서 공통으로 사용할 변수 and 객체
 		//View에서 전달해주는 (암벽장 번호)변수
-		int gym_num = Integer.parseInt(request.getParameter("view_gym_num"));
+		int gym_num = Integer.parseInt(request.getParameter("VIEW_GYM_NUM"));
 		String model_favorite = "delete"; //찜목록 데이터 초기화 없다면 delete 있다면 insert		
 		
 		//암벽장 정보 변수 및 객체
 		GymDTO gymDTO = new GymDTO();
+		GymDTO gymDTO_selectOne = new GymDTO();
 		GymDAO gymDAO = new GymDAO();
 		int model_gym_num = 0;
 		String model_gym_name="";
@@ -53,22 +52,22 @@ public class GymInformationPageAction implements Action {
 		Battle_recordDAO battle_recordDAO = new Battle_recordDAO();
 		
 		//크루전 정보 변수 및 객체
-		BattleDTO battleDTO = new BattleDTO();
-		BattleDAO battleDAO = new BattleDAO();
-		int model_battle_num;
-		String model_battle_game_date;
+		int model_gym_battle_num;
+		String model_gym_battle_game_date;
 		//---------------------------------------------------------------------------
 		//암벽장 정보 로직 시작
 		//View에서 전달해준 암벽장 번호를 gym DTO에 저장하고
+		System.out.println("암벽장 PK : "+ gym_num);
 		gymDTO.setModel_gym_num(gym_num);
-		gymDTO.setModel_gym_conditon("gym_ONE");//TODO 컨디션값 입력해야함
+		
+		gymDTO.setModel_gym_condition("GYM_ONE");//TODO 컨디션값 입력해야함
 
 		//gym selectOne으로 Model에 암벽장정보를 요청합니다.
 		//데이터 : 암벽장 번호 / 암벽장 이름 / 암벽장 사진 / 암벽장 설명 / 암벽장 주소 / 암벽장 가격
 		GymDTO data = gymDAO.selectOne(gymDTO);
 		model_gym_num = data.getModel_gym_num();
 		model_gym_name = data.getModel_gym_name();
-		model_gym_profile = data.getModel_gym_profile();
+		model_gym_profile = "https://"+data.getModel_gym_profile();
 		model_gym_description = data.getModel_gym_description();
 		model_gym_location = data.getModel_gym_location();
 		String price = data.getModel_gym_price();
@@ -77,28 +76,27 @@ public class GymInformationPageAction implements Action {
 		//---------------------------------------------------------------------------
 		//해당 암벽장에서 승리한 크루 목록 로직 시작
 		//View에서 전달해준 암벽장 번호를 battle_record DTO에 저장하고
-		battle_recordDTO.setModel_battle_record_conditon("");//TODO 컨디션 추가해야함 selectAll 필요함
-		battle_recordDTO.setModel_battle_record_num(gym_num);
+		battle_recordDTO.setModel_battle_record_condition("BATTLE_RECORD_ALL_WINNER_PARTICIPANT_GYM");//TODO 컨디션 추가해야함 selectAll 필요함
+		battle_recordDTO.setModel_battle_record_gym_num(gym_num);
 		//battle_record selectAll으로 Model에 해당 암벽장에서 승리한 크루 목록을 요청하고
 		//데이터 : 승리크루 이름 / 승리크루 사진 / 승리크루 경기날짜 / MVP 이름
 		ArrayList<Battle_recordDTO> model_battle_record_datas = battle_recordDAO.selectAll(battle_recordDTO);
 
 		for (Battle_recordDTO battle_record : model_battle_record_datas) {
-			battle_record.setModel_battle_record_crew_profile(request.getServletContext().getRealPath("/crew_img_foloder/") + battle_record.getModel_battle_record_crew_profile());
+			battle_record.setModel_battle_record_crew_profile(request.getServletContext().getContextPath() + "/crew_img_folder/" + battle_record.getModel_battle_record_crew_profile());
 		}
 
 		//해당 암벽장에서 승리한 크루 목록 로직 종료
 		//---------------------------------------------------------------------------
 		//해당 암벽장에 등록되어 있는 크루전 정보 로직 시작
-		// View에서 전달해준 암벽장 번호와 사용자 아이디를 DTO에 저장하고
-		battleDTO.setModel_battle_condition(""); //TODO 컨디션 추가해야함
-		battleDTO.setModel_battle_gym_num(gym_num);
-		battleDTO.setModel_battle_member_id(member_id);	
+		// View에서 전달해준 암벽장 번호를 DTO에 저장하고
+		gymDTO_selectOne.setModel_gym_condition("GYM_ONE"); //TODO 컨디션 추가해야함
+		gymDTO_selectOne.setModel_gym_num(gym_num);
 		// Battle selectOne으로 Model에 해당 암벽장에서 크루전 정보 요청
 		//데이터 : 크루전 번호 / 크루전 날짜
-		BattleDTO battle_data = battleDAO.selectOne(battleDTO);
-		model_battle_num = battle_data.getModel_battle_num();
-		model_battle_game_date = battle_data.getModel_battle_game_date();
+		GymDTO gym_data = gymDAO.selectOne(gymDTO_selectOne);
+		model_gym_battle_num = gym_data.getModel_gym_battle_num();
+		model_gym_battle_game_date = gym_data.getModel_gym_battle_game_date();
 		//해당 암벽장에 등록되어 있는 크루전 정보 로직 종료
 		//---------------------------------------------------------------------------
 		//로그인한 사용자라면
@@ -162,10 +160,11 @@ public class GymInformationPageAction implements Action {
 		model_battle_num
 		model_battle_game_date
 		 */
-		request.setAttribute("model_battle_num", model_battle_num);
-		request.setAttribute("model_battle_game_date", model_battle_game_date);
+		request.setAttribute("model_battle_num", model_gym_battle_num);
+		request.setAttribute("model_gym_battle_game_date", model_gym_battle_game_date);
 
 		//View로 좋아요 여부 전달 model_favorite
+		System.out.println("GIP 167 model_favorite = "+model_favorite);
 		request.setAttribute("model_favorite", model_favorite);
 
 		ActionForward forward = new ActionForward();

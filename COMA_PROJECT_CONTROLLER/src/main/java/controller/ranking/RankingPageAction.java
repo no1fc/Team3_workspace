@@ -23,7 +23,7 @@ public class RankingPageAction implements Action {
 		MemberDAO memberDAO = new MemberDAO();
 		MemberDTO memberDTO = new MemberDTO();
 		//TODO model 컨디션값 받아서 수정해야함
-		memberDTO.setModel_member_condition("model에서 정하기로함");
+		memberDTO.setModel_member_condition("MEMBER_SEARCH_RANK");
 		
 		//요청 값 : 전체 point / 등급 이미지 / 사용자 이름
 		ArrayList<MemberDTO> model_member_datas = memberDAO.selectAll(memberDTO);
@@ -53,13 +53,14 @@ public class RankingPageAction implements Action {
 
 					//해당 등급 최소 점수보다 사용자의 점수가 크거나 같고 //사용자의 점수가 해당 등급의 최대 점수보다 작거나 같으면
 					if(grade_min <= member_total_point && member_total_point <= grade_max) {
-						data.setModel_member_grade_profile(request.getServletContext().getRealPath("/grade_foloder/") + model_grade_datas.get(i).getModel_grade_profile());
+						data.setModel_member_grade_profile(request.getServletContext().getContextPath()+"/grade_folder/" + model_grade_datas.get(i).getModel_grade_profile());
 						data.setModel_member_grade_name(model_grade_datas.get(i).getModel_grade_name());
 					}
 					//만약 등급의 최대 점수보다 사용자 점수가 크다면
 					else if(grade_max < member_total_point) {
-						data.setModel_member_grade_profile(request.getServletContext().getRealPath("/grade_foloder/") + model_grade_datas.get(i).getModel_grade_profile());
+						data.setModel_member_grade_profile(request.getServletContext().getContextPath()+"/grade_folder/" + model_grade_datas.get(i).getModel_grade_profile());
 						data.setModel_member_grade_name(model_grade_datas.get(i).getModel_grade_name());
+						break;
 					}
 					
 				}//	for (int i = 0; i < model_grade_datas.size(); i++) { 이미지 비교 for문 종료

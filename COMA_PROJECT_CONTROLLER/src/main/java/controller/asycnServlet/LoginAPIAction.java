@@ -55,7 +55,9 @@ public class LoginAPIAction extends HttpServlet {
 		if(memberDTO != null) {
 			System.out.println("LoginAPIAtion memberDTO.member_id 로그 회원 아이디 : "+memberDTO.getModel_member_id());
 			session.setAttribute("MEMBER_ID", memberDTO.getModel_member_id());
+			session.setAttribute("CREW_CHECK", memberDTO.getModel_member_crew_num());
 			System.out.println(memberDTO.getModel_member_id());
+			System.out.println(memberDTO.getModel_member_crew_num());
 			out.print(true);
 		}
 		//만약 없으면 회원가입 페이지로 넘겨서 회원가입할 수 있도록 한다.

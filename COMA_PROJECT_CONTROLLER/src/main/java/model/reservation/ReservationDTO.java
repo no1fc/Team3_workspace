@@ -13,10 +13,18 @@ public class ReservationDTO {
 	private int model_reservation_cnt;          // 예약인원
 	private int model_reservation_point_status; // Y,N 개인 포인트 차감 사용여부 
 	private int model_reservation_total;        // 예약 개수
+	private String model_reservation_gym_name;        // 예약 암벽장 이름
 	private int model_reservation_max_num;      // 페이지네이션 데이터
 	private int model_reservation_min_num;      // 페이지네이션 데이터
 	private String model_reservation_condition; // 개발자 데이터 검색 
 	
+
+	public String getModel_reservation_gym_name() {
+		return model_reservation_gym_name;
+	}
+	public void setModel_reservation_gym_name(String model_reservation_gym_name) {
+		this.model_reservation_gym_name = model_reservation_gym_name;
+	}
 	public int getModel_reservation_num() {
 		return model_reservation_num;
 	}
@@ -90,9 +98,9 @@ public class ReservationDTO {
 				+ ", model_reservation_member_id=" + model_reservation_member_id + ", model_reservation_price="
 				+ model_reservation_price + ", model_reservation_cnt=" + model_reservation_cnt
 				+ ", model_reservation_point_status=" + model_reservation_point_status + ", model_reservation_total="
-				+ model_reservation_total + ", model_reservation_max_num=" + model_reservation_max_num
-				+ ", model_reservation_min_num=" + model_reservation_min_num + ", model_reservation_condition="
-				+ model_reservation_condition + "]";
+				+ model_reservation_total + ", model_reservation_gym_name=" + model_reservation_gym_name
+				+ ", model_reservation_max_num=" + model_reservation_max_num + ", model_reservation_min_num="
+				+ model_reservation_min_num + ", model_reservation_condition=" + model_reservation_condition + "]";
 	}
 	
 	

@@ -6,13 +6,21 @@ public class Crew_boardDTO {
 	private String model_crew_board_content;    //크루 글 내용
 	private String model_crew_board_title;      //크루 글 제목
 	private int model_crew_board_cnt; 		//크루 글 조회수
-	
 	//DTO에만 존재하는 데이터 
+	private String model_crew_board_member_profile;	//사용자 프로필
 	private int model_crew_board_total;		      // 전체 커뮤니티 게시글 총 개수
 	private int model_crew_board_max_num; 	    // 페이지네이션 데이터
 	private int model_crew_board_min_num;	      // 페이지네이션 데이터
 	private String model_crew_board_condition;  // 개발자 데이터
 
+
+	public String getModel_crew_board_member_profile() {
+		return model_crew_board_member_profile;
+	}
+
+	public void setModel_crew_board_member_profile(String model_crew_board_member_profile) {
+		this.model_crew_board_member_profile = model_crew_board_member_profile;
+	}
 
 	public int getModel_crew_board_num() {
 		return model_crew_board_num;

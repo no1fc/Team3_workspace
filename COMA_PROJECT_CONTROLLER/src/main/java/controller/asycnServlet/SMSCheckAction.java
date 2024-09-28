@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Random;
 
-import controller.funtion.SMSPush;
+import controller.function.SMSPush;
 
 @WebServlet("/smscheck")
 public class SMSCheckAction extends HttpServlet {
@@ -37,11 +37,13 @@ public class SMSCheckAction extends HttpServlet {
 			//view 로 문자 전달
 			out.print(code);
 			//전달된 인증번호 확인용
-			System.out.println(code);
+			System.out.println("문자발송 로그 성공 : " + code);
 		}
 		else {
 			//flag 가 false 라면 false 를 반환합니다.
 			System.err.println("SMSCheckAction flag false로그 문자발송 실패");
+//			out.print(code);
+			System.err.println("문자발송 로그 실패 : "+code);
 			out.print(flag);			
 		}
 		

@@ -2,7 +2,7 @@ package controller.gym;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.funtion.LoginCheck;
+import controller.function.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.gym.GymDAO;
@@ -16,7 +16,7 @@ public class GymReservationAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
-		String path = "Info.jsp"; // view에서 알려줄 예정 alert 창 띄우기 위한 JavaScript 페이지
+		String path = "info.jsp"; // view에서 알려줄 예정 alert 창 띄우기 위한 JavaScript 페이지
 		boolean flag_Redirect = false; // 값을 전달해야하게 때문에 forward 방식으로 전달해야한다.		
 		ActionForward forward = new ActionForward();
 		
@@ -28,15 +28,18 @@ public class GymReservationAction implements Action {
 		//------------------------------------------------------------
 		//해당 기능에서 공통으로 사용할 변수 and 객체
 		//View에서 전달해주는 (암벽장 번호 / 예약일 / 사용한 포인트 / 암벽장 가격)변수
-		int view_reservation_gym_num = Integer.parseInt(request.getParameter("view_reservation_gym_num"));
-		String view_reservation_date = request.getParameter("view_reservation_date");
-		int view_reservation_use_point = Integer.parseInt(request.getParameter("view_reservation_use_point"));
-		int view_reservation_price = Integer.parseInt(request.getParameter("view_reservation_price"));
+		int view_reservation_gym_num = Integer.parseInt(request.getParameter("VIEW_RESERVATION_GYM_NUM"));
+		String view_reservation_date = request.getParameter("VIEW_RESERVATION_DATE");
+		int view_reservation_use_point=0;
+		if(request.getParameter("VIEW_USE_POINT")!="0") {
+			view_reservation_use_point = Integer.parseInt(request.getParameter("VIEW_USE_POINT"));
+		}
+		int view_reservation_price = Integer.parseInt(request.getParameter("VIEW_RESERVATION_PRICE"));
 		//예약금액 변수
 		int reservation_price = 0;
 		
 		//View에서 이동할 페이지 변수
-		String view_path = "GymInformationPage.do?view_gym_num="+view_reservation_gym_num;
+		String view_path = "GymInformationPage.do?VIEW_GYM_NUM="+view_reservation_gym_num;
 		
 		//Reservation DTO DAO 객체
 		ReservationDTO reservation_SelectOne = new ReservationDTO();
@@ -53,7 +56,7 @@ public class GymReservationAction implements Action {
 		reservation_SelectOne.setModel_reservation_date(view_reservation_date);
 		reservation_SelectOne.setModel_reservation_gym_num(view_reservation_gym_num);
 		reservation_SelectOne.setModel_reservation_member_id(member_id);
-		reservation_SelectOne.setModel_reservation_condition("");
+		reservation_SelectOne.setModel_reservation_condition("RESERVATION_ONE_SEARCH");
 		//Reservation selectOne 을 요청
 		ReservationDTO reservation_Check = reservationDAO.selectOne(reservation_SelectOne);
 		//요청 값이 null 이 아니라면 해당 날짜에 이미 예약되어있는 사용자 이므로
@@ -73,7 +76,7 @@ public class GymReservationAction implements Action {
 		//암벽장 번호를 Gym DTO 에 추가해줍니다.
 		GymDTO gymDTO = new GymDTO();
 		GymDAO gymDAO = new GymDAO();
-		gymDTO.setModel_gym_conditon("ONE"); // TODO 컨디션 추가해야함
+		gymDTO.setModel_gym_condition("GYM_ONE"); // TODO 컨디션 추가해야함
 		gymDTO.setModel_gym_num(view_reservation_gym_num);
 		
 		//model 에 selectOne으로 암벽장 가격을 가져옵니다.
@@ -89,6 +92,7 @@ public class GymReservationAction implements Action {
 		
 		//(사용자 아이디)을 MemberDTO에 추가합니다.
 		memberDTO.setModel_member_id(member_id);
+		memberDTO.setModel_member_condition("MEMBER_SEARCH_ID");
 		
 		//사용자의 현재 포인트를 SelectOne으로 요청하고
 		MemberDTO member_point = memberDAO.selectOne(memberDTO);
@@ -113,6 +117,7 @@ public class GymReservationAction implements Action {
 		//사용자 포인트에 문제가 없다면
 		//DTO 에 남은 사용자 포인트를 추가하고
 		memberDTO.setModel_member_current_point(use_Point);
+		memberDTO.setModel_member_condition("MEMBER_UPDATE_CURRENT_POINT");
 		//member update 로 사용자 포인트를 변경합니다.
 		boolean flag_point_update = memberDAO.update(memberDTO);
 		if(!flag_point_update) {
@@ -143,24 +148,26 @@ public class GymReservationAction implements Action {
 		//------------------------------------------------------------
 		//예약 정보 저장 하기 위한 로직 시작
 		//(암벽장 번호 / 예약일 / 예약금액)을 ReservationDTO에 추가합니다.
+		System.out.println("(GymReservationAction.java) 사용자 예약 암벽장 사람 로그 : "+member_id);
+		reservation_Update.setModel_reservation_member_id(member_id);
 		System.out.println("(GymReservationAction.java) 사용자 예약 암벽장 번호 로그 : "+view_reservation_gym_num);
-		reservation_Update.setModel_reservation_num(view_reservation_gym_num);
-		System.out.println("(GymReservationAction.java) 사용자 예약 암벽장 번호 로그 : "+view_reservation_gym_num);
+		reservation_Update.setModel_reservation_gym_num(view_reservation_gym_num);
+		System.out.println("(GymReservationAction.java) 사용자 예약 암벽장 날짜 로그 : "+view_reservation_date);
 		reservation_Update.setModel_reservation_date(view_reservation_date);
-		System.out.println("(GymReservationAction.java) 사용자 예약 암벽장 번호 로그 : "+view_reservation_gym_num);
+		System.out.println("(GymReservationAction.java) 사용자 예약 암벽장 가격 로그 : "+reservation_price);
 		reservation_Update.setModel_reservation_price(reservation_price);
 		
-		//model 에 Reservation 테이블에 Update 해줍니다.
-		boolean flag = reservationDAO.update(reservation_Update);
+		//model 에 Reservation 테이블에 Insert 해줍니다.
+		boolean flag = reservationDAO.insert(reservation_Update);
 		//저장 여부에 따른 값 전달
 		//True == error_message  : 예약에 성공하였습니다.
 		if(flag) {
-			request.setAttribute("error_message", "예약에 성공하였습니다.");
+			request.setAttribute("msg", "예약에 성공하였습니다.");
 		}
 		//false == error_message : 예약에 실패하였습니다.
 		//path					 : 암벽장 페이지
 		else {
-			request.setAttribute("error_message", "예약에 실패하였습니다.");
+			request.setAttribute("msg", "예약에 실패하였습니다.");
 		}
 		request.setAttribute("path", view_path);
 		//예약 정보 저장 하기 위한 로직 종료

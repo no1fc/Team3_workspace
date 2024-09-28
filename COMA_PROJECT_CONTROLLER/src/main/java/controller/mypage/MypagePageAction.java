@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import controller.common.Action;
 import controller.common.ActionForward;
-import controller.funtion.LoginCheck;
+import controller.function.LoginCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.board.BoardDAO;
@@ -20,7 +20,7 @@ public class MypagePageAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		//기본으로 넘어가야하는 페이지 와 redirect 여부를 설정
 		ActionForward forward = new ActionForward();
-		String path = "mypage.jsp";
+		String path = "myPage.jsp";
 		boolean flagRedirect = false;
 
 	      //로그인 정보가 있는지 확인해주고
@@ -104,7 +104,7 @@ public class MypagePageAction implements Action {
 			reservationDTO.setModel_reservation_member_id(member_id);
 			
 			//요청해서 받을 값 (예약 PK번호 / 예약 암벽장 PK 번호 / 예약 암벽장 이름 / 예약 가격 / 암벽장 예약 날짜)
-			ArrayList<ReservationDTO> Model_Reservation_Datas = reservationDAO.selectAll(reservationDTO);
+			ArrayList<ReservationDTO> model_Reservation_Datas = reservationDAO.selectAll(reservationDTO);
 			
 			//내 예약정보 불러오는 코드 종료
 			//------------------------------------------------------------------
@@ -114,7 +114,7 @@ public class MypagePageAction implements Action {
 			//내 게시글 정보를 BOARD에 담아서 View로 전달
 			request.setAttribute("BOARD", boardList);
 			//내 예약 정보를 model_reservation_datas 에 담아서 View로 전달
-			request.setAttribute("model_reservation_datas", Model_Reservation_Datas);
+			request.setAttribute("model_reservation_datas", model_Reservation_Datas);
 		}
 		
 		forward.setPath(path);
