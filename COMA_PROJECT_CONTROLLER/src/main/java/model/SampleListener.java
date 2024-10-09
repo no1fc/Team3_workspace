@@ -18,15 +18,15 @@ public class SampleListener implements ServletContextListener {
 	// 전체 글 개수 TOTAL
 	private final String ONE_COUNT = "SELECT COUNT(*) AS BOARD_TOTAL FROM BOARD";
 	// 게시글 작성 BOARD_NUM,BOARD_TITLE,BOARD_CONTENT,BOARD_LOCATION,BOARD_WRITER_ID
-	private final String INSERT ="INSERT INTO BOARD (BOARD_NUM,BOARD_TITLE,BOARD_CONTENT,BOARD_LOCATION,BOARD_WRITER_ID) \r\n"
-			+ "VALUES ((SELECT NVL(MAX(BOARD_NUM),0)+1 FROM BOARD),?,?,?,?)";
+	private final String INSERT ="INSERT INTO BOARD (BOARD_TITLE,BOARD_CONTENT,BOARD_LOCATION,BOARD_WRITER_ID) \r\n"
+			+ "VALUES (?,?,?,?)";
 	
 	// 전체 암벽장 개수 GYM_TOTAL
 	private final String GYM_ONE_COUNT = "SELECT COUNT(*) AS GYM_TOTAL FROM GYM";
 
 	//암벽장 등록 GYM_NAME, GYM_PROFILE, GYM_DESCRIPTION, GYM_LOCATION
-	private final String GYM_INSERT = "INSERT INTO GYM(GYM_NUM,GYM_NAME,GYM_PROFILE,GYM_DESCRIPTION,GYM_LOCATION)\r\n"
-			+ "VALUES ((SELECT NVL(MAX(GYM_NUM),0)+1 FROM GYM),?,?,?,?)";
+	private final String GYM_INSERT = "INSERT INTO GYM(GYM_NAME,GYM_PROFILE,GYM_DESCRIPTION,GYM_LOCATION)\r\n"
+			+ "VALUES (?,?,?,?)";
 	
 	public void contextInitialized(ServletContextEvent sce)  { 
 		// 웹 서버 구동(실행)시 한번 수행될 코드 부분

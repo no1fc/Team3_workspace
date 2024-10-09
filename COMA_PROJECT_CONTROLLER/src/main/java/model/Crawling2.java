@@ -146,10 +146,10 @@ public class Crawling2 {
          System.out.println(product.size());
 
          for(int i=0; i < product.size(); i++) {      
-            if(datas.size()>=5) {
-               //샘플 5개만
-               return datas;
-            }
+//            if(datas.size()>=5) { //FIXME
+//               //샘플 5개만
+//               return datas;
+//            }
             //링크 파밍
             try {
                System.out.println((i+1)+"번째 요소");

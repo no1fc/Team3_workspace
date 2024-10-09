@@ -66,7 +66,7 @@ public class CrewBattlePageAction implements Action{
       }
       else {
          // 페이지 번호가 2 이상일 경우
-         minBoard = ((pageNum - 1) * boardSize) + 1; // 최소 게시글 번호 계산
+         minBoard = ((pageNum - 1) * boardSize); // 최소 게시글 번호 계산
          maxBoard = pageNum * boardSize; // 최대 게시글 번호 계산
       }
 
@@ -87,7 +87,7 @@ public class CrewBattlePageAction implements Action{
 
       BattleDTO battle_data = new BattleDTO();
       battle_data.setModel_battle_min_num(minBoard);
-      battle_data.setModel_battle_max_num(maxBoard);
+      //battle_data.setModel_battle_max_num(maxBoard);
       battle_data.setModel_battle_condition("BATTLE_ALL_ACTIVE");//전체 크루전 목록 컨디션
       ArrayList<BattleDTO> model_battle_datas = battleDAO.selectAll(battle_data);
       

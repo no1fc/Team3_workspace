@@ -16,7 +16,6 @@ public class BattleDTO {
 	private	String model_battle_crew_profile;		//크루전 참여 크루 프로필
 	private	int model_battle_crew_num;		//크루전 참여 크루 번호
 	private int model_battle_total;			       // 전체 게시글 총수 
-	private int model_battle_max_num; 		       // 페이지네이션 데이터
 	private int model_battle_min_num;  		     // 페이지네이션 데이터
 	private String model_battle_condition;      // 개발자 데이터 검색
 	
@@ -55,12 +54,6 @@ public class BattleDTO {
 	}
 	public void setModel_battle_total(int model_battle_total) {
 		this.model_battle_total = model_battle_total;
-	}
-	public int getModel_battle_max_num() {
-		return model_battle_max_num;
-	}
-	public void setModel_battle_max_num(int model_battle_max_num) {
-		this.model_battle_max_num = model_battle_max_num;
 	}
 	public int getModel_battle_min_num() {
 		return model_battle_min_num;
@@ -106,7 +99,7 @@ public class BattleDTO {
 				+ ", model_battle_gym_profile=" + model_battle_gym_profile + ", model_battle_gym_location="
 				+ model_battle_gym_location + ", model_battle_crew_num=" + model_battle_crew_num
 				+ ", model_battle_crew_profile=" + model_battle_crew_profile + ", model_battle_total="
-				+ model_battle_total + ", model_battle_max_num=" + model_battle_max_num + ", model_battle_min_num="
+				+ model_battle_total + ", model_battle_max_num=" + ", model_battle_min_num="
 				+ model_battle_min_num + ", model_battle_condition=" + model_battle_condition + "]";
 	}
 }

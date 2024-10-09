@@ -174,7 +174,7 @@ public class Battle_recordDAO {
 		
 	
 	public boolean insert(Battle_recordDTO battle_recordDTO) {
-		System.out.println("battle_record.Battle_recordDAO.insert 시작");
+		System.out.println("com.coma.app.biz.battle_record.insert 시작");
 		Connection conn=JDBCUtil.connect();
 		PreparedStatement pstmt=null;
 		try {
@@ -184,21 +184,21 @@ public class Battle_recordDAO {
 			pstmt.setInt(2, battle_recordDTO.getModel_battle_record_crew_num());
 			int rs = pstmt.executeUpdate();
 			if(rs<=0) {
-				System.err.println("battle_record.Battle_recordDAO.insert 실패");
+				System.err.println("com.coma.app.biz.battle_record.insert 실패");
 				return false;
 			}
 
 		} catch (SQLException e) {
-			System.out.println("battle_record.Battle_recordDAO.insert SQL문 실패");
+			System.out.println("com.coma.app.biz.battle_record.insert SQL문 실패");
 			return false;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
 		}
-		System.out.println("battle_record.Battle_recordDAO.insert 성공");
+		System.out.println("com.coma.app.biz.battle_record.insert 성공");
 		return true;
 	}
 	public boolean update(Battle_recordDTO battle_recordDTO) {
-		System.out.println("battle_record.Battle_recordDAO.update 시작");
+		System.out.println("com.coma.app.biz.battle_record.update 시작");
 		Connection conn=JDBCUtil.connect();
 		PreparedStatement pstmt=null;
 		try {
@@ -210,42 +210,42 @@ public class Battle_recordDAO {
 			pstmt.setInt(4, battle_recordDTO.getModel_battle_record_crew_num());
 			int rs = pstmt.executeUpdate();
 			if(rs<=0) {
-				System.err.println("battle_record.Battle_recordDAO.update 실패");
+				System.err.println("com.coma.app.biz.battle_record.update 실패");
 				return false;
 			}
 
 		} catch (SQLException e) {
-			System.err.println("battle_record.Battle_recordDAO.update SQL문 실패");
+			System.err.println("com.coma.app.biz.battle_record.update SQL문 실패");
 			return false;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
 		}
-		System.out.println("battle_record.Battle_recordDAO.update 성공");
+		System.out.println("com.coma.app.biz.battle_record.update 성공");
 		return true;
 	}
 	private boolean delete(Battle_recordDTO battle_recordDTO) {
-		System.err.println("battle_record.Battle_recordDAO.delete 시작");
+		System.err.println("com.coma.app.biz.battle_record.delete 시작");
 		Connection conn=JDBCUtil.connect();
 		PreparedStatement pstmt=null;
 		try {
 			pstmt=conn.prepareStatement("");
 			int rs = pstmt.executeUpdate();
 			if(rs<=0) {
-				System.err.println("battle_record.Battle_recordDAO.delete 실패");
+				System.err.println("com.coma.app.biz.battle_record.delete 실패");
 				return false;
 			}
 
 		} catch (SQLException e) {
-			System.err.println("battle_record.Battle_recordDAO.delete SQL문 실패");
+			System.err.println("com.coma.app.biz.battle_record.delete SQL문 실패");
 			return false;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
 		}
-		System.out.println("battle_record.Battle_recordDAO.delete 성공");
+		System.out.println("com.coma.app.biz.battle_record.delete 성공");
 		return true;
 	}
 	public Battle_recordDTO selectOne(Battle_recordDTO battle_recordDTO){
-		System.out.println("battle_record.Battle_recordDAO.selectOne 시작");
+		System.out.println("com.coma.app.biz.battle_record.selectOne 시작");
 		Battle_recordDTO data = null;
 		String sqlq; // 쿼리수행결과 구분용 데이터
 		Connection conn=JDBCUtil.connect();
@@ -283,7 +283,7 @@ public class Battle_recordDAO {
 			ResultSet rs = pstmt.executeQuery();
 			boolean flag = rs.next();
 			if(flag && sqlq.equals("one")) {
-				System.out.println("battle_record.Battle_recordDAO.selectOne 검색 성공");
+				System.out.println("com.coma.app.biz.battle_record.selectOne 검색 성공");
 				data = new Battle_recordDTO();
 				try {
 				    data.setModel_battle_record_num(rs.getInt("BATTLE_RECORD_NUM"));
@@ -353,18 +353,18 @@ public class Battle_recordDAO {
 	            data.setModel_battle_record_total(rs.getInt("BATTLE_RECORD_CREW_TOTAL"));
 	         }
 		} catch (SQLException e) {
-			System.err.println("battle_record.Battle_recordDAO.selectOne SQL문 실패");
+			System.err.println("com.coma.app.biz.battle_record.selectOne SQL문 실패");
 			e.printStackTrace();
 			return null;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
 		}
-		System.out.println("battle_record.Battle_recordDAO.selectOne 성공");
+		System.out.println("com.coma.app.biz.battle_record.selectOne 성공");
 		return data;
 	}
 
 	public ArrayList<Battle_recordDTO> selectAll(Battle_recordDTO battle_recordDTO){
-		System.out.println("battle_record.Battle_recordDAO.selectAll 시작");
+		System.out.println("com.coma.app.biz.battle_record.selectAll 시작");
 		ArrayList<Battle_recordDTO> datas = new ArrayList<Battle_recordDTO>();
 		int rsCnt=1;//로그용
 		Connection conn = JDBCUtil.connect();
@@ -470,12 +470,12 @@ public class Battle_recordDAO {
 			}
 
 		}catch(SQLException e) {
-			System.err.println("battle_record.Battle_recordDAO.selectAll SQL문 실패");
+			System.err.println("com.coma.app.biz.battle_record.selectAll SQL문 실패");
 			return datas;
 		}finally {
 			JDBCUtil.disconnect(pstmt,conn);
 		}
-		System.out.println("battle_record.Battle_recordDAO.selectAll 성공");
+		System.out.println("com.coma.app.biz.battle_record.selectAll 성공");
 		return datas;
 
 	}
